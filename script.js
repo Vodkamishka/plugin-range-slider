@@ -7,7 +7,7 @@
                     var random = Math.floor(Math.random() * 10000000000000);
                     el.id = random.toString();
                     var view = new View(random);
-                    var model = new Model();
+                    var model = new Model(random);
                     var controller = new Controller();
                 });
             }
@@ -55,8 +55,8 @@ var View = /** @class */ (function () {
             var between = createElement('div', { "class": 'between' });
             var begin = createElement('div', { "class": 'begin' });
             var end = createElement('div', { "class": 'end' });
-            var slider1 = createElement('input', { "class": 'slider1', type: 'range', min: '0', max: '25000', value: '5000' });
-            var slider2 = createElement('input', { "class": 'slider2', type: 'range', min: '0', max: '25000', value: '15000' });
+            var slider1 = createElement('input', { "class": 'slider1', type: 'range', value: '5000' });
+            var slider2 = createElement('input', { "class": 'slider2', type: 'range', value: '15000' });
             var range = createElement('div', { "class": 'range' }, slider1, slider2, between, begin, end, num1, num2);
             var p = createElement('p', { "class": 'p' }, "Панель конфигурации:");
             var min = createElement('input', { "class": 'min', type: 'text', value: '0' });
@@ -89,8 +89,83 @@ var View = /** @class */ (function () {
     return View;
 }());
 var Model = /** @class */ (function () {
-    function Model() {
+    function Model(random) {
+        var _this = this;
+        this.wrapper = document.getElementById(random.toString());
+        if (this.wrapper !== null) {
+            var f = function (element) {
+                if (_this.wrapper !== null)
+                    return _this.wrapper.querySelector(element);
+            };
+            this.range = f('.range');
+            this.val1 = f('.value1');
+            this.val2 = f('.value2');
+            this.min = f('.min');
+            this.max = f('.max');
+            this.slider1 = f('.slider1');
+            this.slider2 = f('.slider2');
+            this.flag1 = f('.flag1');
+            this.flag2 = f('.flag2');
+            this.num1 = f('.num1');
+            this.num2 = f('.num2');
+            this.inpNum1 = f('.inpNum1');
+            this.inpNum2 = f('.inpNum2');
+            this.step = f('.step');
+            this.step2 = f('.step2');
+            this.rotateSlider = f('.rotateSlider');
+        }
     }
+    Model.prototype.helper = function () {
+        var el = this.slider1;
+        var el2 = this.slider2;
+        var val1 = this.val1;
+        var val2 = this.val2;
+        var min;
+        if (this.min !== null)
+            min = this.min;
+        var max;
+        if (this.max !== null)
+            max = this.max;
+        var num1 = this.num1;
+        var num2 = this.num2;
+        var slWidth;
+        var widthScale;
+        var value;
+        var value2;
+        var betwLength;
+        if (el !== null && el2 !== null && this.step !== null && this.step2 !== null) {
+            slWidth = 266;
+            widthScale = Math.abs(Number(max.value) - Number(min.value));
+            value = Number(el.value);
+            value2 = Number(el2.value);
+            betwLength = slWidth * Math.abs(value - value2) / widthScale;
+            el.min = min.value;
+            el2.min = min.value;
+            el.max = max.value;
+            el2.max = max.value;
+            el.step = this.step.value;
+            el2.step = this.step2.value;
+        }
+        if (val1 !== null)
+            val1.addEventListener('input', function () {
+                if (val1 !== null)
+                    value = Number(val1.value);
+            });
+        if (val2 !== null)
+            val2.addEventListener('input', function () {
+                if (val2 !== null)
+                    value = Number(val2.value);
+            });
+        var left = (value - Number(min.value)) * slWidth / widthScale;
+        var right = (value2 - Number(min.value)) * slWidth / widthScale;
+        if (value2 > value) {
+            left = left;
+        }
+        else {
+            left = right;
+        }
+        return { el: el, el2: el2, slWidth: slWidth, widthScale: widthScale, betwLength: betwLength, value: value, value2: value2, left: left, right: right, min: min, max: max, num1: num1, num2: num2, val1: val1, val2: val2 };
+    };
     return Model;
 }());
 var Controller = /** @class */ (function () {

@@ -9,7 +9,7 @@ if (window !== undefined) window.onload = function () {
         let random: number = Math.floor(Math.random()*10000000000000)
         el.id = random.toString()
         const view = new View(random)
-        const model = new Model()
+        const model = new Model(random)
         const controller = new Controller()
     })}
     }
@@ -110,11 +110,94 @@ class View {
     
 }
 
-
-
-
 class Model {
-
+    wrapper: HTMLElement | null
+    range!: HTMLElement | null
+    scale!: number
+    min!: HTMLInputElement | null
+    max!: HTMLInputElement | null
+    val1!: HTMLInputElement | null
+    val2!: HTMLInputElement | null
+    slider1!: HTMLInputElement | null
+    slider2!: HTMLInputElement | null
+    flag1!: HTMLInputElement | null
+    flag2!: HTMLInputElement | null
+    num1!: HTMLElement | null
+    num2!: HTMLElement | null
+    begin!: HTMLElement | null
+    end!: HTMLElement | null
+    inpNum1!: HTMLInputElement | null
+    inpNum2!: HTMLInputElement | null
+    step!: HTMLInputElement | null
+    step2!: HTMLInputElement | null
+    rotateSlider!: HTMLInputElement | null
+    
+    constructor (random: number) {
+        this.wrapper = document.getElementById(random.toString()) 
+        if (this.wrapper !== null){
+             const f = (element: string): any => {
+                if (this.wrapper !== null) return this.wrapper.querySelector(element)
+             } 
+             this.range = f('.range')
+             this.val1 = f('.value1')
+             this.val2 = f('.value2')
+             this.min = f('.min')
+             this.max = f('.max')
+             this.slider1 = f('.slider1')
+             this.slider2 = f('.slider2')
+             this.flag1 = f('.flag1')
+             this.flag2 = f('.flag2')
+             this.num1 = f('.num1')
+             this.num2 = f('.num2') 
+             this.inpNum1 = f('.inpNum1')
+             this.inpNum2 = f('.inpNum2')
+             this.step = f('.step')
+             this.step2 = f('.step2') 
+             this.rotateSlider = f('.rotateSlider')     
+       }  
+    }
+    
+    helper () {
+        let el: HTMLInputElement | null = this.slider1
+        let el2: HTMLInputElement | null = this.slider2
+        let val1: HTMLInputElement | null = this.val1
+        let val2: HTMLInputElement | null = this.val2
+        let min!: HTMLInputElement
+        if (this.min !== null)  min = this.min
+        let max!: HTMLInputElement
+        if (this.max !== null)  max = this.max
+        let num1: HTMLElement | null = this.num1
+        let num2: HTMLElement | null = this.num2
+        let slWidth!: number
+        let widthScale!: number
+        let value!: number 
+        let value2!: number 
+        let betwLength!: number 
+        if ( el!==null && el2 !== null && this.step !== null && this.step2 !== null) {
+            slWidth = 266
+            widthScale = Math.abs(Number(max.value) - Number(min.value))
+            value = Number(el.value) 
+            value2 = Number(el2.value) 
+            betwLength =  slWidth * Math.abs(value - value2)/widthScale
+            el.min = min.value
+            el2.min = min.value
+            el.max = max.value
+            el2.max = max.value
+            el.step = this.step.value
+            el2.step = this.step2.value
+        }
+        if (val1 !== null) val1.addEventListener('input', () => {
+            if (val1 !== null) value = Number(val1.value)
+        })   
+        if (val2 !== null) val2.addEventListener('input', () => {
+            if (val2 !== null) value = Number(val2.value)
+        })  
+        let left: number = (value - Number(min.value)) * slWidth/widthScale 
+        let right: number = (value2 - Number(min.value)) * slWidth/widthScale 
+        if (value2 > value) {left = left}
+        else {left = right}
+        return {el, el2, slWidth, widthScale, betwLength, value, value2, left, right, min, max, num1, num2, val1, val2}
+    }  
 }
 
 class Controller {
