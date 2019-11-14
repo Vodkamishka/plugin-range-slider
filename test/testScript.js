@@ -12,8 +12,13 @@ const dom = new JSDOM(`<html><body><div class="wrapper" id=${random}></div></bod
 global.window = dom.window
 global.document = dom.window.document
 
+let View = script.View
+let view = new View(random)
+
 let Controller = script.Controller
 let createElement = script.createElement
+
+let between = document.querySelector('.between')
 
 describe('check function createElement', function () {
   
@@ -35,12 +40,8 @@ describe('check function createElement', function () {
 
 describe('View', function () {
 
-    let View = script.View
-    let view = new View(random)
-
     it ('test function viewBetween', function () {
         view.viewBetween(10, 85)
-        let between = document.querySelector('.between')
         assert.equal(between.style._values['margin-left'], '10px')
         assert.equal(between.style._values['width'], '85px')
     })
@@ -53,9 +54,7 @@ describe('Model', function () {
     let model = new Model(random)
 
     it ('test function helper which use for helping in work with DOM', function () {
-        
         let $ = model.helper()
-
         $.el.should.be.an('HTMLInputElement')
         $.el.should.have.class('slider1')
         $.el2.should.be.an('HTMLInputElement')
@@ -77,6 +76,12 @@ describe('Model', function () {
         assert.equal($.val1.value, '5000')
         $.val2.should.be.an('HTMLInputElement')
         assert.equal($.val2.value, '15000')
+    })
+
+    it ('test function modelBetween which starts function viewBetween and pass to her two arguments - margin-left and width of HTMLDivElement between', function () {
+        model.modelBetween(view.viewBetween)
+        assert.equal(between.style._values['margin-left'], '53.2px')
+        assert.equal(between.style._values['width'], '106.4px')
     })
     
 })

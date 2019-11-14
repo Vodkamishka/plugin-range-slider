@@ -156,6 +156,7 @@ class Model {
              this.rotateSlider = f('.rotateSlider')     
        }  
     }
+    modelBetween = (f: any) => f(this.helper().left, this.helper().betwLength)
     
     helper () {
         let el: HTMLInputElement | null = this.slider1
