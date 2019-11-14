@@ -14,8 +14,11 @@ global.document = dom.window.document
 
 let View = script.View
 let view = new View(random)
-
+let Model = script.Model
+let model = new Model(random)
 let Controller = script.Controller
+let controller = new Controller(view, model)
+
 let createElement = script.createElement
 
 let between = document.querySelector('.between')
@@ -50,9 +53,6 @@ describe('View', function () {
 
 describe('Model', function () {
 
-    let Model = script.Model
-    let model = new Model(random)
-
     it ('test function helper which use for helping in work with DOM', function () {
         let $ = model.helper()
         $.el.should.be.an('HTMLInputElement')
@@ -78,10 +78,20 @@ describe('Model', function () {
         assert.equal($.val2.value, '15000')
     })
 
-    it ('test function modelBetween which starts function viewBetween and pass to her two arguments - margin-left and width of HTMLDivElement between', function () {
+    it ('test function modelBetween which starts function viewBetween and passes to her two arguments - margin-left and width of HTMLDivElement between', function () {
         model.modelBetween(view.viewBetween)
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
     })
     
+})
+
+describe("Controller", function () {
+
+    it('test function controllerBetween which starts function modelBetween and passes to her one argument - function viewBetween', function () {
+        controller.controllerBetween()
+        assert.equal(between.style._values['margin-left'], '53.2px')
+        assert.equal(between.style._values['width'], '106.4px')
+    })
+
 })

@@ -170,7 +170,11 @@ var Model = /** @class */ (function () {
     return Model;
 }());
 var Controller = /** @class */ (function () {
-    function Controller() {
+    function Controller(view, model) {
+        var _this = this;
+        this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
+        this.view = view;
+        this.model = model;
     }
     return Controller;
 }());

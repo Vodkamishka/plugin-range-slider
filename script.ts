@@ -10,11 +10,9 @@ if (window !== undefined) window.onload = function () {
         el.id = random.toString()
         const view = new View(random)
         const model = new Model(random)
-        const controller = new Controller()
+        const controller = new Controller(view, model)
     })}
     }
-
-
 
 })()
 
@@ -202,6 +200,16 @@ class Model {
 }
 
 class Controller {
+    view: any
+    model: any
+    
+    constructor (view:any, model: any) {
+       this.view = view
+       this.model = model 
+       this.controllerBetween() 
+    }
+    
+    controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
     
 }
   
