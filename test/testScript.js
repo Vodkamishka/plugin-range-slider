@@ -11,6 +11,7 @@ const dom = new JSDOM('<html><body><div class="wrapper" id="23"></div></body></h
 global.window = dom.window
 global.document = dom.window.document
 let View = script.View
+let view = new View(23)
 let Model = script.Model
 let Controller = script.Controller
 let createElement = script.createElement
@@ -33,4 +34,13 @@ describe('check function createElement', function () {
 
 })
 
+describe('View', function () {
 
+    it ('test function viewBetween', function () {
+        
+        view.viewBetween(10, 85)
+        let between = document.querySelector('.between')
+        assert.equal(between.style._values['margin-left'], '10px')
+        assert.equal(between.style._values['width'], '85px')
+    })
+})
