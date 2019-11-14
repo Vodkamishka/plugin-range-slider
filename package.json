@@ -1,38 +1,22 @@
 {
-  "name": "plugin",
+  "name": "range-slider",
   "version": "1.0.0",
-  "description": "plugin range slider tdd typescript mocha chai mvc",
-  "main": "script.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha "
+    "test": "mocha -r jsdom-global/register"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Vodkamishka/Plugin-range-slider.git"
-  },
-  "keywords": [
-    "plugin",
-    "range",
-    "slider",
-    "tdd",
-    "typescript",
-    "mocha",
-    "chai",
-    "mvc"
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Vodkamishka/Plugin-range-slider/issues"
+  "dependencies": {
+    "@types/node": "^12.12.7",
+    "chai-dom": "^1.8.1"
   },
-  "homepage": "https://github.com/Vodkamishka/Plugin-range-slider#readme",
   "devDependencies": {
     "chai": "^4.2.0",
-    "jsdom": "^15.2.1",
+    "jsdom": "15.2.1",
+    "jsdom-global": "3.0.2",
     "mocha": "^6.2.2"
-  },
-  "dependencies": {
-    "@types/node": "^12.12.6",
-    "chai-dom": "^1.8.1"
   }
 }
