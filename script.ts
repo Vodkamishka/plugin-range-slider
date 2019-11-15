@@ -165,6 +165,7 @@ class Model {
         if ($.el2 !== null) $.el2.addEventListener('input', f)
     }
     modelBetween = (f: any) => f(this.helper().left, this.helper().betwLength)
+    modelScale = (f: any) => f(this.helper().min.value, this.helper().max.value)
     
     helper () {
         let el: HTMLInputElement | null = this.slider1

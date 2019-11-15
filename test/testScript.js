@@ -90,6 +90,11 @@ describe('Model', function () {
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
     })
+    it ("test function modelScale which starts function viewScale and passes two arguments min amd max values of scale from panel", function () {
+        model.modelScale(view.viewScale)
+        assert.equal(begin.innerHTML, '0')
+        assert.equal(end.innerHTML, '25000')
+    })
     
 })
 
