@@ -194,10 +194,12 @@ var Controller = /** @class */ (function () {
         };
         this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
         this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
+        this.controllerScale = function () { return _this.model.modelScale(_this.view.viewScale); };
         this.view = view;
         this.model = model;
         this.controllerBetween();
         this.addEvent();
+        this.controllerScale();
     }
     return Controller;
 }());

@@ -105,5 +105,10 @@ describe("Controller", function () {
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
     })
+    it('test function controllerScale which starts function modelScale and passes one argument - function viewScale', function () {
+        controller.controllerScale()
+        assert.equal(begin.innerHTML, '0')
+        assert.equal(end.innerHTML, '25000')
+    })
 
 })

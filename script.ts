@@ -219,12 +219,14 @@ class Controller {
        this.model = model 
        this.controllerBetween() 
        this.addEvent()
+       this.controllerScale()
     }
     f = () => {
         this.controllerBetween()
     }
     addEvent = () => this.model.modelAddEvent(this.f)
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
+    controllerScale = () => this.model.modelScale (this.view.viewScale)
     
 }
   
