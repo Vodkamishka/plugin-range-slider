@@ -26,6 +26,8 @@ let begin = document.querySelector('.begin')
 let end = document.querySelector('.end')
 let num1 = document.querySelector('.num1')
 let num2 = document.querySelector('.num2')
+let val1 = document.querySelector('.value1')
+let val2 = document.querySelector('.value2')
 
 describe('check function createElement', function () {
   
@@ -52,21 +54,25 @@ describe('View', function () {
         assert.equal(between.style._values['margin-left'], '10px')
         assert.equal(between.style._values['width'], '85px')
     })
-    it ('test function viewScale which show begin and end of scale', function () {
+    it ('test function viewScale that show begin and end of scale', function () {
         view.viewScale(100, 500)
         assert.equal(begin.innerHTML, '100')
         assert.equal(end.innerHTML, '500')
     })
-    it ('test function viewNum which show numbers over slider balls', function () {
+    it ('test function viewNum that show numbers over slider balls', function () {
         view.viewNum(num1, 5000, 46)
         assert.equal(num1.innerHTML, '5000')
         assert.equal(num1.style._values['margin-left'], '46px')
+    })
+    it ('test function viewValue, that transfers the values of the sliders to the panel', function () {
+        view.viewValue(val1, 5000)
+        assert.equal(val1.value, '5000')
     })
 })
 
 describe('Model', function () {
 
-    it ('test function helper which use for helping in work with DOM', function () {
+    it ('test function helper that use for helping in work with DOM', function () {
         let $ = model.helper()
         $.el.should.be.an('HTMLInputElement')
         $.el.should.have.class('slider1')
@@ -91,17 +97,17 @@ describe('Model', function () {
         assert.equal($.val2.value, '15000')
     })
 
-    it ('test function modelBetween which starts function viewBetween', function () {
+    it ('test function modelBetween that starts function viewBetween', function () {
         model.modelBetween(view.viewBetween)
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
     })
-    it ("test function modelScale which starts function viewScale", function () {
+    it ("test function modelScale that starts function viewScale", function () {
         model.modelScale(view.viewScale)
         assert.equal(begin.innerHTML, '0')
         assert.equal(end.innerHTML, '25000')
     })
-    it ('test function modelNum which starts function viewNum', function () {
+    it ('test function modelNum that starts function viewNum', function () {
         model.modelNum(view.viewNum)
         assert.equal(num1.innerHTML, '5000')
         assert.equal(num1.style._values['margin-left'], '53.2px')
@@ -113,17 +119,17 @@ describe('Model', function () {
 
 describe("Controller", function () {
 
-    it('test function controllerBetween which starts function modelBetween', function () {
+    it('test function controllerBetween that starts function modelBetween', function () {
         controller.controllerBetween()
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
     })
-    it('test function controllerScale which starts function modelScale', function () {
+    it('test function controllerScale that starts function modelScale', function () {
         controller.controllerScale()
         assert.equal(begin.innerHTML, '0')
         assert.equal(end.innerHTML, '25000')
     })
-    it('test function controllerNum which starts function modelNum', function () {
+    it('test function controllerNum that starts function modelNum', function () {
         controller.controllerNum()
         assert.equal(num1.innerHTML, '5000')
         assert.equal(num1.style._values['margin-left'], '53.2px')

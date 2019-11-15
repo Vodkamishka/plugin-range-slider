@@ -52,6 +52,7 @@ var View = /** @class */ (function () {
             el.innerHTML = num.toString();
             el.style.marginLeft = left.toString() + 'px';
         };
+        this.viewValue = function (el, num) { return el.value = num.toString(); };
         this.wrapper = document.getElementById(random.toString());
         this.create();
         if (this.wrapper !== null) {

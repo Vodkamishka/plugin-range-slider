@@ -113,6 +113,7 @@ class View {
         el.innerHTML = num.toString()
         el.style.marginLeft = left.toString() + 'px'
     }
+    viewValue = (el: HTMLInputElement , num: number) => el.value = num.toString()
     
 }
 
