@@ -25,6 +25,7 @@ let between = document.querySelector('.between')
 let begin = document.querySelector('.begin')
 let end = document.querySelector('.end')
 let num1 = document.querySelector('.num1')
+let num2 = document.querySelector('.num2')
 
 describe('check function createElement', function () {
   
@@ -90,28 +91,34 @@ describe('Model', function () {
         assert.equal($.val2.value, '15000')
     })
 
-    it ('test function modelBetween which starts function viewBetween and passes to her two arguments - margin-left and width of HTMLDivElement between', function () {
+    it ('test function modelBetween which starts function viewBetween', function () {
         model.modelBetween(view.viewBetween)
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
     })
-    it ("test function modelScale which starts function viewScale and passes two arguments min amd max values of scale from panel", function () {
+    it ("test function modelScale which starts function viewScale", function () {
         model.modelScale(view.viewScale)
         assert.equal(begin.innerHTML, '0')
         assert.equal(end.innerHTML, '25000')
     })
-    
+    it ('test function modelNum which starts function viewNum', function () {
+        model.modelNum(view.viewNum)
+        assert.equal(num1.innerHTML, '5000')
+        assert.equal(num1.style._values['margin-left'], '53.2px')
+        assert.equal(num2.innerHTML, '15000')
+        assert.equal(num2.style._values['margin-left'], '159.6px')
+    })
     
 })
 
 describe("Controller", function () {
 
-    it('test function controllerBetween which starts function modelBetween and passes to her one argument - function viewBetween', function () {
+    it('test function controllerBetween which starts function modelBetween', function () {
         controller.controllerBetween()
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
     })
-    it('test function controllerScale which starts function modelScale and passes one argument - function viewScale', function () {
+    it('test function controllerScale which starts function modelScale', function () {
         controller.controllerScale()
         assert.equal(begin.innerHTML, '0')
         assert.equal(end.innerHTML, '25000')

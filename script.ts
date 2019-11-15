@@ -170,7 +170,12 @@ class Model {
     }
     modelBetween = (f: any) => f(this.helper().left, this.helper().betwLength)
     modelScale = (f: any) => f(this.helper().min.value, this.helper().max.value)
-    
+    modelNum (f: any) {
+        let $ = this.helper()
+        let left: number = ($.value - Number($.min.value)) * $.slWidth/$.widthScale 
+        f($.num1, $.value, left)
+        f($.num2, $.value2, $.right)
+    }
     helper () {
         let el: HTMLInputElement | null = this.slider1
         let el2: HTMLInputElement | null = this.slider2

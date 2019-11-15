@@ -137,6 +137,12 @@ var Model = /** @class */ (function () {
         if ($.el2 !== null)
             $.el2.addEventListener('input', f);
     };
+    Model.prototype.modelNum = function (f) {
+        var $ = this.helper();
+        var left = ($.value - Number($.min.value)) * $.slWidth / $.widthScale;
+        f($.num1, $.value, left);
+        f($.num2, $.value2, $.right);
+    };
     Model.prototype.helper = function () {
         var el = this.slider1;
         var el2 = this.slider2;
