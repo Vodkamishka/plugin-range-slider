@@ -52,6 +52,7 @@ class View {
             this.begin = this.wrapper.querySelector('.begin')
             this.end = this.wrapper.querySelector('.end')
         }
+        
      } 
     create () {
         if (this.wrapper !== null){
@@ -104,7 +105,10 @@ class View {
             this.between.style.width = betwWidth + 'px'
         }
     }
-   
+    viewScale = (begin: string, end: string) => {
+        if (this.begin !== null) {this.begin.innerHTML = begin}
+        if (this.end !== null) {this.end.innerHTML = end}
+    }
     
 }
 
@@ -153,6 +157,12 @@ class Model {
              this.step2 = f('.step2') 
              this.rotateSlider = f('.rotateSlider')     
        }  
+    }
+    modelAddEvent (f: any) {
+        let $ = this.helper()
+        console.log($)
+        if ($.el !== null) $.el.addEventListener('input', f)
+        if ($.el2 !== null) $.el2.addEventListener('input', f)
     }
     modelBetween = (f: any) => f(this.helper().left, this.helper().betwLength)
     
@@ -207,8 +217,12 @@ class Controller {
        this.view = view
        this.model = model 
        this.controllerBetween() 
+       this.addEvent()
     }
-    
+    f = () => {
+        this.controllerBetween()
+    }
+    addEvent = () => this.model.modelAddEvent(this.f)
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
     
 }

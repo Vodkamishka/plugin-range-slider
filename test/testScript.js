@@ -22,6 +22,8 @@ let controller = new Controller(view, model)
 let createElement = script.createElement
 
 let between = document.querySelector('.between')
+let begin = document.querySelector('.begin')
+let end = document.querySelector('.end')
 
 describe('check function createElement', function () {
   
@@ -49,6 +51,11 @@ describe('View', function () {
         assert.equal(between.style._values['width'], '85px')
     })
 
+    it ('test function viewScale which show begin and end of scale', function () {
+        view.viewScale(100, 500)
+        assert.equal(begin.innerHTML, '100')
+        assert.equal(end.innerHTML, '500')
+    })
 })
 
 describe('Model', function () {

@@ -8,7 +8,7 @@
                     el.id = random.toString();
                     var view = new View(random);
                     var model = new Model(random);
-                    var controller = new Controller();
+                    var controller = new Controller(view, model);
                 });
             }
         };
@@ -38,6 +38,14 @@ var View = /** @class */ (function () {
             if (_this.between !== null) {
                 _this.between.style.marginLeft = left + 'px';
                 _this.between.style.width = betwWidth + 'px';
+            }
+        };
+        this.viewScale = function (begin, end) {
+            if (_this.begin !== null) {
+                _this.begin.innerHTML = begin;
+            }
+            if (_this.end !== null) {
+                _this.end.innerHTML = end;
             }
         };
         this.wrapper = document.getElementById(random.toString());
@@ -116,6 +124,14 @@ var Model = /** @class */ (function () {
             this.rotateSlider = f('.rotateSlider');
         }
     }
+    Model.prototype.modelAddEvent = function (f) {
+        var $ = this.helper();
+        console.log($);
+        if ($.el !== null)
+            $.el.addEventListener('input', f);
+        if ($.el2 !== null)
+            $.el2.addEventListener('input', f);
+    };
     Model.prototype.helper = function () {
         var el = this.slider1;
         var el2 = this.slider2;
@@ -172,9 +188,15 @@ var Model = /** @class */ (function () {
 var Controller = /** @class */ (function () {
     function Controller(view, model) {
         var _this = this;
+        this.f = function () {
+            _this.controllerBetween();
+        };
+        this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
         this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
         this.view = view;
         this.model = model;
+        this.controllerBetween();
+        this.addEvent();
     }
     return Controller;
 }());
