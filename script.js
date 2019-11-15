@@ -48,6 +48,10 @@ var View = /** @class */ (function () {
                 _this.end.innerHTML = end;
             }
         };
+        this.viewNum = function (el, num, left) {
+            el.innerHTML = num.toString();
+            el.style.marginLeft = left.toString() + 'px';
+        };
         this.wrapper = document.getElementById(random.toString());
         this.create();
         if (this.wrapper !== null) {

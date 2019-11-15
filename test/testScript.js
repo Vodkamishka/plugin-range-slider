@@ -24,6 +24,7 @@ let createElement = script.createElement
 let between = document.querySelector('.between')
 let begin = document.querySelector('.begin')
 let end = document.querySelector('.end')
+let num1 = document.querySelector('.num1')
 
 describe('check function createElement', function () {
   
@@ -50,11 +51,15 @@ describe('View', function () {
         assert.equal(between.style._values['margin-left'], '10px')
         assert.equal(between.style._values['width'], '85px')
     })
-
     it ('test function viewScale which show begin and end of scale', function () {
         view.viewScale(100, 500)
         assert.equal(begin.innerHTML, '100')
         assert.equal(end.innerHTML, '500')
+    })
+    it ('test function viewNum which show numbers over slider balls', function () {
+        view.viewNum(num1, 5000, 46)
+        assert.equal(num1.innerHTML, '5000')
+        assert.equal(num1.style._values['margin-left'], '46px')
     })
 })
 
@@ -95,6 +100,7 @@ describe('Model', function () {
         assert.equal(begin.innerHTML, '0')
         assert.equal(end.innerHTML, '25000')
     })
+    
     
 })
 

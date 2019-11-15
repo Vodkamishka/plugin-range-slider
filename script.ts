@@ -109,6 +109,10 @@ class View {
         if (this.begin !== null) {this.begin.innerHTML = begin}
         if (this.end !== null) {this.end.innerHTML = end}
     }
+    viewNum = (el: HTMLElement, num: number, left: number) => {
+        el.innerHTML = num.toString()
+        el.style.marginLeft = left.toString() + 'px'
+    }
     
 }
 
