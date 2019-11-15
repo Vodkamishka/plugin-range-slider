@@ -143,5 +143,9 @@ describe("Controller", function () {
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
     })
-
+    it('test function controllerValue that starts function controllerValue', function () {
+        controller.controllerValue()
+        assert.equal(val1.value, '5000')
+        assert.equal(val2.value, '15000')
+    })
 })

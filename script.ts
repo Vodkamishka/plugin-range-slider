@@ -240,11 +240,13 @@ class Controller {
     f = () => {
         this.controllerBetween()
         this.controllerNum()
+        this.controllerValue()
     }
     addEvent = () => this.model.modelAddEvent(this.f)
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
     controllerScale = () => this.model.modelScale (this.view.viewScale)
     controllerNum = () => this.model.modelNum(this.view.viewNum)
+    controllerValue = () => this.model.modelValue(this.view.viewValue)
 }
   
   var module!: NodeModule

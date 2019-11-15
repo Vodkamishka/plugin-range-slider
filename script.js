@@ -208,11 +208,13 @@ var Controller = /** @class */ (function () {
         this.f = function () {
             _this.controllerBetween();
             _this.controllerNum();
+            _this.controllerValue();
         };
         this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
         this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
         this.controllerScale = function () { return _this.model.modelScale(_this.view.viewScale); };
         this.controllerNum = function () { return _this.model.modelNum(_this.view.viewNum); };
+        this.controllerValue = function () { return _this.model.modelValue(_this.view.viewValue); };
         this.view = view;
         this.model = model;
         this.controllerBetween();
