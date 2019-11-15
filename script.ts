@@ -229,14 +229,16 @@ class Controller {
        this.controllerBetween() 
        this.addEvent()
        this.controllerScale()
+       this.controllerNum()
     }
     f = () => {
         this.controllerBetween()
+        this.controllerNum()
     }
     addEvent = () => this.model.modelAddEvent(this.f)
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
     controllerScale = () => this.model.modelScale (this.view.viewScale)
-    
+    controllerNum = () => this.model.modelNum(this.view.viewNum)
 }
   
   var module!: NodeModule

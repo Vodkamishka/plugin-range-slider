@@ -201,15 +201,18 @@ var Controller = /** @class */ (function () {
         var _this = this;
         this.f = function () {
             _this.controllerBetween();
+            _this.controllerNum();
         };
         this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
         this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
         this.controllerScale = function () { return _this.model.modelScale(_this.view.viewScale); };
+        this.controllerNum = function () { return _this.model.modelNum(_this.view.viewNum); };
         this.view = view;
         this.model = model;
         this.controllerBetween();
         this.addEvent();
         this.controllerScale();
+        this.controllerNum();
     }
     return Controller;
 }());
