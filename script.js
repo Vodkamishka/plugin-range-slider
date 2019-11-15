@@ -144,6 +144,11 @@ var Model = /** @class */ (function () {
         f($.num1, $.value, left);
         f($.num2, $.value2, $.right);
     };
+    Model.prototype.modelValue = function (f) {
+        var $ = this.helper();
+        f($.val1, $.value);
+        f($.val2, $.value2);
+    };
     Model.prototype.helper = function () {
         var el = this.slider1;
         var el2 = this.slider2;

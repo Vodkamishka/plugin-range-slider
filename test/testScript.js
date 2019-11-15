@@ -66,7 +66,9 @@ describe('View', function () {
     })
     it ('test function viewValue, that transfers the values of the sliders to the panel', function () {
         view.viewValue(val1, 5000)
+        view.viewValue(val2, 15000)
         assert.equal(val1.value, '5000')
+        assert.equal(val2.value, '15000')
     })
 })
 
@@ -113,6 +115,11 @@ describe('Model', function () {
         assert.equal(num1.style._values['margin-left'], '53.2px')
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
+    })
+    it ('test function modelValue that start function viewValue', function () {
+        model.modelValue(view.viewValue)
+        assert.equal(val1.value, '5000')
+        assert.equal(val2.value, '15000')
     })
     
 })

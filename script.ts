@@ -177,6 +177,11 @@ class Model {
         f($.num1, $.value, left)
         f($.num2, $.value2, $.right)
     }
+    modelValue (f: any){
+        let $ = this.helper()
+        f ($.val1, $.value)
+        f ($.val2, $.value2)
+    }
     helper () {
         let el: HTMLInputElement | null = this.slider1
         let el2: HTMLInputElement | null = this.slider2
