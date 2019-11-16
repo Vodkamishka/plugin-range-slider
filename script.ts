@@ -201,6 +201,10 @@ class Model {
         if (this.min !== null) this.min.addEventListener("change", f)
         if (this.max !== null) this.max.addEventListener("change", f)
     }
+    modelHideBall (f: any) {
+        if (this.flag1 !== null) this.flag1.addEventListener('change', () => f(this.slider1, this.num1, this.val1))
+        if (this.flag2 !== null) this.flag2.addEventListener('change', () => f(this.slider2, this.num2, this.val2))
+    }
     helper () {
         let el: HTMLInputElement | null = this.slider1
         let el2: HTMLInputElement | null = this.slider2

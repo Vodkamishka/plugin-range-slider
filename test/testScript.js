@@ -162,6 +162,13 @@ describe('Model', function () {
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
     })
+    it ("test function modelHideBall that starts function viewHideBall", function () {
+        model.modelHideBall(view.viewHideBall)
+        slider1.should.have.class('hide')
+        between.should.have.class('hide')
+        num1.should.have.class('white')
+        val1.should.have.class('white')
+    })
 })
 
 describe("Controller", function () {

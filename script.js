@@ -176,6 +176,13 @@ var Model = /** @class */ (function () {
         if (this.max !== null)
             this.max.addEventListener("change", f);
     };
+    Model.prototype.modelHideBall = function (f) {
+        var _this = this;
+        if (this.flag1 !== null)
+            this.flag1.addEventListener('change', function () { return f(_this.slider1, _this.num1, _this.val1); });
+        if (this.flag2 !== null)
+            this.flag2.addEventListener('change', function () { return f(_this.slider2, _this.num2, _this.val2); });
+    };
     Model.prototype.helper = function () {
         var el = this.slider1;
         var el2 = this.slider2;
