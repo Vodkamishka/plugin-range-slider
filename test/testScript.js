@@ -234,4 +234,8 @@ describe("Controller", function () {
         num1.should.have.class('white')
         val1.should.have.class('white')
     })
+    it("test function controllerHideNum that starts function modelHideNum", function () {
+        controller.controllerHideNum()
+        num1.should.have.class('white')
+    })
 })
