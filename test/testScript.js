@@ -186,6 +186,12 @@ describe('Model', function () {
         model.modelHideNum(view.viewHideNum)
         num1.should.have.class('white')
     })
+    it ("test function modelRotate that connect addEventListener to rotateSlider which starts function viewRotate", function () {
+        model.modelRotate(view.viewRotate)
+        range.should.have.class('rotate')
+        num1.should.have.class('rotateReverse')
+        num1.should.have.class('rotateReverse')
+    })
 })
 
 describe("Controller", function () {

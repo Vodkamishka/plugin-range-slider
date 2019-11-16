@@ -196,6 +196,11 @@ var Model = /** @class */ (function () {
         if (this.inpNum2 !== null)
             this.inpNum2.addEventListener('change', function () { return f(_this.num2); });
     };
+    Model.prototype.modelRotate = function (f) {
+        var _this = this;
+        if (this.range !== null && this.rotateSlider !== null)
+            this.rotateSlider.addEventListener('change', function () { return f(_this.range, _this.num1, _this.num2); });
+    };
     Model.prototype.helper = function () {
         var el = this.slider1;
         var el2 = this.slider2;

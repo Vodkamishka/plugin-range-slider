@@ -214,7 +214,9 @@ class Model {
         if (this.inpNum1 !== null) this.inpNum1.addEventListener('change', () => f(this.num1))
         if (this.inpNum2 !== null) this.inpNum2.addEventListener('change', () => f(this.num2))
     }
-    
+    modelRotate (f: any) {
+        if (this.range !== null && this.rotateSlider !== null) this.rotateSlider.addEventListener('change', () => f(this.range, this.num1, this.num2))
+    }
     helper () {
         let el: HTMLInputElement | null = this.slider1
         let el2: HTMLInputElement | null = this.slider2
