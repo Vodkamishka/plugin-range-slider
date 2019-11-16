@@ -256,13 +256,14 @@ var Controller = /** @class */ (function () {
         this.controllerValue = function () { return _this.model.modelValue(_this.view.viewValue); };
         this.controllerSetValue = function () { return _this.model.modelSetValue(_this.view.viewValue, _this.calls); };
         this.controllerSetScale = function () { return _this.model.modelSetScale(_this.f); };
+        this.controllerHideBall = function () { return _this.model.modelHideBall(_this.view.viewHideBall); };
         this.view = view;
         this.model = model;
         this.addEvent();
-        this.controllerScale();
         this.calls();
         this.controllerSetValue();
         this.controllerSetScale();
+        this.controllerHideBall();
     }
     return Controller;
 }());

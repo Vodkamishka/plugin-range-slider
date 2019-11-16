@@ -206,7 +206,7 @@ describe("Controller", function () {
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
     })
-    it('test function controllerSetScale that starts modelSetScale', function () {
+    it('test function controllerSetScale that starts function modelSetScale', function () {
         controller.controllerSetScale()
         assert.equal(begin.innerHTML, '0')
         assert.equal(end.innerHTML, '25000')
@@ -216,5 +216,12 @@ describe("Controller", function () {
         assert.equal(num1.style._values['margin-left'], '53.2px')
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
+    })
+    it('test function controllerHideBall that starts function modelHideBall', function () {
+        controller.controllerHideBall()
+        slider1.should.have.class('hide')
+        between.should.have.class('hide')
+        num1.should.have.class('white')
+        val1.should.have.class('white')
     })
 })
