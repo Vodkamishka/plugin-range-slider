@@ -138,7 +138,23 @@ describe('Model', function () {
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
     })
-    
+    it ('test function modelSetScale that starts functions controllerBetween,controllerNum, controllerValue, controllerScale ', function () {
+        let f = () => {
+            this.controllerBetween()
+            this.controllerNum()
+            this.controllerValue()
+            this.controllerScale()
+        }
+        model.modelSetScale(f)
+        assert.equal(begin.innerHTML, '0')
+        assert.equal(end.innerHTML, '25000')
+        assert.equal(between.style._values['margin-left'], '53.2px')
+        assert.equal(between.style._values['width'], '106.4px')
+        assert.equal(num1.innerHTML, '5000')
+        assert.equal(num1.style._values['margin-left'], '53.2px')
+        assert.equal(num2.innerHTML, '15000')
+        assert.equal(num2.style._values['margin-left'], '159.6px')
+    })
 })
 
 describe("Controller", function () {

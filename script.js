@@ -163,6 +163,12 @@ var Model = /** @class */ (function () {
         if (this.val2 !== null)
             this.val2.addEventListener('change', func);
     };
+    Model.prototype.modelSetScale = function (f) {
+        if (this.min !== null)
+            this.min.addEventListener("change", f);
+        if (this.max !== null)
+            this.max.addEventListener("change", f);
+    };
     Model.prototype.helper = function () {
         var el = this.slider1;
         var el2 = this.slider2;
@@ -227,6 +233,7 @@ var Controller = /** @class */ (function () {
             _this.controllerBetween();
             _this.controllerNum();
             _this.controllerValue();
+            _this.controllerScale();
         };
         this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
         this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
@@ -234,12 +241,14 @@ var Controller = /** @class */ (function () {
         this.controllerNum = function () { return _this.model.modelNum(_this.view.viewNum); };
         this.controllerValue = function () { return _this.model.modelValue(_this.view.viewValue); };
         this.controllerSetValue = function () { return _this.model.modelSetValue(_this.view.viewValue, _this.calls); };
+        this.controllerSetScale = function () { return _this.model.modelSetScale(_this.f); };
         this.view = view;
         this.model = model;
         this.addEvent();
         this.controllerScale();
         this.calls();
         this.controllerSetValue();
+        this.controllerSetScale();
     }
     return Controller;
 }());

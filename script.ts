@@ -191,6 +191,10 @@ class Model {
         if (this.val1 !== null) this.val1.addEventListener('change',func)
         if (this.val2 !== null) this.val2.addEventListener('change',func)
     }
+    modelSetScale (f: any) {
+        if (this.min !== null) this.min.addEventListener("change", f)
+        if (this.max !== null) this.max.addEventListener("change", f)
+    }
     helper () {
         let el: HTMLInputElement | null = this.slider1
         let el2: HTMLInputElement | null = this.slider2
@@ -245,6 +249,7 @@ class Controller {
        this.controllerScale()
        this.calls()
        this.controllerSetValue()
+       this.controllerSetScale()
     }
     calls = () => {
         this.controllerBetween()
@@ -254,6 +259,7 @@ class Controller {
         this.controllerBetween()
         this.controllerNum()
         this.controllerValue()
+        this.controllerScale()
     }
     addEvent = () => this.model.modelAddEvent(this.f)
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
@@ -261,6 +267,7 @@ class Controller {
     controllerNum = () => this.model.modelNum(this.view.viewNum)
     controllerValue = () => this.model.modelValue(this.view.viewValue)
     controllerSetValue = () => this.model.modelSetValue(this.view.viewValue, this.calls)
+    controllerSetScale = () => this.model.modelSetScale(this.f)
 }
   
   var module!: NodeModule
