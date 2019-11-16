@@ -121,7 +121,11 @@ class View {
         el3.classList.toggle('white')
     }
     viewHideNum = (el: HTMLElement) => el.classList.toggle('white')
-   
+    viewRotate = (el: HTMLElement, el2: HTMLElement, el3: HTMLElement) => {
+        el.classList.toggle('rotate')
+        el2.classList.toggle('rotateReverse')
+        el3.classList.toggle('rotateReverse')
+    }
 }
 
 class Model {

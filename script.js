@@ -196,11 +196,6 @@ var Model = /** @class */ (function () {
         if (this.inpNum2 !== null)
             this.inpNum2.addEventListener('change', function () { return f(_this.num2); });
     };
-    Model.prototype.modelRotate = function (f) {
-        var _this = this;
-        if (this.range !== null && this.rotateSlider !== null)
-            this.rotateSlider.addEventListener('change', function () { return f(_this.range, _this.num1, _this.num2); });
-    };
     Model.prototype.helper = function () {
         var el = this.slider1;
         var el2 = this.slider2;
@@ -276,7 +271,6 @@ var Controller = /** @class */ (function () {
         this.controllerSetScale = function () { return _this.model.modelSetScale(_this.f); };
         this.controllerHideBall = function () { return _this.model.modelHideBall(_this.view.viewHideBall); };
         this.controllerHideNum = function () { return _this.model.modelHideNum(_this.view.viewHideNum); };
-        this.controllerRotate = function () { return _this.model.modelRotate(_this.view.viewRotate); };
         this.view = view;
         this.model = model;
         this.addEvent();
@@ -285,7 +279,6 @@ var Controller = /** @class */ (function () {
         this.controllerSetScale();
         this.controllerHideBall();
         this.controllerHideNum();
-        this.controllerRotate();
     }
     return Controller;
 }());

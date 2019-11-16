@@ -31,6 +31,7 @@ let val1 = document.querySelector('.value1')
 let val2 = document.querySelector('.value2')
 let slider1 = document.querySelector('.slider1')
 let slider2 = document.querySelector('.slider2')
+let range = document.querySelector('.range')
 
 describe('check function createElement', function () {
   
@@ -84,6 +85,12 @@ describe('View', function () {
         view.viewHideNum(num1)
         view.viewHideNum(num1)
         num1.should.have.class('white')
+    })
+    it ('test function viewRotate that rotate slider', function () {
+        view.viewRotate(range, num1, num2)
+        range.should.have.class('rotate')
+        num1.should.have.class('rotateReverse')
+        num1.should.have.class('rotateReverse')
     })
 })
 
