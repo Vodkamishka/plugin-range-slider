@@ -164,16 +164,14 @@ class Model {
        }  
     }
     modelAddEvent (f: any) {
-        let $ = this.helper()
-        console.log($)
-        if ($.el !== null) $.el.addEventListener('input', f)
-        if ($.el2 !== null) $.el2.addEventListener('input', f)
+        if (this.slider1 !== null) this.slider1.addEventListener('input', f)
+        if (this.slider2 !== null) this.slider2.addEventListener('input', f)
     }
-    modelBetween = (f: any) => f(this.helper().left, this.helper().betwLength)
-    modelScale = (f: any) => f(this.helper().min.value, this.helper().max.value)
+    modelBetween = (f: any) => f(this.helper().left, this.helper().betwLength)  
+    modelScale = (f: any) => f(this.min.value, this.max.value)
     modelNum (f: any) {
         let $ = this.helper()
-        let left: number = ($.value - Number($.min.value)) * $.slWidth/$.widthScale 
+        let left: number = ($.value - Number(this.min.value)) * $.slWidth/$.widthScale 
         f($.num1, $.value, left)
         f($.num2, $.value2, $.right)
     }
@@ -181,6 +179,17 @@ class Model {
         let $ = this.helper()
         f ($.val1, $.value)
         f ($.val2, $.value2)
+    }
+    modelSetValue (f: any, f2: any) {
+        const func = () => {
+            let $ = this.helper()
+            if ($.val1 !== null) f($.el, Number($.val1.value))
+            if ($.val2 !== null) f($.el2, Number($.val2.value))
+            f2()
+        }
+        func()
+        if (this.val1 !== null) this.val1.addEventListener('change',func)
+        if (this.val2 !== null) this.val2.addEventListener('change',func)
     }
     helper () {
         let el: HTMLInputElement | null = this.slider1
@@ -232,10 +241,13 @@ class Controller {
     constructor (view:any, model: any) {
        this.view = view
        this.model = model 
-       this.controllerBetween() 
        this.addEvent()
        this.controllerScale()
-       this.controllerNum()
+       this.calls()
+    }
+    calls = () => {
+        this.controllerBetween()
+        this.controllerNum()
     }
     f = () => {
         this.controllerBetween()

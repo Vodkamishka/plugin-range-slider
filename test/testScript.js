@@ -28,6 +28,8 @@ let num1 = document.querySelector('.num1')
 let num2 = document.querySelector('.num2')
 let val1 = document.querySelector('.value1')
 let val2 = document.querySelector('.value2')
+let slider1 = document.querySelector('.slider1')
+let slider2 = document.querySelector('.slider2')
 
 describe('check function createElement', function () {
   
@@ -116,10 +118,25 @@ describe('Model', function () {
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
     })
-    it ('test function modelValue that start function viewValue', function () {
+    it ('test function modelValue that starts function viewValue', function () {
         model.modelValue(view.viewValue)
         assert.equal(val1.value, '5000')
         assert.equal(val2.value, '15000')
+    })
+    it ('test function modelSetValue that starts viewValue and functions controllerBetween and controllerNum', function () {
+        let calls = () => {
+            controller.controllerBetween()
+            controller.controllerNum()
+        }
+        model.modelSetValue(view.viewValue, calls)
+        assert.equal(slider1.value, '5000')
+        assert.equal(slider2.value, '15000')
+        assert.equal(between.style._values['margin-left'], '53.2px')
+        assert.equal(between.style._values['width'], '106.4px')
+        assert.equal(num1.innerHTML, '5000')
+        assert.equal(num1.style._values['margin-left'], '53.2px')
+        assert.equal(num2.innerHTML, '15000')
+        assert.equal(num2.style._values['margin-left'], '159.6px')
     })
     
 })
@@ -143,7 +160,7 @@ describe("Controller", function () {
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
     })
-    it('test function controllerValue that starts function controllerValue', function () {
+    it('test function controllerValue that starts function modelValue', function () {
         controller.controllerValue()
         assert.equal(val1.value, '5000')
         assert.equal(val2.value, '15000')

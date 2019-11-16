@@ -105,7 +105,7 @@ var Model = /** @class */ (function () {
     function Model(random) {
         var _this = this;
         this.modelBetween = function (f) { return f(_this.helper().left, _this.helper().betwLength); };
-        this.modelScale = function (f) { return f(_this.helper().min.value, _this.helper().max.value); };
+        this.modelScale = function (f) { return f(_this.min.value, _this.max.value); };
         this.wrapper = document.getElementById(random.toString());
         if (this.wrapper !== null) {
             var f = function (element) {
@@ -131,12 +131,10 @@ var Model = /** @class */ (function () {
         }
     }
     Model.prototype.modelAddEvent = function (f) {
-        var $ = this.helper();
-        console.log($);
-        if ($.el !== null)
-            $.el.addEventListener('input', f);
-        if ($.el2 !== null)
-            $.el2.addEventListener('input', f);
+        if (this.slider1 !== null)
+            this.slider1.addEventListener('input', f);
+        if (this.slider2 !== null)
+            this.slider2.addEventListener('input', f);
     };
     Model.prototype.modelNum = function (f) {
         var $ = this.helper();
@@ -148,6 +146,22 @@ var Model = /** @class */ (function () {
         var $ = this.helper();
         f($.val1, $.value);
         f($.val2, $.value2);
+    };
+    Model.prototype.modelSetValue = function (f, f2) {
+        var _this = this;
+        var func = function () {
+            var $ = _this.helper();
+            if ($.val1 !== null)
+                f($.el, Number($.val1.value));
+            if ($.val2 !== null)
+                f($.el2, Number($.val2.value));
+            f2();
+        };
+        func();
+        if (this.val1 !== null)
+            this.val1.addEventListener('change', func);
+        if (this.val2 !== null)
+            this.val2.addEventListener('change', func);
     };
     Model.prototype.helper = function () {
         var el = this.slider1;
