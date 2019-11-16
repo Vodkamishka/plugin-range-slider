@@ -53,6 +53,13 @@ var View = /** @class */ (function () {
             el.style.marginLeft = left.toString() + 'px';
         };
         this.viewValue = function (el, num) { return el.value = num.toString(); };
+        this.viewHideBall = function (el, el2, el3) {
+            el.classList.toggle('hide');
+            if (el.parentNode !== null && el.parentNode.querySelectorAll('.hide').length < 2 && _this.between !== null)
+                _this.between.classList.toggle('hide');
+            el2.classList.toggle('white');
+            el3.classList.toggle('white');
+        };
         this.wrapper = document.getElementById(random.toString());
         this.create();
         if (this.wrapper !== null) {

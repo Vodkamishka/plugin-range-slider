@@ -72,6 +72,13 @@ describe('View', function () {
         assert.equal(val1.value, '5000')
         assert.equal(val2.value, '15000')
     })
+    it ('test function viewHideBall, that hides balls, between ad values in panel', function () {
+        view.viewHideBall(slider1, num1, val1)
+        slider1.should.have.class('hide')
+        between.should.have.class('hide')
+        num1.should.have.class('white')
+        val1.should.have.class('white')
+    })
 })
 
 describe('Model', function () {
@@ -138,7 +145,7 @@ describe('Model', function () {
         assert.equal(num2.innerHTML, '15000')
         assert.equal(num2.style._values['margin-left'], '159.6px')
     })
-    it ('test function modelSetScale that starts functions controllerBetween,controllerNum, controllerValue, controllerScale ', function () {
+    it ('test function modelSetScale that starts functions controllerBetween,controllerNum, controllerValue, controllerScale', function () {
         let f = () => {
             this.controllerBetween()
             this.controllerNum()
@@ -185,6 +192,17 @@ describe("Controller", function () {
         controller.controllerSetValue()
         assert.equal(slider1.value, '5000')
         assert.equal(slider2.value, '15000')
+        assert.equal(between.style._values['margin-left'], '53.2px')
+        assert.equal(between.style._values['width'], '106.4px')
+        assert.equal(num1.innerHTML, '5000')
+        assert.equal(num1.style._values['margin-left'], '53.2px')
+        assert.equal(num2.innerHTML, '15000')
+        assert.equal(num2.style._values['margin-left'], '159.6px')
+    })
+    it('test function controllerSetScale that starts modelSetScale', function () {
+        controller.controllerSetScale()
+        assert.equal(begin.innerHTML, '0')
+        assert.equal(end.innerHTML, '25000')
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
         assert.equal(num1.innerHTML, '5000')

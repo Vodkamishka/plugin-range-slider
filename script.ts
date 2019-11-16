@@ -114,6 +114,12 @@ class View {
         el.style.marginLeft = left.toString() + 'px'
     }
     viewValue = (el: HTMLInputElement , num: number) => el.value = num.toString()
+    viewHideBall = (el: HTMLInputElement, el2: HTMLElement, el3: HTMLInputElement) => {
+        el.classList.toggle('hide')
+        if (el.parentNode !== null && el.parentNode.querySelectorAll('.hide').length < 2 && this.between !== null) this.between.classList.toggle('hide')
+        el2.classList.toggle('white')
+        el3.classList.toggle('white')
+    }
     
 }
 
