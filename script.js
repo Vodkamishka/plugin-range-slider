@@ -138,7 +138,7 @@ var Model = /** @class */ (function () {
     };
     Model.prototype.modelNum = function (f) {
         var $ = this.helper();
-        var left = ($.value - Number($.min.value)) * $.slWidth / $.widthScale;
+        var left = ($.value - Number(this.min.value)) * $.slWidth / $.widthScale;
         f($.num1, $.value, left);
         f($.num2, $.value2, $.right);
     };
@@ -219,6 +219,10 @@ var Model = /** @class */ (function () {
 var Controller = /** @class */ (function () {
     function Controller(view, model) {
         var _this = this;
+        this.calls = function () {
+            _this.controllerBetween();
+            _this.controllerNum();
+        };
         this.f = function () {
             _this.controllerBetween();
             _this.controllerNum();
@@ -229,12 +233,13 @@ var Controller = /** @class */ (function () {
         this.controllerScale = function () { return _this.model.modelScale(_this.view.viewScale); };
         this.controllerNum = function () { return _this.model.modelNum(_this.view.viewNum); };
         this.controllerValue = function () { return _this.model.modelValue(_this.view.viewValue); };
+        this.controllerSetValue = function () { return _this.model.modelSetValue(_this.view.viewValue, _this.calls); };
         this.view = view;
         this.model = model;
-        this.controllerBetween();
         this.addEvent();
         this.controllerScale();
-        this.controllerNum();
+        this.calls();
+        this.controllerSetValue();
     }
     return Controller;
 }());

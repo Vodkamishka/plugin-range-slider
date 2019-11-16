@@ -244,6 +244,7 @@ class Controller {
        this.addEvent()
        this.controllerScale()
        this.calls()
+       this.controllerSetValue()
     }
     calls = () => {
         this.controllerBetween()
@@ -259,6 +260,7 @@ class Controller {
     controllerScale = () => this.model.modelScale (this.view.viewScale)
     controllerNum = () => this.model.modelNum(this.view.viewNum)
     controllerValue = () => this.model.modelValue(this.view.viewValue)
+    controllerSetValue = () => this.model.modelSetValue(this.view.viewValue, this.calls)
 }
   
   var module!: NodeModule
