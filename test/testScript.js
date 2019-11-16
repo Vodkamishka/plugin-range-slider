@@ -76,8 +76,11 @@ describe('View', function () {
         view.viewHideBall(slider1, num1, val1)
         slider1.should.have.class('hide')
         between.should.have.class('hide')
-        num1.should.have.class('white')
         val1.should.have.class('white')
+    })
+    it ('test function viewHideNum that hide number upper ball of slider', function () {
+        view.viewHideNum(num1)
+        num1.should.have.class('num1')
     })
 })
 
@@ -166,7 +169,6 @@ describe('Model', function () {
         model.modelHideBall(view.viewHideBall)
         slider1.should.have.class('hide')
         between.should.have.class('hide')
-        num1.should.have.class('white')
         val1.should.have.class('white')
     })
 })
@@ -221,7 +223,6 @@ describe("Controller", function () {
         controller.controllerHideBall()
         slider1.should.have.class('hide')
         between.should.have.class('hide')
-        num1.should.have.class('white')
         val1.should.have.class('white')
     })
 })

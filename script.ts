@@ -120,7 +120,7 @@ class View {
         el2.classList.toggle('white')
         el3.classList.toggle('white')
     }
-    
+    viewHideNum = (el: HTMLElement) => el.classList.toggle('white')
 }
 
 class Model {

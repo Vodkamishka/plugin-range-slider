@@ -60,6 +60,7 @@ var View = /** @class */ (function () {
             el2.classList.toggle('white');
             el3.classList.toggle('white');
         };
+        this.viewHideNum = function (el) { return el.classList.toggle('white'); };
         this.wrapper = document.getElementById(random.toString());
         this.create();
         if (this.wrapper !== null) {
