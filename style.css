@@ -10,6 +10,15 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
 }
+.wrapper1 {
+    margin: 70px 0;
+}
+.wrapper1:nth-child(2){
+    margin-left: 400px;
+}
+.wrapper1:nth-child(3) {
+    margin-left: 100px;
+}
 .wrapper {
     display: flex;
     align-items: center;

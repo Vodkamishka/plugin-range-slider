@@ -281,6 +281,7 @@ var Controller = /** @class */ (function () {
         this.model = model;
         this.addEvent();
         this.calls();
+        this.controllerScale();
         this.controllerSetValue();
         this.controllerSetScale();
         this.controllerHideBall();

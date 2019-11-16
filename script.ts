@@ -269,6 +269,7 @@ class Controller {
        this.model = model 
        this.addEvent()
        this.calls()
+       this.controllerScale()
        this.controllerSetValue()
        this.controllerSetScale()
        this.controllerHideBall()
@@ -298,7 +299,7 @@ class Controller {
 }
   
   var module!: NodeModule
-  
+
   if (module !== undefined) module.exports = {
       View, 
       Model, 
