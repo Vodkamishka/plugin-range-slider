@@ -121,6 +121,7 @@ class View {
         el3.classList.toggle('white')
     }
     viewHideNum = (el: HTMLElement) => el.classList.toggle('white')
+   
 }
 
 class Model {
@@ -205,6 +206,11 @@ class Model {
         if (this.flag1 !== null) this.flag1.addEventListener('change', () => f(this.slider1, this.num1, this.val1))
         if (this.flag2 !== null) this.flag2.addEventListener('change', () => f(this.slider2, this.num2, this.val2))
     }
+    modelHideNum (f: any) {
+        if (this.inpNum1 !== null) this.inpNum1.addEventListener('change', () => f(this.num1))
+        if (this.inpNum2 !== null) this.inpNum2.addEventListener('change', () => f(this.num2))
+    }
+    
     helper () {
         let el: HTMLInputElement | null = this.slider1
         let el2: HTMLInputElement | null = this.slider2
@@ -260,6 +266,7 @@ class Controller {
        this.controllerSetValue()
        this.controllerSetScale()
        this.controllerHideBall()
+       
     }
     calls = () => {
         this.controllerBetween()
@@ -279,6 +286,7 @@ class Controller {
     controllerSetValue = () => this.model.modelSetValue(this.view.viewValue, this.calls)
     controllerSetScale = () => this.model.modelSetScale(this.f)
     controllerHideBall = () => this.model.modelHideBall(this.view.viewHideBall)
+    
 }
   
   var module!: NodeModule

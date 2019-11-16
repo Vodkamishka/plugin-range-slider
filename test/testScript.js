@@ -4,6 +4,7 @@ chai.use(require('chai-dom'))
 const assert = require('chai').assert
 var should = require('chai').should()
 
+
 let script = require('../script.js')
 const jsdom  = require('jsdom')
 const {JSDOM} = jsdom
@@ -76,11 +77,13 @@ describe('View', function () {
         view.viewHideBall(slider1, num1, val1)
         slider1.should.have.class('hide')
         between.should.have.class('hide')
+        num1.should.have.class('white')
         val1.should.have.class('white')
     })
     it ('test function viewHideNum that hide number upper ball of slider', function () {
         view.viewHideNum(num1)
-        num1.should.have.class('num1')
+        view.viewHideNum(num1)
+        num1.should.have.class('white')
     })
 })
 
@@ -171,6 +174,11 @@ describe('Model', function () {
         between.should.have.class('hide')
         val1.should.have.class('white')
     })
+    it ("test function modelHideNum that connect addEventListener to inpNum which starts function viewHideNum", function () {
+        model.modelHideNum(view.viewHideNum)
+        model.modelHideNum(view.viewHideNum)
+        num1.should.have.class('white')
+    })
 })
 
 describe("Controller", function () {
@@ -223,6 +231,7 @@ describe("Controller", function () {
         controller.controllerHideBall()
         slider1.should.have.class('hide')
         between.should.have.class('hide')
+        num1.should.have.class('white')
         val1.should.have.class('white')
     })
 })
