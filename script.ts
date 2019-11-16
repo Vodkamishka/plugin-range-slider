@@ -273,6 +273,7 @@ class Controller {
        this.controllerSetScale()
        this.controllerHideBall()
        this.controllerHideNum()
+       this.controllerRotate()
     }
     calls = () => {
         this.controllerBetween()
@@ -293,6 +294,7 @@ class Controller {
     controllerSetScale = () => this.model.modelSetScale(this.f)
     controllerHideBall = () => this.model.modelHideBall(this.view.viewHideBall)
     controllerHideNum = () => this.model.modelHideNum(this.view.viewHideNum)
+    controllerRotate = () => this.model.modelRotate(this.view.viewRotate)
 }
   
   var module!: NodeModule

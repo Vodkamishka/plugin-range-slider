@@ -276,6 +276,7 @@ var Controller = /** @class */ (function () {
         this.controllerSetScale = function () { return _this.model.modelSetScale(_this.f); };
         this.controllerHideBall = function () { return _this.model.modelHideBall(_this.view.viewHideBall); };
         this.controllerHideNum = function () { return _this.model.modelHideNum(_this.view.viewHideNum); };
+        this.controllerRotate = function () { return _this.model.modelRotate(_this.view.viewRotate); };
         this.view = view;
         this.model = model;
         this.addEvent();
@@ -284,6 +285,7 @@ var Controller = /** @class */ (function () {
         this.controllerSetScale();
         this.controllerHideBall();
         this.controllerHideNum();
+        this.controllerRotate();
     }
     return Controller;
 }());

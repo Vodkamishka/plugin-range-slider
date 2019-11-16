@@ -251,4 +251,10 @@ describe("Controller", function () {
         controller.controllerHideNum()
         num1.should.have.class('white')
     })
+    it("test function controllerRotate that starts function modelRotate", function () {
+        controller.controllerRotate()
+        range.should.have.class('rotate')
+        num1.should.have.class('rotateReverse')
+        num1.should.have.class('rotateReverse')
+    })
 })
