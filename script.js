@@ -118,7 +118,7 @@ var Model = /** @class */ (function () {
     function Model(random) {
         var _this = this;
         this.modelBetween = function (f) { return f(_this.helper().left, _this.helper().betwLength); };
-        this.modelScale = function (f) { return f(_this.min.value, _this.max.value); };
+        this.modelScale = function (f) { return f(_this.helper().min.value, _this.helper().value); };
         this.wrapper = document.getElementById(random.toString());
         if (this.wrapper !== null) {
             var f = function (element) {
@@ -151,7 +151,7 @@ var Model = /** @class */ (function () {
     };
     Model.prototype.modelNum = function (f) {
         var $ = this.helper();
-        var left = ($.value - Number(this.min.value)) * $.slWidth / $.widthScale;
+        var left = ($.value - Number(this.helper().min.value)) * $.slWidth / $.widthScale;
         f($.num1, $.value, left);
         f($.num2, $.value2, $.right);
     };
