@@ -43,7 +43,7 @@ describe('check function createElement', function () {
         expect(slider).to.have.attribute('type', 'range')
         slider.should.have.value('15000') 
     })
-    it ('test how funtion create element div this one child', function () {
+    it ('test how function create element div this one child', function () {
         let slider = createElement('input', {class: 'slider', type: 'range', value: '70000'})
         let range = createElement('div', {class: 'Range'}, slider)
         range.should.be.an('HTMLDivElement')
@@ -136,7 +136,7 @@ describe('Model', function () {
     it ("test function modelScale that starts function viewScale", function () {
         model.modelScale(view.viewScale)
         assert.equal(begin.innerHTML, '0')
-        assert.equal(end.innerHTML, '5000')
+        assert.equal(end.innerHTML, '25000')
     })
     it ('test function modelNum that starts function viewNum', function () {
         model.modelNum(view.viewNum)
@@ -174,7 +174,7 @@ describe('Model', function () {
         }
         model.modelSetScale(f)
         assert.equal(begin.innerHTML, '0')
-        assert.equal(end.innerHTML, '5000')
+        assert.equal(end.innerHTML, '25000')
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
         assert.equal(num1.innerHTML, '5000')
@@ -211,7 +211,7 @@ describe("Controller", function () {
     it('test function controllerScale that starts function modelScale', function () {
         controller.controllerScale()
         assert.equal(begin.innerHTML, '0')
-        assert.equal(end.innerHTML, '5000')
+        assert.equal(end.innerHTML, '25000')
     })
     it('test function controllerNum that starts function modelNum', function () {
         controller.controllerNum()
@@ -239,7 +239,7 @@ describe("Controller", function () {
     it('test function controllerSetScale that starts function modelSetScale', function () {
         controller.controllerSetScale()
         assert.equal(begin.innerHTML, '0')
-        assert.equal(end.innerHTML, '5000')
+        assert.equal(end.innerHTML, '25000')
         assert.equal(between.style._values['margin-left'], '53.2px')
         assert.equal(between.style._values['width'], '106.4px')
         assert.equal(num1.innerHTML, '5000')

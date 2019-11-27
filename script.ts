@@ -171,7 +171,8 @@ class Model {
              this.inpNum2 = f('.inpNum2')
              this.step = f('.step')
              this.step2 = f('.step2') 
-             this.rotateSlider = f('.rotateSlider')     
+             this.rotateSlider = f('.rotateSlider')
+               
        }  
     }
     modelAddEvent (f: any) {
@@ -179,7 +180,7 @@ class Model {
         if (this.slider2 !== null) this.slider2.addEventListener('input', f)
     }
     modelBetween = (f: any) => f(this.helper().left, this.helper().betwLength)  
-    modelScale = (f: any) => f(this.helper().min.value, this.helper().value)
+    modelScale = (f: any) => f(this.helper().min.value, this.helper().max.value)
     modelNum (f: any) {
         let $ = this.helper()
         let left: number = ($.value - Number(this.helper().min.value)) * $.slWidth/$.widthScale 

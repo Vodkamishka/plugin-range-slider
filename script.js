@@ -118,7 +118,7 @@ var Model = /** @class */ (function () {
     function Model(random) {
         var _this = this;
         this.modelBetween = function (f) { return f(_this.helper().left, _this.helper().betwLength); };
-        this.modelScale = function (f) { return f(_this.helper().min.value, _this.helper().value); };
+        this.modelScale = function (f) { return f(_this.helper().min.value, _this.helper().max.value); };
         this.wrapper = document.getElementById(random.toString());
         if (this.wrapper !== null) {
             var f = function (element) {
