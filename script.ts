@@ -96,7 +96,9 @@ class View {
             labelVal2, labelFlag1, labelFlag2, labelNum1, labelNum2, labelRotate, labelStep, labelStep2)
 
             this.wrapper.appendChild(panel)
+            
             this.wrapper.appendChild(range)
+           
         }
     }
     viewBetween = (left: number,  betwWidth: number) => {

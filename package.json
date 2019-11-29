@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/jquery": "^3.3.31",
     "@types/node": "^12.12.7",
-    "chai-dom": "^1.8.1"
+    "chai-dom": "^1.8.1",
+    "jquery": "^3.4.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
