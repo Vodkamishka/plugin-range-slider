@@ -1,64 +1,36 @@
-(function () {
-    if (window !== undefined)
-        window.onload = function () {
-            var wrapper = document.querySelectorAll('.wrapper');
-            if (wrapper !== null) {
-                wrapper.forEach(function (el) {
-                    var random = Math.floor(Math.random() * 10000000000000);
-                    el.id = random.toString();
-                    var view = new View(random);
-                    var model = new Model(random);
-                    var controller = new Controller(view, model);
-                });
-            }
-        };
-})();
-function createElement(tag, props) {
-    var children = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        children[_i - 2] = arguments[_i];
-    }
-    var element;
-    element = document.createElement(tag);
-    element.classList.add("" + props["class"]);
-    element.type = props.type;
-    element.setAttribute('value', props.value);
-    children.forEach(function (el) {
-        if (typeof el === 'string') {
-            el = document.createTextNode(el);
-        }
-        element.appendChild(el);
-    });
-    return element;
-}
 var View = /** @class */ (function () {
-    function View(random) {
+    function View(value, settings) {
         var _this = this;
-        this.viewBetween = function (left, betwWidth) {
-            if (_this.between !== null) {
-                _this.between.style.marginLeft = left + 'px';
-                _this.between.style.width = betwWidth + 'px';
-            }
+        this.create = function () {
+            var _a = _this.settings, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step1 = _a.step1, step2 = _a.step2;
+            var panel = "<div class=\"panel\" ><p class=\"p\" >\u041F\u0430\u043D\u0435\u043B\u044C \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438:</p><label class=\"label\" >\u041C\u0438\u043D. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"min\" type=\"text\" value=" + min + "></label><label class=\"label\" >\u041C\u0430\u043A\u0441. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"max\" type=\"text\" value=" + max + "></label><label class=\"labelVal1\" >\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"value1\" type=\"text\" value=" + value1 + "></label><label class=\"labelVal2\" >\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"value2\" type=\"text\" value=" + value2 + "></label><label class=\"labelFlag1\" >\u041E\u0442\u043A\u043B. \u0431\u0435\u0433\u0443\u043D\u043E\u043A 1<input class=\"flag1\" type=\"checkbox\" value=\"\"></label><label class=\"labelFlag2\" >\u041E\u0442\u043A\u043B. \u0431\u0435\u0433\u0443\u043D\u043E\u043A 2<input class=\"flag2\" type=\"checkbox\" value=\"\"></label><label class=\"labelNum1\" >\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"inpNum1\" type=\"checkbox\" value=\"\"></label><label class=\"labelNum2\" >\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"inpNum2\" type=\"checkbox\" value=\"\"></label><label class=\"labelRotate\" >\u0412\u043A\u043B. \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u0438\u0434<input class=\"rotateSlider\" type=\"checkbox\" value=\"\"></label><label class=\"label\" >\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 1<input class=\"step\" type=\"text\" value=\"\"></label><label class=\"label\" >\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 2<input class=\"step2\" type=\"text\" value=\"\"></label></div>";
+            var range = "<div class=\"range\" ><input class=\"slider1\" type=\"range\" value=" + value1 + " step=" + step1 + " min=" + min + " max=" + max + "><input class=\"slider2\" type=\"range\" value=" + value2 + " step=" + step2 + " min=" + min + " max=" + max + "><div class=\"between\" ></div><div class=\"begin\" ></div><div class=\"end\" ></div><div class=\"num1\" ></div><div class=\"num2\" ></div></div>";
+            if (_this.wrapper !== null)
+                $(_this.wrapper).html(panel + range);
         };
-        this.viewScale = function (begin, end) {
-            if (_this.begin !== null) {
-                _this.begin.innerHTML = begin;
-            }
-            if (_this.end !== null) {
-                _this.end.innerHTML = end;
-            }
+        this.viewBetween = function (left, betwWidth, el) {
+            el.style.marginLeft = left + 'px';
+            el.style.width = betwWidth + 'px';
+        };
+        this.viewScale = function (minVal, maxVal, el, el2, slider1, slider2) {
+            $(el).html(minVal);
+            slider1.min = minVal;
+            slider2.min = minVal;
+            $(el2).html(maxVal);
+            slider1.max = maxVal;
+            slider2.max = maxVal;
         };
         this.viewNum = function (el, num, left) {
             el.innerHTML = num.toString();
             el.style.marginLeft = left.toString() + 'px';
         };
         this.viewValue = function (el, num) { return el.value = num.toString(); };
-        this.viewHideBall = function (el, el2, el3) {
-            el.classList.toggle('hide');
-            if (el.parentNode !== null && el.parentNode.querySelectorAll('.hide').length < 2 && _this.between !== null)
-                _this.between.classList.toggle('hide');
-            el2.classList.toggle('white');
-            el3.classList.toggle('white');
+        this.viewHideBall = function (slider, num, val, between) {
+            slider.classList.toggle('hide');
+            if (slider.parentNode !== null && slider.parentNode.querySelectorAll('.hide').length < 2 && between !== null)
+                between.classList.toggle('hide');
+            num.classList.toggle('white');
+            val.classList.toggle('white');
         };
         this.viewHideNum = function (el) { return el.classList.toggle('white'); };
         this.viewRotate = function (el, el2, el3) {
@@ -66,235 +38,165 @@ var View = /** @class */ (function () {
             el2.classList.toggle('rotateReverse');
             el3.classList.toggle('rotateReverse');
         };
-        this.wrapper = document.getElementById(random.toString());
+        this.wrapper = value;
+        this.settings = settings;
         this.create();
-        if (this.wrapper !== null) {
-            this.between = this.wrapper.querySelector('.between');
-            this.begin = this.wrapper.querySelector('.begin');
-            this.end = this.wrapper.querySelector('.end');
-        }
     }
-    View.prototype.create = function () {
-        if (this.wrapper !== null) {
-            var num1 = createElement('div', { "class": 'num1' });
-            var num2 = createElement('div', { "class": 'num2' });
-            var between = createElement('div', { "class": 'between' });
-            var begin = createElement('div', { "class": 'begin' });
-            var end = createElement('div', { "class": 'end' });
-            var slider1 = createElement('input', { "class": 'slider1', type: 'range', value: '5000' });
-            var slider2 = createElement('input', { "class": 'slider2', type: 'range', value: '15000' });
-            var range = createElement('div', { "class": 'range' }, slider1, slider2, between, begin, end, num1, num2);
-            var p = createElement('p', { "class": 'p' }, "Панель конфигурации:");
-            var min = createElement('input', { "class": 'min', type: 'text', value: '0' });
-            var labelMin = createElement('label', { "class": 'label' }, 'Мин. диапазона', min);
-            var max = createElement('input', { "class": 'max', type: 'text', value: '25000' });
-            var labelMax = createElement('label', { "class": 'label' }, 'Макс. диапазона', max);
-            var value1 = createElement('input', { "class": 'value1', type: 'text', value: '5000' });
-            var labelVal1 = createElement('label', { "class": 'labelVal1' }, 'Значение 1', value1);
-            var value2 = createElement('input', { "class": 'value2', type: 'text', value: '15000' });
-            var labelVal2 = createElement('label', { "class": 'labelVal2' }, 'Значение 2', value2);
-            var flag1 = createElement('input', { "class": 'flag1', type: 'checkbox', value: '' });
-            var labelFlag1 = createElement('label', { "class": 'labelFlag1' }, 'Откл. бегунок 1', flag1);
-            var flag2 = createElement('input', { "class": 'flag2', type: 'checkbox', value: '' });
-            var labelFlag2 = createElement('label', { "class": 'labelFlag2' }, 'Откл. бегунок 2', flag2);
-            var inpNum1 = createElement('input', { "class": 'inpNum1', type: 'checkbox', value: '' });
-            var labelNum1 = createElement('label', { "class": 'labelNum1' }, 'Откл. значение 1', inpNum1);
-            var inpNum2 = createElement('input', { "class": 'inpNum2', type: 'checkbox', value: '' });
-            var labelNum2 = createElement('label', { "class": 'labelNum2' }, 'Откл. значение 2', inpNum2);
-            var rotate = createElement('input', { "class": 'rotateSlider', type: 'checkbox', value: '' });
-            var labelRotate = createElement('label', { "class": 'labelRotate' }, 'Вкл. вертикальный вид', rotate);
-            var step = createElement('input', { "class": 'step', type: 'text', value: '' });
-            var labelStep = createElement('label', { "class": 'label' }, 'Размер шага 1', step);
-            var step2 = createElement('input', { "class": 'step2', type: 'text', value: '' });
-            var labelStep2 = createElement('label', { "class": 'label' }, 'Размер шага 2', step2);
-            var panel = createElement('div', { "class": 'panel' }, p, labelMin, labelMax, labelVal1, labelVal2, labelFlag1, labelFlag2, labelNum1, labelNum2, labelRotate, labelStep, labelStep2);
-            this.wrapper.appendChild(panel);
-            this.wrapper.appendChild(range);
-        }
-    };
     return View;
 }());
 var Model = /** @class */ (function () {
-    function Model(random) {
+    function Model(value) {
         var _this = this;
-        this.modelBetween = function (f) { return f(_this.helper().left, _this.helper().betwLength); };
-        this.modelScale = function (f) { return f(_this.helper().min.value, _this.helper().max.value); };
-        this.wrapper = document.getElementById(random.toString());
-        if (this.wrapper !== null) {
-            var f = function (element) {
-                if (_this.wrapper !== null)
-                    return _this.wrapper.querySelector(element);
-            };
-            this.range = f('.range');
-            this.val1 = f('.value1');
-            this.val2 = f('.value2');
-            this.min = f('.min');
-            this.max = f('.max');
-            this.slider1 = f('.slider1');
-            this.slider2 = f('.slider2');
-            this.flag1 = f('.flag1');
-            this.flag2 = f('.flag2');
-            this.num1 = f('.num1');
-            this.num2 = f('.num2');
-            this.inpNum1 = f('.inpNum1');
-            this.inpNum2 = f('.inpNum2');
-            this.step = f('.step');
-            this.step2 = f('.step2');
-            this.rotateSlider = f('.rotateSlider');
-        }
+        this.modelBetween = function (viewBetween) {
+            var _a = _this.helper(), left = _a.left, betwLength = _a.betwLength, between = _a.between;
+            viewBetween(left, betwLength, between);
+        };
+        this.modelScale = function (viewScale) {
+            var _a = _this.helper(), slider1 = _a.slider1, slider2 = _a.slider2, min = _a.min, max = _a.max, begin = _a.begin, end = _a.end;
+            viewScale(min.val(), max.val(), begin, end, slider1, slider2);
+        };
+        this.wrapper = value;
     }
-    Model.prototype.modelAddEvent = function (f) {
-        if (this.slider1 !== null)
-            this.slider1.addEventListener('input', f);
-        if (this.slider2 !== null)
-            this.slider2.addEventListener('input', f);
+    Model.prototype.modelAddEvent = function (functions) {
+        var _a = this.helper(), slider1 = _a.slider1, slider2 = _a.slider2;
+        slider1.addEventListener('input', functions);
+        slider2.addEventListener('input', functions);
     };
-    Model.prototype.modelNum = function (f) {
-        var $ = this.helper();
-        var left = ($.value - Number(this.helper().min.value)) * $.slWidth / $.widthScale;
-        f($.num1, $.value, left);
-        f($.num2, $.value2, $.right);
+    Model.prototype.modelNum = function (viewNum) {
+        var _a = this.helper(), num1 = _a.num1, num2 = _a.num2, val1 = _a.val1, val2 = _a.val2, right = _a.right, leftNoChanged = _a.leftNoChanged;
+        viewNum(num1, val1, leftNoChanged);
+        viewNum(num2, val2, right);
     };
-    Model.prototype.modelValue = function (f) {
-        var $ = this.helper();
-        f($.val1, $.value);
-        f($.val2, $.value2);
+    Model.prototype.modelValue = function (viewValue) {
+        var _a = this.helper(), value1 = _a.value1, value2 = _a.value2, val1 = _a.val1, val2 = _a.val2;
+        viewValue(value1.get(0), val1);
+        viewValue(value2.get(0), val2);
     };
-    Model.prototype.modelSetValue = function (f, f2) {
-        var _this = this;
+    Model.prototype.modelSetValue = function (viewValue, functions) {
+        var _a = this.helper(), slider1 = _a.slider1, slider2 = _a.slider2, value1 = _a.value1, value2 = _a.value2;
         var func = function () {
-            var $ = _this.helper();
-            if ($.val1 !== null)
-                f($.el, Number($.val1.value));
-            if ($.val2 !== null)
-                f($.el2, Number($.val2.value));
-            f2();
+            viewValue(slider1, Number(value1.val()));
+            viewValue(slider2, Number(value2.val()));
+            functions();
         };
         func();
-        if (this.val1 !== null)
-            this.val1.addEventListener('change', func);
-        if (this.val2 !== null)
-            this.val2.addEventListener('change', func);
+        value1.get(0).addEventListener('change', func);
+        value2.get(0).addEventListener('change', func);
     };
-    Model.prototype.modelSetScale = function (f) {
-        if (this.min !== null)
-            this.min.addEventListener("change", f);
-        if (this.max !== null)
-            this.max.addEventListener("change", f);
+    Model.prototype.modelSetScale = function (functions) {
+        this.helper().min.get(0).addEventListener("change", functions);
+        this.helper().max.get(0).addEventListener("change", functions);
     };
     Model.prototype.modelHideBall = function (f) {
-        var _this = this;
-        if (this.flag1 !== null)
-            this.flag1.addEventListener('change', function () { return f(_this.slider1, _this.num1, _this.val1); });
-        if (this.flag2 !== null)
-            this.flag2.addEventListener('change', function () { return f(_this.slider2, _this.num2, _this.val2); });
+        var _a = this.helper(), flag1 = _a.flag1, flag2 = _a.flag2, slider1 = _a.slider1, slider2 = _a.slider2, num1 = _a.num1, num2 = _a.num2, value1 = _a.value1, value2 = _a.value2, between = _a.between;
+        flag1.addEventListener('change', function () { return f(slider1, num1, value1.get(0), between); });
+        flag2.addEventListener('change', function () { return f(slider2, num2, value2.get(0), between); });
     };
     Model.prototype.modelHideNum = function (f) {
-        var _this = this;
-        if (this.inpNum1 !== null)
-            this.inpNum1.addEventListener('change', function () { return f(_this.num1); });
-        if (this.inpNum2 !== null)
-            this.inpNum2.addEventListener('change', function () { return f(_this.num2); });
+        var _a = this.helper(), inpNum1 = _a.inpNum1, inpNum2 = _a.inpNum2, num1 = _a.num1, num2 = _a.num2;
+        inpNum1.addEventListener('change', function () { return f(num1); });
+        inpNum2.addEventListener('change', function () { return f(num2); });
     };
     Model.prototype.modelRotate = function (f) {
-        var _this = this;
-        if (this.range !== null && this.rotateSlider !== null)
-            this.rotateSlider.addEventListener('change', function () { return f(_this.range, _this.num1, _this.num2); });
+        var _a = this.helper(), range = _a.range, rotateSlider = _a.rotateSlider, num1 = _a.num1, num2 = _a.num2;
+        if (range !== null && rotateSlider !== null)
+            rotateSlider.addEventListener('change', function () { return f(range, num1, num2); });
     };
     Model.prototype.helper = function () {
-        var el = this.slider1;
-        var el2 = this.slider2;
-        var val1 = this.val1;
-        var val2 = this.val2;
-        var min;
-        if (this.min !== null)
-            min = this.min;
-        var max;
-        if (this.max !== null)
-            max = this.max;
-        var num1 = this.num1;
-        var num2 = this.num2;
-        var slWidth;
-        var widthScale;
-        var value;
+        var w;
+        if (this.wrapper !== null)
+            w = $(this.wrapper);
+        var elementsDom = {};
+        var arrayDom = ['range', 'rotateSlider', 'slider1', 'slider2', 'begin', 'end', 'between', 'num1', 'num2', 'flag1', 'flag2', 'inpNum1', 'inpNum2'];
+        arrayDom.forEach(function (el) {
+            if (w !== null)
+                elementsDom[el] = w.find("." + el).get(0);
+        });
+        var range = elementsDom.range, rotateSlider = elementsDom.rotateSlider, slider1 = elementsDom.slider1, slider2 = elementsDom.slider2, begin = elementsDom.begin, end = elementsDom.end, between = elementsDom.between, num1 = elementsDom.num1, num2 = elementsDom.num2, flag1 = elementsDom.flag1, flag2 = elementsDom.flag2, inpNum1 = elementsDom.inpNum1, inpNum2 = elementsDom.inpNum2;
+        var value1;
         var value2;
-        var betwLength;
-        if (el !== null && el2 !== null && this.step !== null && this.step2 !== null) {
-            slWidth = 266;
-            widthScale = Math.abs(Number(max.value) - Number(min.value));
-            value = Number(el.value);
-            value2 = Number(el2.value);
-            betwLength = slWidth * Math.abs(value - value2) / widthScale;
-            el.min = min.value;
-            el2.min = min.value;
-            el.max = max.value;
-            el2.max = max.value;
-            el.step = this.step.value;
-            el2.step = this.step2.value;
+        var val1;
+        var val2;
+        var max;
+        var min;
+        if (w !== null) {
+            value1 = w.find('.value1');
+            value2 = w.find('.value2');
+            val1 = Number(w.find('.slider1').val());
+            val2 = Number(w.find('.slider2').val());
+            min = w.find('.min');
+            max = w.find('.max');
         }
-        if (val1 !== null)
-            val1.addEventListener('input', function () {
-                if (val1 !== null)
-                    value = Number(val1.value);
-            });
-        if (val2 !== null)
-            val2.addEventListener('input', function () {
-                if (val2 !== null)
-                    value = Number(val2.value);
-            });
-        var left = (value - Number(min.value)) * slWidth / widthScale;
-        var right = (value2 - Number(min.value)) * slWidth / widthScale;
-        if (value2 > value) {
+        var widthScale = Math.abs(Number(max.val()) - Number(min.val()));
+        var betwLength = 266 * Math.abs(val1 - val2) / widthScale;
+        var left = (val1 - Number(min.val())) * 266 / widthScale;
+        var leftNoChanged = left;
+        var right = (val2 - Number(min.val())) * 266 / widthScale;
+        if (val2 > val1) {
             left = left;
         }
         else {
             left = right;
         }
-        return { el: el, el2: el2, slWidth: slWidth, widthScale: widthScale, betwLength: betwLength, value: value, value2: value2, left: left, right: right, min: min, max: max, num1: num1, num2: num2, val1: val1, val2: val2 };
+        return { left: left, right: right, leftNoChanged: leftNoChanged, value1: value1, value2: value2, num1: num1, num2: num2, slider1: slider1, slider2: slider2, betwLength: betwLength, between: between, min: min, max: max, begin: begin, end: end, val1: val1, val2: val2, flag1: flag1, flag2: flag2, inpNum1: inpNum1, inpNum2: inpNum2, range: range, rotateSlider: rotateSlider };
     };
     return Model;
 }());
 var Controller = /** @class */ (function () {
     function Controller(view, model) {
         var _this = this;
+        this.init = function () {
+            var functions = [_this.controllerScale, _this.controllerNum, _this.addEvent, _this.controllerBetween, _this.controllerSetValue,
+                _this.controllerSetScale, _this.controllerHideBall, _this.controllerHideNum, _this.controllerRotate];
+            functions.forEach(function (el) { return el(); });
+        };
         this.calls = function () {
             _this.controllerBetween();
             _this.controllerNum();
         };
         this.f = function () {
-            _this.controllerBetween();
-            _this.controllerNum();
-            _this.controllerValue();
-            _this.controllerScale();
+            var functions = [_this.controllerBetween, _this.controllerNum, _this.controllerValue, _this.controllerScale];
+            functions.forEach(function (el) { return el(); });
         };
-        this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
         this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
+        this.controllerCreate = function () { return _this.model.modelCreate(_this.view.viewCreate); };
         this.controllerScale = function () { return _this.model.modelScale(_this.view.viewScale); };
         this.controllerNum = function () { return _this.model.modelNum(_this.view.viewNum); };
         this.controllerValue = function () { return _this.model.modelValue(_this.view.viewValue); };
-        this.controllerSetValue = function () { return _this.model.modelSetValue(_this.view.viewValue, _this.calls); };
-        this.controllerSetScale = function () { return _this.model.modelSetScale(_this.f); };
         this.controllerHideBall = function () { return _this.model.modelHideBall(_this.view.viewHideBall); };
         this.controllerHideNum = function () { return _this.model.modelHideNum(_this.view.viewHideNum); };
         this.controllerRotate = function () { return _this.model.modelRotate(_this.view.viewRotate); };
+        this.controllerSetValue = function () { return _this.model.modelSetValue(_this.view.viewValue, _this.calls); };
+        this.controllerSetScale = function () { return _this.model.modelSetScale(_this.f); };
+        this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
         this.view = view;
         this.model = model;
-        this.addEvent();
-        this.calls();
-        this.controllerScale();
-        this.controllerSetValue();
-        this.controllerSetScale();
-        this.controllerHideBall();
-        this.controllerHideNum();
-        this.controllerRotate();
+        this.init();
     }
     return Controller;
 }());
+(function ($) {
+    $.fn.slider = function (options) {
+        var settings = $.extend({
+            value1: 5000,
+            value2: 15000,
+            min: 0,
+            max: 25000,
+            step1: 8,
+            step2: 8
+        }, options);
+        this.each(function (index, value) {
+            var view = new View(value, settings);
+            var model = new Model(value);
+            new Controller(view, model);
+        });
+    };
+    $('.wrapper').slider();
+}(jQuery));
 var module;
 if (module !== undefined)
     module.exports = {
         View: View,
         Model: Model,
-        Controller: Controller,
-        createElement: createElement
+        Controller: Controller
     };
