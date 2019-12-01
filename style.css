@@ -75,7 +75,7 @@ body {
     position: relative;
     padding-bottom: 15px;
 }
-.min, .max, .value1, .value2, .flag1, .flag2, .inpNum1, .inpNum2, .rotateSlider, .step, .step2 {
+.min, .max, .value1, .value2, .flag1, .flag2, .inpNum1, .inpNum2, .rotateSlider, .step1, .step2 {
     width: 70px;
     left: 150px;
     position: absolute;

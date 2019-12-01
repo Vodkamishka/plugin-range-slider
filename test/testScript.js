@@ -25,7 +25,7 @@ let settings = {
     step2: 600
 }
 
-let pan = `<div class="panel" ><p class="p" >Панель конфигурации:</p><label class="label" >Мин. диапазона<input class="min" type="text" value="0"></label><label class="label" >Макс. диапазона<input class="max" type="text" value="25000"></label><label class="labelVal1" >Значение 1<input class="value1" type="text" value="5000"></label><label class="labelVal2" >Значение 2<input class="value2" type="text" value="15000"></label><label class="labelFlag1" >Откл. бегунок 1<input class="flag1" type="checkbox" value=""></label><label class="labelFlag2" >Откл. бегунок 2<input class="flag2" type="checkbox" value=""></label><label class="labelNum1" >Откл. значение 1<input class="inpNum1" type="checkbox" value=""></label><label class="labelNum2" >Откл. значение 2<input class="inpNum2" type="checkbox" value=""></label><label class="labelRotate" >Вкл. вертикальный вид<input class="rotateSlider" type="checkbox" value=""></label><label class="label" >Размер шага 1<input class="step" type="text" value=""></label><label class="label" >Размер шага 2<input class="step2" type="text" value=""></label></div>`
+let pan = `<div class="panel" ><p class="p" >Панель конфигурации:</p><label class="label" >Мин. диапазона<input class="min" type="text" value="0"></label><label class="label" >Макс. диапазона<input class="max" type="text" value="25000"></label><label class="labelVal1" >Значение 1<input class="value1" type="text" value="5000"></label><label class="labelVal2" >Значение 2<input class="value2" type="text" value="15000"></label><label class="labelFlag1" >Откл. бегунок 1<input class="flag1" type="checkbox" value=""></label><label class="labelFlag2" >Откл. бегунок 2<input class="flag2" type="checkbox" value=""></label><label class="labelNum1" >Откл. значение 1<input class="inpNum1" type="checkbox" value=""></label><label class="labelNum2" >Откл. значение 2<input class="inpNum2" type="checkbox" value=""></label><label class="labelRotate" >Вкл. вертикальный вид<input class="rotateSlider" type="checkbox" value=""></label><label class="label" >Размер шага 1<input class="step1" type="text" value=""></label><label class="label" >Размер шага 2<input class="step2" type="text" value=""></label></div>`
 let ran = `<div class="range" ><input class="slider1" type="range" value="5000" step="8" min="0" max="25000"><input class="slider2" type="range" value="15000" step="8" min="0" max="25000"><div class="between" ></div><div class="begin" ></div><div class="end" ></div><div class="num1" ></div><div class="num2" ></div></div>` 
 let wrapper = `<div class = "wrapper">${pan}${ran}</div>`
 $('body').append(wrapper).html()
@@ -34,7 +34,7 @@ let view = new View (wrapper, settings)
 let model = new Model (wrapper)
 let controller = new Controller (view, model)
 
-const {left, right, leftNoChanged, value1, value2, num1, num2, slider1, slider2, betwLength, 
+const {left, right, leftNoChanged, value1, value2, num1, num2, slider1, slider2, betwLength, step1, step2,
 between, min, max, begin, end, val1, val2, flag1, flag2, inpNum1, inpNum2, range, rotateSlider} = model.helper()  
 
 describe('View', function () {
@@ -43,10 +43,15 @@ describe('View', function () {
         view.create()
         range.should.be.an('HTMLDivElement')
     })
-    it ('test function viewBetween', function () {
+    it ('test function viewBetween that rules interval between balls', function () {
         view.viewBetween(10, 85, between)
         assert.equal(between.style._values['margin-left'], '10px')
         assert.equal(between.style._values['width'], '85px')
+    })
+    it ('test function viewStep that set step of slider', function () {
+        view.viewStep(slider1, slider2, step1, step2) 
+        assert.equal(slider1.step, '200')
+        assert.equal(slider2.step, '600')
     })
     it ('test function viewScale that show begin and end of scale', function () {
         view.viewScale("0", "25000", begin, end, slider1, slider2)
@@ -90,41 +95,15 @@ describe('View', function () {
 
 describe('Model', function () {
 
-    it ('test function helper that use for helping in work with DOM', function () {
-        assert.equal(left, 53.2)
-        assert.equal(right, 159.6)
-        assert.equal(leftNoChanged, 53.2)
-        value1.get(0).should.be.an('HTMLInputElement')
-        assert.equal(value1.val(), '5000')
-        value2.get(0).should.be.an('HTMLInputElement')
-        assert.equal(value2.val(), '15000')
-        num1.should.be.an('HTMLDivElement')
-        num2.should.be.an('HTMLDivElement')
-        slider1.should.be.an('HTMLInputElement')
-        slider1.should.have.class('slider1')
-        slider2.should.be.an('HTMLInputElement')
-        slider2.should.have.class('slider2')
-        assert.equal(betwLength, 106.4)
-        between.should.be.an('HTMLDivElement')
-        min.get(0).should.be.an('HTMLInputElement')
-        assert.equal(min.val(), '0')
-        max.get(0).should.be.an('HTMLInputElement')
-        assert.equal(max.val(), '25000')
-        begin.should.be.an('HTMLDivElement')
-        end.should.be.an('HTMLDivElement')
-        assert.equal(val1, 5000)
-        assert.equal(val2, 15000)
-        flag1.should.be.an('HTMLInputElement')
-        flag2.should.be.an('HTMLInputElement')
-        inpNum1.should.be.an('HTMLInputElement')
-        inpNum2.should.be.an('HTMLInputElement')
-        range.should.be.an('HTMLDivElement')
-        rotateSlider.should.be.an('HTMLInputElement')
-    })
     it ('test function modelBetween that starts function viewBetween', function () {
         model.modelBetween(view.viewBetween)
         assert.equal(between.style._values['margin-left'], '10px')
         assert.equal(between.style._values['width'], '85px')
+    })
+    it ('test function modelStep that starts function viewStep', function () {
+        model.modelStep(view.viewStep)
+        assert.equal(slider1.step, '200')
+        assert.equal(slider2.step, '600')
     })
     it ("test function modelScale that starts function viewScale", function () {
         model.modelScale(view.viewScale)
@@ -196,6 +175,39 @@ describe('Model', function () {
         num1.should.have.class('rotateReverse')
         num2.should.have.class('rotateReverse')
     })
+    it ('test function helper that use for helping in work with DOM', function () {
+        assert.equal(left, 53.2)
+        assert.equal(right, 159.6)
+        assert.equal(leftNoChanged, 53.2)
+        value1.get(0).should.be.an('HTMLInputElement')
+        assert.equal(value1.val(), '5000')
+        value2.get(0).should.be.an('HTMLInputElement')
+        assert.equal(value2.val(), '15000')
+        num1.should.be.an('HTMLDivElement')
+        num2.should.be.an('HTMLDivElement')
+        slider1.should.be.an('HTMLInputElement')
+        slider1.should.have.class('slider1')
+        slider2.should.be.an('HTMLInputElement')
+        slider2.should.have.class('slider2')
+        assert.equal(betwLength, 106.4)
+        between.should.be.an('HTMLDivElement')
+        min.get(0).should.be.an('HTMLInputElement')
+        assert.equal(min.val(), '0')
+        max.get(0).should.be.an('HTMLInputElement')
+        assert.equal(max.val(), '25000')
+        begin.should.be.an('HTMLDivElement')
+        end.should.be.an('HTMLDivElement')
+        assert.equal(val1, 5000)
+        assert.equal(val2, 15000)
+        flag1.should.be.an('HTMLInputElement')
+        flag2.should.be.an('HTMLInputElement')
+        inpNum1.should.be.an('HTMLInputElement')
+        inpNum2.should.be.an('HTMLInputElement')
+        range.should.be.an('HTMLDivElement')
+        rotateSlider.should.be.an('HTMLInputElement')
+        step1.should.be.an('HTMLInputElement')
+        step2.should.be.an('HTMLInputElement')
+    })
 })
 
 describe("Controller", function () {
@@ -204,6 +216,11 @@ describe("Controller", function () {
         controller.controllerBetween()
         assert.equal(between.style._values['margin-left'], '10px')
         assert.equal(between.style._values['width'], '85px')
+    })
+    it ('test function controllerStep that starts function modelStep', function () {
+        controller.controllerStep()
+        assert.equal(slider1.step, '200')
+        assert.equal(slider2.step, '600')
     })
     it('test function controllerScale that starts function modelScale', function () {
         controller.controllerScale()

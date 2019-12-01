@@ -8,13 +8,17 @@ class View {
     }
     create = () => {
         const {value1, value2, min, max, step1, step2} = this.settings
-        let panel = `<div class="panel" ><p class="p" >Панель конфигурации:</p><label class="label" >Мин. диапазона<input class="min" type="text" value=${min}></label><label class="label" >Макс. диапазона<input class="max" type="text" value=${max}></label><label class="labelVal1" >Значение 1<input class="value1" type="text" value=${value1}></label><label class="labelVal2" >Значение 2<input class="value2" type="text" value=${value2}></label><label class="labelFlag1" >Откл. бегунок 1<input class="flag1" type="checkbox" value=""></label><label class="labelFlag2" >Откл. бегунок 2<input class="flag2" type="checkbox" value=""></label><label class="labelNum1" >Откл. значение 1<input class="inpNum1" type="checkbox" value=""></label><label class="labelNum2" >Откл. значение 2<input class="inpNum2" type="checkbox" value=""></label><label class="labelRotate" >Вкл. вертикальный вид<input class="rotateSlider" type="checkbox" value=""></label><label class="label" >Размер шага 1<input class="step" type="text" value=""></label><label class="label" >Размер шага 2<input class="step2" type="text" value=""></label></div>`
+        let panel = `<div class="panel" ><p class="p" >Панель конфигурации:</p><label class="label" >Мин. диапазона<input class="min" type="text" value=${min}></label><label class="label" >Макс. диапазона<input class="max" type="text" value=${max}></label><label class="labelVal1" >Значение 1<input class="value1" type="text" value=${value1}></label><label class="labelVal2" >Значение 2<input class="value2" type="text" value=${value2}></label><label class="labelFlag1" >Откл. бегунок 1<input class="flag1" type="checkbox" value=""></label><label class="labelFlag2" >Откл. бегунок 2<input class="flag2" type="checkbox" value=""></label><label class="labelNum1" >Откл. значение 1<input class="inpNum1" type="checkbox" value=""></label><label class="labelNum2" >Откл. значение 2<input class="inpNum2" type="checkbox" value=""></label><label class="labelRotate" >Вкл. вертикальный вид<input class="rotateSlider" type="checkbox" value=""></label><label class="label" >Размер шага 1<input class="step1" type="text" value=""></label><label class="label" >Размер шага 2<input class="step2" type="text" value=""></label></div>`
         let range = `<div class="range" ><input class="slider1" type="range" value=${value1} step=${step1} min=${min} max=${max}><input class="slider2" type="range" value=${value2} step=${step2} min=${min} max=${max}><div class="between" ></div><div class="begin" ></div><div class="end" ></div><div class="num1" ></div><div class="num2" ></div></div>` 
         if (this.wrapper !== null) $(this.wrapper).html(panel + range)}
     viewBetween = (left: number,  betwWidth: number, el: HTMLElement) => {
         el.style.marginLeft = left + 'px'
         el.style.width = betwWidth + 'px'
-    } 
+    }
+    viewStep = (slider1: HTMLInputElement, slider2: HTMLInputElement, step1: HTMLInputElement, step2: HTMLInputElement) => {
+        slider1.step = step1.value || this.settings.step1
+        slider2.step = step2.value || this.settings.step2
+    }  
     viewScale = (minVal: string, maxVal: string, el: HTMLElement, el2: HTMLElement, slider1: HTMLInputElement, slider2: HTMLInputElement) => {
         $(el).html(minVal)
         slider1.min = minVal
@@ -54,6 +58,10 @@ class Model {
     modelBetween = (viewBetween: any) => {
         const {left, betwLength, between} = this.helper()
         viewBetween(left, betwLength, between)
+    }
+    modelStep = (viewStep: any) => {
+        const {slider1, slider2, step1, step2} = this.helper()
+        viewStep (slider1, slider2, step1, step2)
     }
     modelScale = (viewScale: any) => {
         let {slider1, slider2, min, max, begin, end} = this.helper()
@@ -102,11 +110,11 @@ class Model {
         let w!: JQuery<HTMLElement> | null
         if (this.wrapper !== null ) w = $(this.wrapper)
         let elementsDom: any = {}
-        let arrayDom = ['range', 'rotateSlider', 'slider1', 'slider2', 'begin', 'end', 'between', 'num1', 'num2', 'flag1', 'flag2', 'inpNum1', 'inpNum2']
+        let arrayDom = ['range', 'rotateSlider', 'slider1', 'slider2', 'begin', 'end', 'between', 'num1', 'num2', 'flag1', 'flag2', 'inpNum1', 'inpNum2', 'step1', 'step2']
         arrayDom.forEach(el => {
             if (w !== null) elementsDom[el] = w.find(`.${el}`).get(0)
         })
-        const {range, rotateSlider, slider1, slider2, begin, end, between, num1, num2, flag1, flag2, inpNum1, inpNum2} = elementsDom
+        const {range, rotateSlider, slider1, slider2, begin, end, between, num1, num2, flag1, flag2, inpNum1, inpNum2,step1, step2} = elementsDom
         let value1!: JQuery<HTMLElement>; let value2!: JQuery<HTMLElement>; let val1!: number; let val2!: number; let max!: JQuery<HTMLElement>; let min!: JQuery<HTMLElement>;
         if (w !== null ) {
             value1 = w.find('.value1')
@@ -123,7 +131,7 @@ class Model {
         let right: number = (val2 - Number(min.val())) * 266/widthScale 
         if (val2 > val1) {left = left}
         else {left = right}
-        return {left, right, leftNoChanged, value1, value2, num1, num2, slider1, slider2, betwLength, between, min, max, begin, end, val1, val2, flag1, flag2, inpNum1, inpNum2, range, rotateSlider}
+        return {left, right, leftNoChanged, value1, value2, num1, num2, slider1, slider2, betwLength, between, min, max, begin, end, val1, val2, flag1, flag2, inpNum1, inpNum2, range, rotateSlider, step1, step2}
     }  
 }
 class Controller {
@@ -144,10 +152,11 @@ class Controller {
         this.controllerNum()
     }
     f = () => {
-        let functions = [this.controllerBetween, this.controllerNum, this.controllerValue, this.controllerScale]
+        let functions = [this.controllerBetween, this.controllerNum, this.controllerValue, this.controllerScale, this.controllerStep]
         functions.forEach(el => el())  
     }
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
+    controllerStep = () => this.model.modelStep (this.view.viewStep)
     controllerCreate = () => this.model.modelCreate (this.view.viewCreate)
     controllerScale = () => this.model.modelScale (this.view.viewScale)
     controllerNum = () => this.model.modelNum (this.view.viewNum)
@@ -176,7 +185,6 @@ class Controller {
            const model = new Model(value)
            new Controller(view, model)
        })
-
     }
    
    $('.wrapper').slider()
