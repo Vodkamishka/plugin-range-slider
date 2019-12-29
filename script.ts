@@ -8,8 +8,8 @@ class View {
     }
     create = () => {
         const {value1, value2, min, max, step1, step2} = this.settings
-        let panel = `<div class="panel" ><p class="p" >Панель конфигурации:</p><label class="label" >Мин. диапазона<input class="min" type="text" value=${min}></label><label class="label" >Макс. диапазона<input class="max" type="text" value=${max}></label><label class="labelVal1" >Значение 1<input class="value1" type="text" value=${value1}></label><label class="labelVal2" >Значение 2<input class="value2" type="text" value=${value2}></label><label class="labelFlag1" >Откл. бегунок 1<input class="flag1" type="checkbox" value=""></label><label class="labelFlag2" >Откл. бегунок 2<input class="flag2" type="checkbox" value=""></label><label class="labelNum1" >Откл. значение 1<input class="inpNum1" type="checkbox" value=""></label><label class="labelNum2" >Откл. значение 2<input class="inpNum2" type="checkbox" value=""></label><label class="labelRotate" >Вкл. вертикальный вид<input class="rotateSlider" type="checkbox" value=""></label><label class="label" >Размер шага 1<input class="step1" type="text" value=""></label><label class="label" >Размер шага 2<input class="step2" type="text" value=""></label></div>`
-        let range = `<div class="range" ><input class="slider1" type="range" value=${value1} step=${step1} min=${min} max=${max}><input class="slider2" type="range" value=${value2} step=${step2} min=${min} max=${max}><div class="between" ></div><div class="begin" ></div><div class="end" ></div><div class="num1" ></div><div class="num2" ></div></div>` 
+        let panel = `<div class="slider__panel" ><p>Панель конфигурации:</p><label>Мин. диапазона<input class="slider__min" type="text" value=${min}></label><label>Макс. диапазона<input class="slider__max" type="text" value=${max}></label><label>Значение 1<input class="slider__value1" type="text" value=${value1}></label><label>Значение 2<input class="slider__value2" type="text" value=${value2}></label><label>Откл. бугунок 1<input class="slider__runner_first" type="checkbox" value=""></label><label>Откл. бегунок 2<input class="slider__runner_second" type="checkbox" value=""></label><label>Откл. значение 1<input class="slider__inputNum_first" type="checkbox" value=""></label><label>Откл. значение 2<input class="slider__inputNum_second" type="checkbox" value=""></label><label>Вкл. вертикальный вид<input class="slider__rotate" type="checkbox" value=""></label><label>Размер шага 1<input class="slider__step_first" type="text" value=""></label><label>Размер шага 2<input class="slider__step_second" type="text" value=""></label></div>`
+        let range = `<div class="slider__range" ><input class="slider_first" type="range" value=${value1} step=${step1} min=${min} max=${max}><input class="slider_second" type="range" value=${value2} step=${step2} min=${min} max=${max}><div class="slider__between" ></div><div class="slider__begin" ></div><div class="slider__end" ></div><div class="slider__num_first" ></div><div class="slider__num_second" ></div></div>` 
         if (this.wrapper !== null) $(this.wrapper).html(panel + range)}
     viewBetween = (left: number,  betwWidth: number, el: HTMLElement) => {
         el.style.marginLeft = left + 'px'
@@ -33,16 +33,16 @@ class View {
     }
     viewValue = (el: HTMLInputElement , num: number) => el.value = num.toString()
     viewHideBall = (slider: HTMLInputElement, num: HTMLElement, val: HTMLInputElement, between: HTMLElement) => {
-        slider.classList.toggle('hide')
+        slider.classList.toggle('slider_hide')
         if (slider.parentNode !== null && slider.parentNode.querySelectorAll('.hide').length < 2 && between !== null) between.classList.toggle('hide')
-        num.classList.toggle('white')
-        val.classList.toggle('white')
+        num.classList.toggle('slider_white')
+        val.classList.toggle('slider_white')
     }
-    viewHideNum = (el: HTMLElement) => el.classList.toggle('white')
+    viewHideNum = (el: HTMLElement) => el.classList.toggle('slider_white')
     viewRotate = (el: HTMLElement, el2: HTMLElement, el3: HTMLElement) => {
-        el.classList.toggle('rotate')
-        el2.classList.toggle('rotateReverse')
-        el3.classList.toggle('rotateReverse')
+        el.classList.toggle('slider_vertical')
+        el2.classList.toggle('slider__rotateReverse')
+        el3.classList.toggle('slider__rotateReverse')
     }
 }
 class Model {
@@ -110,19 +110,20 @@ class Model {
         let w!: JQuery<HTMLElement> | null
         if (this.wrapper !== null ) w = $(this.wrapper)
         let elementsDom: any = {}
-        let arrayDom = ['range', 'rotateSlider', 'slider1', 'slider2', 'begin', 'end', 'between', 'num1', 'num2', 'flag1', 'flag2', 'inpNum1', 'inpNum2', 'step1', 'step2']
+        let arrayDom = ['slider__range', 'slider__rotate', 'slider_first', 'slider_second', 'slider__begin', 'slider__end', 'slider__between', 'slider__num_first', 
+        'slider__num_second', 'slider__runner_first', 'slider__runner_second', 'slider__inputNum_first', 'slider__inputNum_second', 'slider__step_first', 'slider__step_second']
         arrayDom.forEach(el => {
             if (w !== null) elementsDom[el] = w.find(`.${el}`).get(0)
         })
-        const {range, rotateSlider, slider1, slider2, begin, end, between, num1, num2, flag1, flag2, inpNum1, inpNum2,step1, step2} = elementsDom
+        const {slider__range, slider__rotate, slider_first, slider_second, slider__begin, slider__end, slider__between, slider__num_first, slider__num_second, slider__runner_first, slider__runner_second, slider__inputNum_first, slider__inputNum_second, slider__step_first, slider__step_second} = elementsDom
         let value1!: JQuery<HTMLElement>; let value2!: JQuery<HTMLElement>; let val1!: number; let val2!: number; let max!: JQuery<HTMLElement>; let min!: JQuery<HTMLElement>;
         if (w !== null ) {
-            value1 = w.find('.value1')
-            value2 = w.find('.value2')
-            val1 = Number(w.find('.slider1').val())
-            val2 = Number(w.find('.slider2').val())
-            min = w.find('.min')
-            max = w.find('.max')
+            value1 = w.find('.slider__value1')
+            value2 = w.find('.slider__value2')
+            val1 = Number(w.find('.slider_first').val())
+            val2 = Number(w.find('.slider_second').val())
+            min = w.find('.slider__min')
+            max = w.find('.slider__max')
         }
         let widthScale = Math.abs(Number(max.val()) - Number(min.val()))
         let betwLength =  266 * Math.abs(val1 - val2)/widthScale 
@@ -131,7 +132,8 @@ class Model {
         let right: number = (val2 - Number(min.val())) * 266/widthScale 
         if (val2 > val1) {left = left}
         else {left = right}
-        return {left, right, leftNoChanged, value1, value2, num1, num2, slider1, slider2, betwLength, between, min, max, begin, end, val1, val2, flag1, flag2, inpNum1, inpNum2, range, rotateSlider, step1, step2}
+        return {left, right, leftNoChanged, value1, value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength, between: slider__between, min, max, 
+            begin: slider__begin, end: slider__end, val1, val2, flag1: slider__runner_first, flag2: slider__runner_second, inpNum1: slider__inputNum_first, inpNum2: slider__inputNum_second, range: slider__range, rotateSlider: slider__rotate, step1: slider__step_first, step2: slider__step_second}
     }  
 }
 class Controller {
@@ -187,7 +189,7 @@ class Controller {
        })
     }
    
-   $('.wrapper').slider()
+   $('.slider').slider()
 
 }(jQuery))
 

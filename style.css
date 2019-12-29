@@ -10,19 +10,19 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
 }
-.wrapper {
+.slider {
     display: flex;
     align-items: center;
     font-size: 10px;
 }
-.range {
+.slider__range {
     position: relative;
     width: 266px;
     height: 40px;
     display: flex;
     align-items: center;
 }
-.slider1, .slider2 {
+.slider_first, .slider_second {
     position: absolute;
     width: 266px;
     -webkit-appearance: none;
@@ -32,7 +32,7 @@ body {
     outline: none;
     margin: 0;
 }
-.slider1::-webkit-slider-thumb, .slider2::-webkit-slider-thumb {
+.slider_first::-webkit-slider-thumb, .slider_second::-webkit-slider-thumb {
     position: relative;
     -webkit-appearance: none;
     appearance: none;
@@ -43,30 +43,30 @@ body {
     border: 2px solid white;
     z-index: 100;
 }
-.num1, .num2 {
+.slider__num_first, .slider__num_second {
     font-size: 10px;
     top: -40px;
     position: absolute;
 }
-.between {
+.slider__between {
     position: absolute;
     margin-left: 83px;
     width: 85px;
     background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
     height: 6px;
 }
-.begin, .end {
+.slider__begin, .slider__end {
     position: absolute;
     font-size: 8px;
     bottom: 0;
 }
-.end {
+.slider__end {
     right: 0;
 }
-.hide {
+.slider_hide {
     opacity: 0;
 }
-.panel {
+.slider__panel {
     width: 250px;
     margin-right: 50px;
     padding-left: 15px;
@@ -75,23 +75,23 @@ body {
     position: relative;
     padding-bottom: 15px;
 }
-.min, .max, .value1, .value2, .flag1, .flag2, .inpNum1, .inpNum2, .rotateSlider, .step1, .step2 {
+.slider__min, .slider__max, .slider__value1, .slider__value2, .slider__runner_first, .slider__runner_second, .slider__inputNum_first, .slider__inputNum_second, .slider__rotate, .slider__step_first, .slider__step_second {
     width: 70px;
     left: 150px;
     position: absolute;
     height: 12px;
     font-size: 8px;
 }
-.flag1, .flag2, .inpNum1, .inpNum2, .rotateSlider {
+.slider__runner_first, .slider__runner_second, .slider__inputNum_first, .slider__inputNum_second, .slider__rotate {
     height: 8px;
 }
-.white {
+.slider_white {
     color: white;
 }
-.rotate {
+.slider_vertical {
     transform: rotate(90deg);
     margin-bottom: 70px;
 }
-.rotateReverse {
+.slider__rotateReverse {
     transform: rotate(-90deg)
 }

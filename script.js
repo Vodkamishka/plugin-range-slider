@@ -3,8 +3,8 @@ var View = /** @class */ (function () {
         var _this = this;
         this.create = function () {
             var _a = _this.settings, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step1 = _a.step1, step2 = _a.step2;
-            var panel = "<div class=\"panel\" ><p class=\"p\" >\u041F\u0430\u043D\u0435\u043B\u044C \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438:</p><label class=\"label\" >\u041C\u0438\u043D. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"min\" type=\"text\" value=" + min + "></label><label class=\"label\" >\u041C\u0430\u043A\u0441. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"max\" type=\"text\" value=" + max + "></label><label class=\"labelVal1\" >\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"value1\" type=\"text\" value=" + value1 + "></label><label class=\"labelVal2\" >\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"value2\" type=\"text\" value=" + value2 + "></label><label class=\"labelFlag1\" >\u041E\u0442\u043A\u043B. \u0431\u0435\u0433\u0443\u043D\u043E\u043A 1<input class=\"flag1\" type=\"checkbox\" value=\"\"></label><label class=\"labelFlag2\" >\u041E\u0442\u043A\u043B. \u0431\u0435\u0433\u0443\u043D\u043E\u043A 2<input class=\"flag2\" type=\"checkbox\" value=\"\"></label><label class=\"labelNum1\" >\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"inpNum1\" type=\"checkbox\" value=\"\"></label><label class=\"labelNum2\" >\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"inpNum2\" type=\"checkbox\" value=\"\"></label><label class=\"labelRotate\" >\u0412\u043A\u043B. \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u0438\u0434<input class=\"rotateSlider\" type=\"checkbox\" value=\"\"></label><label class=\"label\" >\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 1<input class=\"step1\" type=\"text\" value=\"\"></label><label class=\"label\" >\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 2<input class=\"step2\" type=\"text\" value=\"\"></label></div>";
-            var range = "<div class=\"range\" ><input class=\"slider1\" type=\"range\" value=" + value1 + " step=" + step1 + " min=" + min + " max=" + max + "><input class=\"slider2\" type=\"range\" value=" + value2 + " step=" + step2 + " min=" + min + " max=" + max + "><div class=\"between\" ></div><div class=\"begin\" ></div><div class=\"end\" ></div><div class=\"num1\" ></div><div class=\"num2\" ></div></div>";
+            var panel = "<div class=\"slider__panel\" ><p>\u041F\u0430\u043D\u0435\u043B\u044C \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438:</p><label>\u041C\u0438\u043D. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"slider__min\" type=\"text\" value=" + min + "></label><label>\u041C\u0430\u043A\u0441. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"slider__max\" type=\"text\" value=" + max + "></label><label>\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"slider__value1\" type=\"text\" value=" + value1 + "></label><label>\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"slider__value2\" type=\"text\" value=" + value2 + "></label><label>\u041E\u0442\u043A\u043B. \u0431\u0443\u0433\u0443\u043D\u043E\u043A 1<input class=\"slider__runner_first\" type=\"checkbox\" value=\"\"></label><label>\u041E\u0442\u043A\u043B. \u0431\u0435\u0433\u0443\u043D\u043E\u043A 2<input class=\"slider__runner_second\" type=\"checkbox\" value=\"\"></label><label>\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"slider__inputNum_first\" type=\"checkbox\" value=\"\"></label><label>\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"slider__inputNum_second\" type=\"checkbox\" value=\"\"></label><label>\u0412\u043A\u043B. \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u0438\u0434<input class=\"slider__rotate\" type=\"checkbox\" value=\"\"></label><label>\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 1<input class=\"slider__step_first\" type=\"text\" value=\"\"></label><label>\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 2<input class=\"slider__step_second\" type=\"text\" value=\"\"></label></div>";
+            var range = "<div class=\"slider__range\" ><input class=\"slider_first\" type=\"range\" value=" + value1 + " step=" + step1 + " min=" + min + " max=" + max + "><input class=\"slider_second\" type=\"range\" value=" + value2 + " step=" + step2 + " min=" + min + " max=" + max + "><div class=\"slider__between\" ></div><div class=\"slider__begin\" ></div><div class=\"slider__end\" ></div><div class=\"slider__num_first\" ></div><div class=\"slider__num_second\" ></div></div>";
             if (_this.wrapper !== null)
                 $(_this.wrapper).html(panel + range);
         };
@@ -30,17 +30,17 @@ var View = /** @class */ (function () {
         };
         this.viewValue = function (el, num) { return el.value = num.toString(); };
         this.viewHideBall = function (slider, num, val, between) {
-            slider.classList.toggle('hide');
+            slider.classList.toggle('slider_hide');
             if (slider.parentNode !== null && slider.parentNode.querySelectorAll('.hide').length < 2 && between !== null)
                 between.classList.toggle('hide');
-            num.classList.toggle('white');
-            val.classList.toggle('white');
+            num.classList.toggle('slider_white');
+            val.classList.toggle('slider_white');
         };
-        this.viewHideNum = function (el) { return el.classList.toggle('white'); };
+        this.viewHideNum = function (el) { return el.classList.toggle('slider_white'); };
         this.viewRotate = function (el, el2, el3) {
-            el.classList.toggle('rotate');
-            el2.classList.toggle('rotateReverse');
-            el3.classList.toggle('rotateReverse');
+            el.classList.toggle('slider_vertical');
+            el2.classList.toggle('slider__rotateReverse');
+            el3.classList.toggle('slider__rotateReverse');
         };
         this.wrapper = value;
         this.settings = settings;
@@ -115,12 +115,13 @@ var Model = /** @class */ (function () {
         if (this.wrapper !== null)
             w = $(this.wrapper);
         var elementsDom = {};
-        var arrayDom = ['range', 'rotateSlider', 'slider1', 'slider2', 'begin', 'end', 'between', 'num1', 'num2', 'flag1', 'flag2', 'inpNum1', 'inpNum2', 'step1', 'step2'];
+        var arrayDom = ['slider__range', 'slider__rotate', 'slider_first', 'slider_second', 'slider__begin', 'slider__end', 'slider__between', 'slider__num_first',
+            'slider__num_second', 'slider__runner_first', 'slider__runner_second', 'slider__inputNum_first', 'slider__inputNum_second', 'slider__step_first', 'slider__step_second'];
         arrayDom.forEach(function (el) {
             if (w !== null)
                 elementsDom[el] = w.find("." + el).get(0);
         });
-        var range = elementsDom.range, rotateSlider = elementsDom.rotateSlider, slider1 = elementsDom.slider1, slider2 = elementsDom.slider2, begin = elementsDom.begin, end = elementsDom.end, between = elementsDom.between, num1 = elementsDom.num1, num2 = elementsDom.num2, flag1 = elementsDom.flag1, flag2 = elementsDom.flag2, inpNum1 = elementsDom.inpNum1, inpNum2 = elementsDom.inpNum2, step1 = elementsDom.step1, step2 = elementsDom.step2;
+        var slider__range = elementsDom.slider__range, slider__rotate = elementsDom.slider__rotate, slider_first = elementsDom.slider_first, slider_second = elementsDom.slider_second, slider__begin = elementsDom.slider__begin, slider__end = elementsDom.slider__end, slider__between = elementsDom.slider__between, slider__num_first = elementsDom.slider__num_first, slider__num_second = elementsDom.slider__num_second, slider__runner_first = elementsDom.slider__runner_first, slider__runner_second = elementsDom.slider__runner_second, slider__inputNum_first = elementsDom.slider__inputNum_first, slider__inputNum_second = elementsDom.slider__inputNum_second, slider__step_first = elementsDom.slider__step_first, slider__step_second = elementsDom.slider__step_second;
         var value1;
         var value2;
         var val1;
@@ -128,12 +129,12 @@ var Model = /** @class */ (function () {
         var max;
         var min;
         if (w !== null) {
-            value1 = w.find('.value1');
-            value2 = w.find('.value2');
-            val1 = Number(w.find('.slider1').val());
-            val2 = Number(w.find('.slider2').val());
-            min = w.find('.min');
-            max = w.find('.max');
+            value1 = w.find('.slider__value1');
+            value2 = w.find('.slider__value2');
+            val1 = Number(w.find('.slider_first').val());
+            val2 = Number(w.find('.slider_second').val());
+            min = w.find('.slider__min');
+            max = w.find('.slider__max');
         }
         var widthScale = Math.abs(Number(max.val()) - Number(min.val()));
         var betwLength = 266 * Math.abs(val1 - val2) / widthScale;
@@ -146,7 +147,8 @@ var Model = /** @class */ (function () {
         else {
             left = right;
         }
-        return { left: left, right: right, leftNoChanged: leftNoChanged, value1: value1, value2: value2, num1: num1, num2: num2, slider1: slider1, slider2: slider2, betwLength: betwLength, between: between, min: min, max: max, begin: begin, end: end, val1: val1, val2: val2, flag1: flag1, flag2: flag2, inpNum1: inpNum1, inpNum2: inpNum2, range: range, rotateSlider: rotateSlider, step1: step1, step2: step2 };
+        return { left: left, right: right, leftNoChanged: leftNoChanged, value1: value1, value2: value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength: betwLength, between: slider__between, min: min, max: max,
+            begin: slider__begin, end: slider__end, val1: val1, val2: val2, flag1: slider__runner_first, flag2: slider__runner_second, inpNum1: slider__inputNum_first, inpNum2: slider__inputNum_second, range: slider__range, rotateSlider: slider__rotate, step1: slider__step_first, step2: slider__step_second };
     };
     return Model;
 }());
@@ -200,7 +202,7 @@ var Controller = /** @class */ (function () {
             new Controller(view, model);
         });
     };
-    $('.wrapper').slider();
+    $('.slider').slider();
 }(jQuery));
 var module;
 if (module !== undefined)
