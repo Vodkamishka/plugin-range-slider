@@ -7,17 +7,17 @@ class View {
         this.create()   
     }
     create = () => {
-        const {value1, value2, min, max, step1, step2} = this.settings
-        let panel = `<div class="slider__panel" ><p>Панель конфигурации:</p><label>Мин. диапазона<input class="slider__min" type="text" value=${min}></label><label>Макс. диапазона<input class="slider__max" type="text" value=${max}></label><label>Значение 1<input class="slider__value1" type="text" value=${value1}></label><label>Значение 2<input class="slider__value2" type="text" value=${value2}></label><label>Откл. бугунок 1<input class="slider__runner_first" type="checkbox" value=""></label><label>Откл. бегунок 2<input class="slider__runner_second" type="checkbox" value=""></label><label>Откл. значение 1<input class="slider__inputNum_first" type="checkbox" value=""></label><label>Откл. значение 2<input class="slider__inputNum_second" type="checkbox" value=""></label><label>Вкл. вертикальный вид<input class="slider__rotate" type="checkbox" value=""></label><label>Размер шага 1<input class="slider__step_first" type="text" value=""></label><label>Размер шага 2<input class="slider__step_second" type="text" value=""></label></div>`
-        let range = `<div class="slider__range" ><input class="slider_first" type="range" value=${value1} step=${step1} min=${min} max=${max}><input class="slider_second" type="range" value=${value2} step=${step2} min=${min} max=${max}><div class="slider__between" ></div><div class="slider__begin" ></div><div class="slider__end" ></div><div class="slider__num_first" ></div><div class="slider__num_second" ></div></div>` 
-        if (this.wrapper !== null) $(this.wrapper).html(panel + range)}
+        const {value1, value2, min, max, step} = this.settings
+        let panel = `<div class="slider__panel" ><label class="slider__label">min<input class="slider__min" type="number" value=${min}></label><label class="slider__label">max<input class="slider__max" type="number" value=${max}></label><label class="slider__label">value1<input class="slider__value1" type="number" value=${value1}></label><label class="slider__label">value2<input class="slider__value2" type="number" value=${value2}></label><label class="slider__label">disable values<input class="slider__valuesRunners" type="checkbox" value=""></label><label class="slider__label">change view<input class="slider__rotate" type="checkbox" value=""></label><label class="slider__label">step<input class="slider__step" type="number" value=''></label></div>`
+        let range = `<div class="slider__range" ><input class="slider_first" type="range" value=${value1} step=${step} min=${min} max=${max}><input class="slider_second" type="range" value=${value2} step=${step} min=${min} max=${max}><div class="slider__between" ></div><div class="slider__begin" ></div><div class="slider__end" ></div><div class="slider__num_first" ></div><div class="slider__num_second" ></div></div>` 
+        if (this.wrapper !== null) $(this.wrapper).html(range + panel)}
     viewBetween = (left: number,  betwWidth: number, el: HTMLElement) => {
         el.style.marginLeft = left + 'px'
         el.style.width = betwWidth + 'px'
     }
-    viewStep = (slider1: HTMLInputElement, slider2: HTMLInputElement, step1: HTMLInputElement, step2: HTMLInputElement) => {
-        slider1.step = step1.value || this.settings.step1
-        slider2.step = step2.value || this.settings.step2
+    viewStep = (slider1: HTMLInputElement, slider2: HTMLInputElement, step: HTMLInputElement) => {
+        slider1.step = step.value || this.settings.step
+        slider2.step = step.value || this.settings.step
     }  
     viewScale = (minVal: string, maxVal: string, el: HTMLElement, el2: HTMLElement, slider1: HTMLInputElement, slider2: HTMLInputElement) => {
         $(el).html(minVal)
@@ -32,17 +32,14 @@ class View {
         el.style.marginLeft = left.toString() + 'px'
     }
     viewValue = (el: HTMLInputElement , num: number) => el.value = num.toString()
-    viewHideBall = (slider: HTMLInputElement, num: HTMLElement, val: HTMLInputElement, between: HTMLElement) => {
-        slider.classList.toggle('slider_hide')
-        if (slider.parentNode !== null && slider.parentNode.querySelectorAll('.hide').length < 2 && between !== null) between.classList.toggle('hide')
-        num.classList.toggle('slider_white')
-        val.classList.toggle('slider_white')
-    }
     viewHideNum = (el: HTMLElement) => el.classList.toggle('slider_white')
-    viewRotate = (el: HTMLElement, el2: HTMLElement, el3: HTMLElement) => {
-        el.classList.toggle('slider_vertical')
-        el2.classList.toggle('slider__rotateReverse')
-        el3.classList.toggle('slider__rotateReverse')
+    viewRotate = (f: any) => {
+        const {range, num1, num2, slider1, slider2} = f()
+        range.classList.toggle('slider_vertical')
+        num1.classList.toggle('slider__rotateReverse')
+        num2.classList.toggle('slider__rotateReverse')
+        slider1.classList.toggle('slider_short')
+        slider2.classList.toggle('slider_short')
     }
 }
 class Model {
@@ -60,8 +57,8 @@ class Model {
         viewBetween(left, betwLength, between)
     }
     modelStep = (viewStep: any) => {
-        const {slider1, slider2, step1, step2} = this.helper()
-        viewStep (slider1, slider2, step1, step2)
+        const {slider1, slider2, step} = this.helper()
+        viewStep (slider1, slider2, step)
     }
     modelScale = (viewScale: any) => {
         let {slider1, slider2, min, max, begin, end} = this.helper()
@@ -92,31 +89,29 @@ class Model {
         this.helper().min.get(0).addEventListener("change", functions)
         this.helper().max.get(0).addEventListener("change", functions)
     }
-    modelHideBall (f: any) {
-        const {flag1, flag2, slider1, slider2, num1, num2, value1, value2, between} = this.helper()
-        flag1.addEventListener('change', () => f(slider1, num1, value1.get(0), between))
-        flag2.addEventListener('change', () => f(slider2, num2, value2.get(0), between))
-    }
     modelHideNum (f: any) {
-        const {inpNum1, inpNum2, num1, num2} = this.helper()
-        inpNum1.addEventListener('change', () => f(num1))
-        inpNum2.addEventListener('change', () => f(num2))
+        const {valuesRunners, num1, num2} = this.helper()
+        valuesRunners.addEventListener('change', () => f(num1))
+        valuesRunners.addEventListener('change', () => f(num2))
     }
-    modelRotate (f: any) {
-        const {range, rotateSlider, num1, num2} = this.helper()
-        if (range !== null && rotateSlider !== null) rotateSlider.addEventListener('change', () => f(range, num1, num2))
+    modelRotate (f: any, controllerBetween: any) {
+        const {range, rotateSlider} = this.helper()
+        if (range !== null && rotateSlider !== null) rotateSlider.addEventListener('change', () => {
+            f(this.helper)
+            controllerBetween()
+        })
     }
-    helper () {
+    helper = () => {
         let w!: JQuery<HTMLElement> | null
         if (this.wrapper !== null ) w = $(this.wrapper)
         let elementsDom: any = {}
         let arrayDom = ['slider__range', 'slider__rotate', 'slider_first', 'slider_second', 'slider__begin', 'slider__end', 'slider__between', 'slider__num_first', 
-        'slider__num_second', 'slider__runner_first', 'slider__runner_second', 'slider__inputNum_first', 'slider__inputNum_second', 'slider__step_first', 'slider__step_second']
+        'slider__num_second', 'slider__valuesRunners','slider__step']
         arrayDom.forEach(el => {
             if (w !== null) elementsDom[el] = w.find(`.${el}`).get(0)
         })
-        const {slider__range, slider__rotate, slider_first, slider_second, slider__begin, slider__end, slider__between, slider__num_first, slider__num_second, slider__runner_first, slider__runner_second, slider__inputNum_first, slider__inputNum_second, slider__step_first, slider__step_second} = elementsDom
-        let value1!: JQuery<HTMLElement>; let value2!: JQuery<HTMLElement>; let val1!: number; let val2!: number; let max!: JQuery<HTMLElement>; let min!: JQuery<HTMLElement>;
+        const {slider__range, slider__rotate, slider_first, slider_second, slider__begin, slider__end, slider__between, slider__num_first, slider__num_second, slider__valuesRunners, slider__step} = elementsDom
+        let value1!: JQuery<HTMLElement>; let value2!: JQuery<HTMLElement>; let val1!: number; let val2!: number; let max!: JQuery<HTMLElement>; let min!: JQuery<HTMLElement>; let widthSlider!: number 
         if (w !== null ) {
             value1 = w.find('.slider__value1')
             value2 = w.find('.slider__value2')
@@ -124,16 +119,17 @@ class Model {
             val2 = Number(w.find('.slider_second').val())
             min = w.find('.slider__min')
             max = w.find('.slider__max')
+            widthSlider = Number(w.find('.slider_first').width())
         }
         let widthScale = Math.abs(Number(max.val()) - Number(min.val()))
-        let betwLength =  266 * Math.abs(val1 - val2)/widthScale 
-        let left: number = (val1 - Number(min.val())) * 266/widthScale 
+        let betwLength =  widthSlider * Math.abs(val1 - val2)/widthScale 
+        let left: number = (val1 - Number(min.val())) * widthSlider/widthScale 
         let leftNoChanged = left
-        let right: number = (val2 - Number(min.val())) * 266/widthScale 
+        let right: number = (val2 - Number(min.val())) * widthSlider/widthScale 
         if (val2 > val1) {left = left}
         else {left = right}
         return {left, right, leftNoChanged, value1, value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength, between: slider__between, min, max, 
-            begin: slider__begin, end: slider__end, val1, val2, flag1: slider__runner_first, flag2: slider__runner_second, inpNum1: slider__inputNum_first, inpNum2: slider__inputNum_second, range: slider__range, rotateSlider: slider__rotate, step1: slider__step_first, step2: slider__step_second}
+            begin: slider__begin, end: slider__end, val1, val2, valuesRunners: slider__valuesRunners, range: slider__range, rotateSlider: slider__rotate, step: slider__step, widthSlider}
     }  
 }
 class Controller {
@@ -146,7 +142,7 @@ class Controller {
 }
     init = () => {
         let functions = [this.controllerScale, this.controllerNum, this.addEvent, this.controllerBetween, this.controllerSetValue, 
-            this.controllerSetScale, this.controllerHideBall, this.controllerHideNum, this.controllerRotate]
+            this.controllerSetScale, this.controllerHideNum, this.controllerRotate]
         functions.forEach(el => el())
     }
     calls = () => {
@@ -157,15 +153,15 @@ class Controller {
         let functions = [this.controllerBetween, this.controllerNum, this.controllerValue, this.controllerScale, this.controllerStep]
         functions.forEach(el => el())  
     }
+    
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
     controllerStep = () => this.model.modelStep (this.view.viewStep)
     controllerCreate = () => this.model.modelCreate (this.view.viewCreate)
     controllerScale = () => this.model.modelScale (this.view.viewScale)
     controllerNum = () => this.model.modelNum (this.view.viewNum)
     controllerValue = () => this.model.modelValue(this.view.viewValue)
-    controllerHideBall = () => this.model.modelHideBall(this.view.viewHideBall)
     controllerHideNum = () => this.model.modelHideNum(this.view.viewHideNum)
-    controllerRotate = () => this.model.modelRotate(this.view.viewRotate)
+    controllerRotate = () => this.model.modelRotate(this.view.viewRotate, this.controllerBetween)
     controllerSetValue = () => this.model.modelSetValue(this.view.viewValue, this.calls)
     controllerSetScale = () => this.model.modelSetScale(this.f)
     addEvent = () => this.model.modelAddEvent(this.f)
@@ -178,8 +174,7 @@ class Controller {
            value2: 15000,
            min: 0,
            max: 25000,
-           step1: 8,
-           step2: 8
+           step: 50,
        }, options)
        
        this.each((index: number, value: HTMLElement) => {    

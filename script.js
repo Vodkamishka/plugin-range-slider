@@ -2,19 +2,19 @@ var View = /** @class */ (function () {
     function View(value, settings) {
         var _this = this;
         this.create = function () {
-            var _a = _this.settings, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step1 = _a.step1, step2 = _a.step2;
-            var panel = "<div class=\"slider__panel\" ><p>\u041F\u0430\u043D\u0435\u043B\u044C \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438:</p><label>\u041C\u0438\u043D. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"slider__min\" type=\"text\" value=" + min + "></label><label>\u041C\u0430\u043A\u0441. \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u0430<input class=\"slider__max\" type=\"text\" value=" + max + "></label><label>\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"slider__value1\" type=\"text\" value=" + value1 + "></label><label>\u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"slider__value2\" type=\"text\" value=" + value2 + "></label><label>\u041E\u0442\u043A\u043B. \u0431\u0443\u0433\u0443\u043D\u043E\u043A 1<input class=\"slider__runner_first\" type=\"checkbox\" value=\"\"></label><label>\u041E\u0442\u043A\u043B. \u0431\u0435\u0433\u0443\u043D\u043E\u043A 2<input class=\"slider__runner_second\" type=\"checkbox\" value=\"\"></label><label>\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 1<input class=\"slider__inputNum_first\" type=\"checkbox\" value=\"\"></label><label>\u041E\u0442\u043A\u043B. \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435 2<input class=\"slider__inputNum_second\" type=\"checkbox\" value=\"\"></label><label>\u0412\u043A\u043B. \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u0438\u0434<input class=\"slider__rotate\" type=\"checkbox\" value=\"\"></label><label>\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 1<input class=\"slider__step_first\" type=\"text\" value=\"\"></label><label>\u0420\u0430\u0437\u043C\u0435\u0440 \u0448\u0430\u0433\u0430 2<input class=\"slider__step_second\" type=\"text\" value=\"\"></label></div>";
-            var range = "<div class=\"slider__range\" ><input class=\"slider_first\" type=\"range\" value=" + value1 + " step=" + step1 + " min=" + min + " max=" + max + "><input class=\"slider_second\" type=\"range\" value=" + value2 + " step=" + step2 + " min=" + min + " max=" + max + "><div class=\"slider__between\" ></div><div class=\"slider__begin\" ></div><div class=\"slider__end\" ></div><div class=\"slider__num_first\" ></div><div class=\"slider__num_second\" ></div></div>";
+            var _a = _this.settings, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step = _a.step;
+            var panel = "<div class=\"slider__panel\" ><label class=\"slider__label\">min<input class=\"slider__min\" type=\"number\" value=" + min + "></label><label class=\"slider__label\">max<input class=\"slider__max\" type=\"number\" value=" + max + "></label><label class=\"slider__label\">value1<input class=\"slider__value1\" type=\"number\" value=" + value1 + "></label><label class=\"slider__label\">value2<input class=\"slider__value2\" type=\"number\" value=" + value2 + "></label><label class=\"slider__label\">disable values<input class=\"slider__valuesRunners\" type=\"checkbox\" value=\"\"></label><label class=\"slider__label\">change view<input class=\"slider__rotate\" type=\"checkbox\" value=\"\"></label><label class=\"slider__label\">step<input class=\"slider__step\" type=\"number\" value=''></label></div>";
+            var range = "<div class=\"slider__range\" ><input class=\"slider_first\" type=\"range\" value=" + value1 + " step=" + step + " min=" + min + " max=" + max + "><input class=\"slider_second\" type=\"range\" value=" + value2 + " step=" + step + " min=" + min + " max=" + max + "><div class=\"slider__between\" ></div><div class=\"slider__begin\" ></div><div class=\"slider__end\" ></div><div class=\"slider__num_first\" ></div><div class=\"slider__num_second\" ></div></div>";
             if (_this.wrapper !== null)
-                $(_this.wrapper).html(panel + range);
+                $(_this.wrapper).html(range + panel);
         };
         this.viewBetween = function (left, betwWidth, el) {
             el.style.marginLeft = left + 'px';
             el.style.width = betwWidth + 'px';
         };
-        this.viewStep = function (slider1, slider2, step1, step2) {
-            slider1.step = step1.value || _this.settings.step1;
-            slider2.step = step2.value || _this.settings.step2;
+        this.viewStep = function (slider1, slider2, step) {
+            slider1.step = step.value || _this.settings.step;
+            slider2.step = step.value || _this.settings.step;
         };
         this.viewScale = function (minVal, maxVal, el, el2, slider1, slider2) {
             $(el).html(minVal);
@@ -29,18 +29,14 @@ var View = /** @class */ (function () {
             el.style.marginLeft = left.toString() + 'px';
         };
         this.viewValue = function (el, num) { return el.value = num.toString(); };
-        this.viewHideBall = function (slider, num, val, between) {
-            slider.classList.toggle('slider_hide');
-            if (slider.parentNode !== null && slider.parentNode.querySelectorAll('.hide').length < 2 && between !== null)
-                between.classList.toggle('hide');
-            num.classList.toggle('slider_white');
-            val.classList.toggle('slider_white');
-        };
         this.viewHideNum = function (el) { return el.classList.toggle('slider_white'); };
-        this.viewRotate = function (el, el2, el3) {
-            el.classList.toggle('slider_vertical');
-            el2.classList.toggle('slider__rotateReverse');
-            el3.classList.toggle('slider__rotateReverse');
+        this.viewRotate = function (f) {
+            var _a = f(), range = _a.range, num1 = _a.num1, num2 = _a.num2, slider1 = _a.slider1, slider2 = _a.slider2;
+            range.classList.toggle('slider_vertical');
+            num1.classList.toggle('slider__rotateReverse');
+            num2.classList.toggle('slider__rotateReverse');
+            slider1.classList.toggle('slider_short');
+            slider2.classList.toggle('slider_short');
         };
         this.wrapper = value;
         this.settings = settings;
@@ -56,12 +52,54 @@ var Model = /** @class */ (function () {
             viewBetween(left, betwLength, between);
         };
         this.modelStep = function (viewStep) {
-            var _a = _this.helper(), slider1 = _a.slider1, slider2 = _a.slider2, step1 = _a.step1, step2 = _a.step2;
-            viewStep(slider1, slider2, step1, step2);
+            var _a = _this.helper(), slider1 = _a.slider1, slider2 = _a.slider2, step = _a.step;
+            viewStep(slider1, slider2, step);
         };
         this.modelScale = function (viewScale) {
             var _a = _this.helper(), slider1 = _a.slider1, slider2 = _a.slider2, min = _a.min, max = _a.max, begin = _a.begin, end = _a.end;
             viewScale(min.val(), max.val(), begin, end, slider1, slider2);
+        };
+        this.helper = function () {
+            var w;
+            if (_this.wrapper !== null)
+                w = $(_this.wrapper);
+            var elementsDom = {};
+            var arrayDom = ['slider__range', 'slider__rotate', 'slider_first', 'slider_second', 'slider__begin', 'slider__end', 'slider__between', 'slider__num_first',
+                'slider__num_second', 'slider__valuesRunners', 'slider__step'];
+            arrayDom.forEach(function (el) {
+                if (w !== null)
+                    elementsDom[el] = w.find("." + el).get(0);
+            });
+            var slider__range = elementsDom.slider__range, slider__rotate = elementsDom.slider__rotate, slider_first = elementsDom.slider_first, slider_second = elementsDom.slider_second, slider__begin = elementsDom.slider__begin, slider__end = elementsDom.slider__end, slider__between = elementsDom.slider__between, slider__num_first = elementsDom.slider__num_first, slider__num_second = elementsDom.slider__num_second, slider__valuesRunners = elementsDom.slider__valuesRunners, slider__step = elementsDom.slider__step;
+            var value1;
+            var value2;
+            var val1;
+            var val2;
+            var max;
+            var min;
+            var widthSlider;
+            if (w !== null) {
+                value1 = w.find('.slider__value1');
+                value2 = w.find('.slider__value2');
+                val1 = Number(w.find('.slider_first').val());
+                val2 = Number(w.find('.slider_second').val());
+                min = w.find('.slider__min');
+                max = w.find('.slider__max');
+                widthSlider = Number(w.find('.slider_first').width());
+            }
+            var widthScale = Math.abs(Number(max.val()) - Number(min.val()));
+            var betwLength = widthSlider * Math.abs(val1 - val2) / widthScale;
+            var left = (val1 - Number(min.val())) * widthSlider / widthScale;
+            var leftNoChanged = left;
+            var right = (val2 - Number(min.val())) * widthSlider / widthScale;
+            if (val2 > val1) {
+                left = left;
+            }
+            else {
+                left = right;
+            }
+            return { left: left, right: right, leftNoChanged: leftNoChanged, value1: value1, value2: value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength: betwLength, between: slider__between, min: min, max: max,
+                begin: slider__begin, end: slider__end, val1: val1, val2: val2, valuesRunners: slider__valuesRunners, range: slider__range, rotateSlider: slider__rotate, step: slider__step, widthSlider: widthSlider };
         };
         this.wrapper = value;
     }
@@ -95,60 +133,19 @@ var Model = /** @class */ (function () {
         this.helper().min.get(0).addEventListener("change", functions);
         this.helper().max.get(0).addEventListener("change", functions);
     };
-    Model.prototype.modelHideBall = function (f) {
-        var _a = this.helper(), flag1 = _a.flag1, flag2 = _a.flag2, slider1 = _a.slider1, slider2 = _a.slider2, num1 = _a.num1, num2 = _a.num2, value1 = _a.value1, value2 = _a.value2, between = _a.between;
-        flag1.addEventListener('change', function () { return f(slider1, num1, value1.get(0), between); });
-        flag2.addEventListener('change', function () { return f(slider2, num2, value2.get(0), between); });
-    };
     Model.prototype.modelHideNum = function (f) {
-        var _a = this.helper(), inpNum1 = _a.inpNum1, inpNum2 = _a.inpNum2, num1 = _a.num1, num2 = _a.num2;
-        inpNum1.addEventListener('change', function () { return f(num1); });
-        inpNum2.addEventListener('change', function () { return f(num2); });
+        var _a = this.helper(), valuesRunners = _a.valuesRunners, num1 = _a.num1, num2 = _a.num2;
+        valuesRunners.addEventListener('change', function () { return f(num1); });
+        valuesRunners.addEventListener('change', function () { return f(num2); });
     };
-    Model.prototype.modelRotate = function (f) {
-        var _a = this.helper(), range = _a.range, rotateSlider = _a.rotateSlider, num1 = _a.num1, num2 = _a.num2;
+    Model.prototype.modelRotate = function (f, controllerBetween) {
+        var _this = this;
+        var _a = this.helper(), range = _a.range, rotateSlider = _a.rotateSlider;
         if (range !== null && rotateSlider !== null)
-            rotateSlider.addEventListener('change', function () { return f(range, num1, num2); });
-    };
-    Model.prototype.helper = function () {
-        var w;
-        if (this.wrapper !== null)
-            w = $(this.wrapper);
-        var elementsDom = {};
-        var arrayDom = ['slider__range', 'slider__rotate', 'slider_first', 'slider_second', 'slider__begin', 'slider__end', 'slider__between', 'slider__num_first',
-            'slider__num_second', 'slider__runner_first', 'slider__runner_second', 'slider__inputNum_first', 'slider__inputNum_second', 'slider__step_first', 'slider__step_second'];
-        arrayDom.forEach(function (el) {
-            if (w !== null)
-                elementsDom[el] = w.find("." + el).get(0);
-        });
-        var slider__range = elementsDom.slider__range, slider__rotate = elementsDom.slider__rotate, slider_first = elementsDom.slider_first, slider_second = elementsDom.slider_second, slider__begin = elementsDom.slider__begin, slider__end = elementsDom.slider__end, slider__between = elementsDom.slider__between, slider__num_first = elementsDom.slider__num_first, slider__num_second = elementsDom.slider__num_second, slider__runner_first = elementsDom.slider__runner_first, slider__runner_second = elementsDom.slider__runner_second, slider__inputNum_first = elementsDom.slider__inputNum_first, slider__inputNum_second = elementsDom.slider__inputNum_second, slider__step_first = elementsDom.slider__step_first, slider__step_second = elementsDom.slider__step_second;
-        var value1;
-        var value2;
-        var val1;
-        var val2;
-        var max;
-        var min;
-        if (w !== null) {
-            value1 = w.find('.slider__value1');
-            value2 = w.find('.slider__value2');
-            val1 = Number(w.find('.slider_first').val());
-            val2 = Number(w.find('.slider_second').val());
-            min = w.find('.slider__min');
-            max = w.find('.slider__max');
-        }
-        var widthScale = Math.abs(Number(max.val()) - Number(min.val()));
-        var betwLength = 266 * Math.abs(val1 - val2) / widthScale;
-        var left = (val1 - Number(min.val())) * 266 / widthScale;
-        var leftNoChanged = left;
-        var right = (val2 - Number(min.val())) * 266 / widthScale;
-        if (val2 > val1) {
-            left = left;
-        }
-        else {
-            left = right;
-        }
-        return { left: left, right: right, leftNoChanged: leftNoChanged, value1: value1, value2: value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength: betwLength, between: slider__between, min: min, max: max,
-            begin: slider__begin, end: slider__end, val1: val1, val2: val2, flag1: slider__runner_first, flag2: slider__runner_second, inpNum1: slider__inputNum_first, inpNum2: slider__inputNum_second, range: slider__range, rotateSlider: slider__rotate, step1: slider__step_first, step2: slider__step_second };
+            rotateSlider.addEventListener('change', function () {
+                f(_this.helper);
+                controllerBetween();
+            });
     };
     return Model;
 }());
@@ -157,7 +154,7 @@ var Controller = /** @class */ (function () {
         var _this = this;
         this.init = function () {
             var functions = [_this.controllerScale, _this.controllerNum, _this.addEvent, _this.controllerBetween, _this.controllerSetValue,
-                _this.controllerSetScale, _this.controllerHideBall, _this.controllerHideNum, _this.controllerRotate];
+                _this.controllerSetScale, _this.controllerHideNum, _this.controllerRotate];
             functions.forEach(function (el) { return el(); });
         };
         this.calls = function () {
@@ -174,9 +171,8 @@ var Controller = /** @class */ (function () {
         this.controllerScale = function () { return _this.model.modelScale(_this.view.viewScale); };
         this.controllerNum = function () { return _this.model.modelNum(_this.view.viewNum); };
         this.controllerValue = function () { return _this.model.modelValue(_this.view.viewValue); };
-        this.controllerHideBall = function () { return _this.model.modelHideBall(_this.view.viewHideBall); };
         this.controllerHideNum = function () { return _this.model.modelHideNum(_this.view.viewHideNum); };
-        this.controllerRotate = function () { return _this.model.modelRotate(_this.view.viewRotate); };
+        this.controllerRotate = function () { return _this.model.modelRotate(_this.view.viewRotate, _this.controllerBetween); };
         this.controllerSetValue = function () { return _this.model.modelSetValue(_this.view.viewValue, _this.calls); };
         this.controllerSetScale = function () { return _this.model.modelSetScale(_this.f); };
         this.addEvent = function () { return _this.model.modelAddEvent(_this.f); };
@@ -193,8 +189,7 @@ var Controller = /** @class */ (function () {
             value2: 15000,
             min: 0,
             max: 25000,
-            step1: 8,
-            step2: 8
+            step: 50
         }, options);
         this.each(function (index, value) {
             var view = new View(value, settings);
