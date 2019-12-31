@@ -7,7 +7,7 @@ var should = require('chai').should()
 const $ = global.jQuery = require('jquery')
 global.window = window
 global.$ = require('jquery')
-let script = require('../script.js')
+let script = require('../src/script.js')
 const jsdom  = require('jsdom')
 const {JSDOM} = jsdom
 const dom = new JSDOM(`<html><body><div class="wrapper"></div></body></html>`)
