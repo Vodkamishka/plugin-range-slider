@@ -1,6 +1,6 @@
-import View from './mvc/view';
-import Model from './mvc/model';
-import Controller from './mvc/controller';
+import View from './mvc/view/view';
+import Model from './mvc//model/model';
+import Controller from './mvc/controller/controller';
 
 
 (function ($: any) {
@@ -12,12 +12,11 @@ import Controller from './mvc/controller';
            max: 25000,
            step: 50,
        }, options)
-       
-       this.each((index: number, value: HTMLElement) => {    
-           const view = new View(value, settings)
-           const model = new Model(value)
-           new Controller(view, model)
-       })
+       this.each((index: number, element: HTMLElement) => {    
+        const view = new View($(element), settings)
+        const model = new Model(element)
+        new Controller(view, model)
+    })
     }
    
    $('.slider').slider()
@@ -25,13 +24,9 @@ import Controller from './mvc/controller';
 }(jQuery))
 
 
-var module!: NodeModule
 
-if (module !== undefined) module.exports = {
-    View, 
-    Model, 
-    Controller
-}
+
+
 
 
 

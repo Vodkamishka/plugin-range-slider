@@ -1,3 +1,5 @@
+include ./components/slider/slider
+
 <!DOCTYPE html>
 html(lang="en")
     head
@@ -11,7 +13,7 @@ html(lang="en")
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
         title Range Slider
     body
-        .slider  
-        .slider(id='66')
-        .slider(id='5')
+        +slider  
+        +slider('66', {value1: 6000, value2: 57777, min: 2000, max: 60000, step: 200})
+        +slider('5', {value1: 16000, value2: 357777, min: 8000, max: 600000, step: 20000})
             

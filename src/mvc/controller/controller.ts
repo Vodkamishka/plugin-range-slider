@@ -10,6 +10,8 @@ class Controller {
         let functions = [this.controllerScale, this.controllerNum, this.addEvent, this.controllerBetween, this.controllerSetValue, 
             this.controllerSetScale, this.controllerHideNum, this.controllerRotate]
         functions.forEach(el => el())
+        let first_options = this.getFirstOptionsFromView()
+        this.sendFirstOptionsToModel(first_options)
     }
     calls = () => {
         this.controllerBetween()
@@ -19,6 +21,8 @@ class Controller {
         let functions = [this.controllerBetween, this.controllerNum, this.controllerValue, this.controllerScale, this.controllerStep]
         functions.forEach(el => el())  
     }
+    getFirstOptionsFromView = () => this.view.sendFirstOptionsToController() 
+    sendFirstOptionsToModel = (options: any) => this.model.getFirstOptionsFromController(options)
     
     controllerBetween = () => this.model.modelBetween (this.view.viewBetween)
     controllerStep = () => this.model.modelStep (this.view.viewStep)

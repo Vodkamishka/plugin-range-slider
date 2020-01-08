@@ -60,7 +60,7 @@ module.exports = {
       template: './src/index.pug',
     }),
     new CopyWebpackPlugin([
-      { from: './src/favicon.ico', to: './favicon.ico' },
+      {from: './src/favicon.ico', to: './favicon.ico' },
     ]),
   ],
 };

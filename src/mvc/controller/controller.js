@@ -7,6 +7,8 @@ var Controller = /** @class */ (function () {
             var functions = [_this.controllerScale, _this.controllerNum, _this.addEvent, _this.controllerBetween, _this.controllerSetValue,
                 _this.controllerSetScale, _this.controllerHideNum, _this.controllerRotate];
             functions.forEach(function (el) { return el(); });
+            var first_options = _this.getFirstOptionsFromView();
+            _this.sendFirstOptionsToModel(first_options);
         };
         this.calls = function () {
             _this.controllerBetween();
@@ -16,6 +18,8 @@ var Controller = /** @class */ (function () {
             var functions = [_this.controllerBetween, _this.controllerNum, _this.controllerValue, _this.controllerScale, _this.controllerStep];
             functions.forEach(function (el) { return el(); });
         };
+        this.getFirstOptionsFromView = function () { return _this.view.sendFirstOptionsToController(); };
+        this.sendFirstOptionsToModel = function (options) { return _this.model.getFirstOptionsFromController(options); };
         this.controllerBetween = function () { return _this.model.modelBetween(_this.view.viewBetween); };
         this.controllerStep = function () { return _this.model.modelStep(_this.view.viewStep); };
         this.controllerCreate = function () { return _this.model.modelCreate(_this.view.viewCreate); };
