@@ -3,13 +3,13 @@ let initialState = {
     max: '',
     value1: '',
     value2: '',
-    disabaleValues: undefined,
+    disableValues: undefined,
     vertical: undefined,
     oneRunner: undefined,
     step: '' 
 }
 
-const reducer = (action: {type: any; amount: any; }, state = initialState) => {
+const reducer = (action: {type: any; amount: any; }, state: any) => {
 
     switch (action.type){
         case 'LOAD_FIRST_DATA': 
@@ -37,10 +37,10 @@ const reducer = (action: {type: any; amount: any; }, state = initialState) => {
                 ...state,
                 value2: action.amount
             }
-        case 'DISABLE_VALUES': 
+        case 'DISABLE_RUNNERS_VALUES': 
             return {
                 ...state,
-                disabaleValues: action.amount
+                disableValues: action.amount
             }
         case 'TOGGLE_VERTICAL_POSITION': 
             return {

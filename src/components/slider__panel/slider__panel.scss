@@ -1,0 +1,30 @@
+
+.slider {
+    &__panel {
+        display: flex;
+        margin-bottom: 2rem;
+    }
+    &__min, &__max, &__value_first, &__value_second, &__step {
+        width: 4rem;
+        height: 1.5rem;
+        font-size: 0.9rem;
+        margin-left: 0.125rem;
+    }
+    &__valuesRunners, &__rotate {
+        height: 1rem;
+        width: 1rem;
+        font-size: 0.5rem;
+    }
+    &__label {
+        display: flex;
+        align-items: center;
+        margin-left: 1rem;
+    }
+    &_white {
+        color: white;
+    }
+    &__rotateReverse {
+        transform: rotate(-90deg);
+    }
+}
+

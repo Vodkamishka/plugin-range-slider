@@ -16,13 +16,12 @@ var initialState = {
     max: '',
     value1: '',
     value2: '',
-    disabaleValues: undefined,
+    disableValues: undefined,
     vertical: undefined,
     oneRunner: undefined,
     step: ''
 };
 var reducer = function (action, state) {
-    if (state === void 0) { state = initialState; }
     switch (action.type) {
         case 'LOAD_FIRST_DATA':
             return __assign(__assign({}, state), action.amount);
@@ -34,8 +33,8 @@ var reducer = function (action, state) {
             return __assign(__assign({}, state), { value1: action.amount });
         case 'CHANGE_VALUE_SECOND':
             return __assign(__assign({}, state), { value2: action.amount });
-        case 'DISABLE_VALUES':
-            return __assign(__assign({}, state), { disabaleValues: action.amount });
+        case 'DISABLE_RUNNERS_VALUES':
+            return __assign(__assign({}, state), { disableValues: action.amount });
         case 'TOGGLE_VERTICAL_POSITION':
             return __assign(__assign({}, state), { vertical: action.amount });
         case 'ENABLE_ONE_RUNNER':

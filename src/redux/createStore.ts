@@ -16,5 +16,4 @@ function createStore (reducer: (arg0: any, arg1: any) => any) {
     
     return {getState, dispatch, subscribe}
 }
-
 export default createStore;

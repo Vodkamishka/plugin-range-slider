@@ -36,13 +36,13 @@ var changeValueSecond = function (value) {
     };
 };
 exports.changeValueSecond = changeValueSecond;
-var disableValues = function (disable) {
+var disableRunnersValues = function (disable) {
     return {
-        type: actions_1.DISABLE_VALUES,
+        type: actions_1.DISABLE_RUNNERS_VALUES,
         amount: disable
     };
 };
-exports.disableValues = disableValues;
+exports.disableRunnersValues = disableRunnersValues;
 var toggleVerticalPosition = function (toggle) {
     return {
         type: actions_1.TOGGLE_VERTICAL_POSITION,

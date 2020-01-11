@@ -1,26 +1,21 @@
 import createStore from '../../redux/createStore';
 import reducer from '../../redux/reducer';
-import {changeMin, loadFirstData} from '../../redux/actionCreators';
-
-let initialState = {
-    min: '0',
-    max: '25000',
-    value1: '5000',
-    value2: '15000',
-    disabaleValues: false,
-    vertical: false,
-    oneRunner: false,
-    step: '50' 
-}
-
-const store = createStore(reducer);
-store.dispatch(loadFirstData(initialState));
-console.log(store.getState())
+import { loadFirstData,
+    changeMin,
+    changeMax,
+    changeValueFirst,
+    changeValueSecond,
+    disableRunnersValues,
+    toggleVerticalPosition,
+    enableOneRunner,
+    changeStep } from '../../redux/actionCreators';
 
 class Model {
     wrapper: HTMLElement | null
+    store: { getState: () => any; dispatch: (action: any) => void; subscribe: (callback: any) => any[]; };
     constructor(value: HTMLElement) {
         this.wrapper = value
+        this.store = createStore(reducer);
     }
     modelAddEvent (functions: any) {
         const {slider1, slider2} = this.helper()
@@ -34,10 +29,6 @@ class Model {
     modelStep = (viewStep: any) => {
         const {slider1, slider2, step} = this.helper()
         viewStep (slider1, slider2, step)
-    }
-    modelScale = (viewScale: any) => {
-        let {min, max} = this.helper()
-        viewScale(min.val(), max.val())
     }
     modelNum (viewNum: any) {
         const {num1, num2, val1, val2, right, left} = this.helper()
@@ -57,12 +48,8 @@ class Model {
             functions()
         }
         func()
-        value1.get(0).addEventListener('change',func)
-        value2.get(0).addEventListener('change',func)
-    }
-    modelSetScale (functions: any) {
-        this.helper().min.get(0).addEventListener("change", functions)
-        this.helper().max.get(0).addEventListener("change", functions)
+        /*value1.get(0).addEventListener('change',func)
+        value2.get(0).addEventListener('change',func)*/
     }
     modelHideNum (f: any) {
         const {valuesRunners} = this.helper()
@@ -76,9 +63,20 @@ class Model {
             controllerBetween()
         })
     }
-    getFirstOptionsFromController = (options: any) => {
-        console.log(222)
+    getDataFromController = (options: any) => {
+        this.store.dispatch(loadFirstData(options))
+        //console.log(store.getState())
     }
+    subscribe = (f: any) => {
+        this.store.subscribe(() => f(this.store.getState()))
+    }
+    dispatchMin = (min) => this.store.dispatch(changeMin(min))
+    dispatchMax = (max) => this.store.dispatch(changeMax(max))
+    dispatchValueFirst = (value) => this.store.dispatch(changeValueFirst(value))
+    dispatchValueSecond = (value) => this.store.dispatch(changeValueSecond(value))
+    
+    
+        
     helper = () => {
         let w!: JQuery<HTMLElement> | null
         if (this.wrapper !== null ) w = $(this.wrapper)
@@ -91,8 +89,8 @@ class Model {
         const {slider__rotate, slider_first, slider_second, slider__num_first, slider__num_second, slider__valuesRunners, slider__step} = elementsDom
         let value1!: JQuery<HTMLElement>; let value2!: JQuery<HTMLElement>; let val1!: number; let val2!: number; let max!: JQuery<HTMLElement>; let min!: JQuery<HTMLElement>; let widthSlider!: number 
         if (w !== null ) {
-            value1 = w.find('.slider__value1')
-            value2 = w.find('.slider__value2')
+            value1 = w.find('.slider__value_first')
+            value2 = w.find('.slider__value_second')
             val1 = Number(w.find('.slider_first').val())
             val2 = Number(w.find('.slider_second').val())
             min = w.find('.slider__min')
@@ -112,7 +110,7 @@ class Model {
         let leftNoChanged = left
         let right: number = (val2 - Number(min.val())) * widthSlider/widthScale 
         
-        return {left, right, leftNoChanged, value1, value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength, min, max, 
+        return {left, right, leftNoChanged, value1, value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength, 
              val1, val2, valuesRunners: slider__valuesRunners, rotateSlider: slider__rotate, step: slider__step, widthSlider}
     }  
 }

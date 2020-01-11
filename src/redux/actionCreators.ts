@@ -4,7 +4,7 @@ import {
     CHANGE_MAX,
     CHANGE_VALUE_FIRST,
     CHANGE_VALUE_SECOND,
-    DISABLE_VALUES,
+    DISABLE_RUNNERS_VALUES,
     TOGGLE_VERTICAL_POSITION,
     ENABLE_ONE_RUNNER,
     CHANGE_STEP,
@@ -45,9 +45,9 @@ const changeValueSecond = (value: string) => {
     }
 }
 
-const disableValues = (disable: boolean) => {
+const disableRunnersValues = (disable: boolean) => {
     return {
-        type: DISABLE_VALUES,
+        type: DISABLE_RUNNERS_VALUES,
         amount: disable
     }
 }
@@ -79,7 +79,7 @@ export {
     changeMax,
     changeValueFirst,
     changeValueSecond,
-    disableValues,
+    disableRunnersValues,
     toggleVerticalPosition,
     enableOneRunner,
     changeStep 

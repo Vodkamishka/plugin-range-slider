@@ -3,19 +3,6 @@ exports.__esModule = true;
 var createStore_1 = require("../../redux/createStore");
 var reducer_1 = require("../../redux/reducer");
 var actionCreators_1 = require("../../redux/actionCreators");
-var initialState = {
-    min: '0',
-    max: '25000',
-    value1: '5000',
-    value2: '15000',
-    disabaleValues: false,
-    vertical: false,
-    oneRunner: false,
-    step: '50'
-};
-var store = createStore_1["default"](reducer_1["default"]);
-store.dispatch(actionCreators_1.loadFirstData(initialState));
-console.log(store.getState());
 var Model = /** @class */ (function () {
     function Model(value) {
         var _this = this;
@@ -27,13 +14,17 @@ var Model = /** @class */ (function () {
             var _a = _this.helper(), slider1 = _a.slider1, slider2 = _a.slider2, step = _a.step;
             viewStep(slider1, slider2, step);
         };
-        this.modelScale = function (viewScale) {
-            var _a = _this.helper(), min = _a.min, max = _a.max;
-            viewScale(min.val(), max.val());
+        this.getDataFromController = function (options) {
+            _this.store.dispatch(actionCreators_1.loadFirstData(options));
+            //console.log(store.getState())
         };
-        this.getFirstOptionsFromController = function (options) {
-            console.log(222);
+        this.subscribe = function (f) {
+            _this.store.subscribe(function () { return f(_this.store.getState()); });
         };
+        this.dispatchMin = function (min) { return _this.store.dispatch(actionCreators_1.changeMin(min)); };
+        this.dispatchMax = function (max) { return _this.store.dispatch(actionCreators_1.changeMax(max)); };
+        this.dispatchValueFirst = function (value) { return _this.store.dispatch(actionCreators_1.changeValueFirst(value)); };
+        this.dispatchValueSecond = function (value) { return _this.store.dispatch(actionCreators_1.changeValueSecond(value)); };
         this.helper = function () {
             var w;
             if (_this.wrapper !== null)
@@ -54,8 +45,8 @@ var Model = /** @class */ (function () {
             var min;
             var widthSlider;
             if (w !== null) {
-                value1 = w.find('.slider__value1');
-                value2 = w.find('.slider__value2');
+                value1 = w.find('.slider__value_first');
+                value2 = w.find('.slider__value_second');
                 val1 = Number(w.find('.slider_first').val());
                 val2 = Number(w.find('.slider_second').val());
                 min = w.find('.slider__min');
@@ -73,10 +64,11 @@ var Model = /** @class */ (function () {
             var left = (val1 - Number(min.val())) * widthSlider / widthScale;
             var leftNoChanged = left;
             var right = (val2 - Number(min.val())) * widthSlider / widthScale;
-            return { left: left, right: right, leftNoChanged: leftNoChanged, value1: value1, value2: value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength: betwLength, min: min, max: max,
+            return { left: left, right: right, leftNoChanged: leftNoChanged, value1: value1, value2: value2, num1: slider__num_first, num2: slider__num_second, slider1: slider_first, slider2: slider_second, betwLength: betwLength,
                 val1: val1, val2: val2, valuesRunners: slider__valuesRunners, rotateSlider: slider__rotate, step: slider__step, widthSlider: widthSlider };
         };
         this.wrapper = value;
+        this.store = createStore_1["default"](reducer_1["default"]);
     }
     Model.prototype.modelAddEvent = function (functions) {
         var _a = this.helper(), slider1 = _a.slider1, slider2 = _a.slider2;
@@ -101,12 +93,8 @@ var Model = /** @class */ (function () {
             functions();
         };
         func();
-        value1.get(0).addEventListener('change', func);
-        value2.get(0).addEventListener('change', func);
-    };
-    Model.prototype.modelSetScale = function (functions) {
-        this.helper().min.get(0).addEventListener("change", functions);
-        this.helper().max.get(0).addEventListener("change", functions);
+        /*value1.get(0).addEventListener('change',func)
+        value2.get(0).addEventListener('change',func)*/
     };
     Model.prototype.modelHideNum = function (f) {
         var valuesRunners = this.helper().valuesRunners;
