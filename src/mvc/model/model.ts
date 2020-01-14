@@ -10,7 +10,8 @@ import { loadFirstData,
     disableRunnersValues,
     toggleVerticalPosition,
     enableOneRunner,
-    changeStep } from '../../redux/actionCreators';
+    changeStep,
+    calculateLeftFromValue} from '../../redux/actionCreators';
 
 class Model {
     wrapper: HTMLElement | null
@@ -22,20 +23,23 @@ class Model {
    
     getDataFromController = (options: any) => {
         this.store.dispatch(loadFirstData(options))
-        //console.log(store.getState())
+        this.store.dispatch(calculateLeftFromValue())
     }
-    subscribe = (f: any) => {
-        this.store.subscribe(() => f(this.store.getState()))
-    }
+    subscribe = (f: any) => this.store.subscribe(() => f(this.store.getState()))
     dispatchBallValueFirst = (left) => this.store.dispatch(changeBallValueFirst(left))
     dispatchBallValueSecond = (right) => this.store.dispatch(changeBallValueSecond(right))
     dispatchMin = (min) => this.store.dispatch(changeMin(min))
     dispatchMax = (max) => this.store.dispatch(changeMax(max))
-    dispatchValueFirst = (value) => this.store.dispatch(changeValueFirst(value))
-    dispatchValueSecond = (value) => this.store.dispatch(changeValueSecond(value))
+    dispatchValueFirst = (value) => {
+        this.store.dispatch(changeValueFirst(value))
+        this.store.dispatch(calculateLeftFromValue())
+    }
+    dispatchValueSecond = (value) => {
+        this.store.dispatch(changeValueSecond(value))
+        this.store.dispatch(calculateLeftFromValue())
+    }
     dispatchDisableValues = () => this.store.dispatch(disableRunnersValues())
     dispatchVerticalView = () => this.store.dispatch(toggleVerticalPosition())
-    
 }
 
 export default Model;

@@ -31,31 +31,35 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
                 value1: value1
             }
         case 'CHANGE_BALL_VALUE_SECOND':
-                let right = action.amount;
-                if (right >= state.widthScale - state.ballWidth/2) {right = state.widthScale - state.ballWidth/2} 
-                if (right <= state.left + state.step* state.widthScale/(state.max - state.min)) {right = state.left + state.step* state.widthScale/(state.max - state.min)}
-                let value2 = Math.round((right + state.ballWidth/2) * (state.max - state.min) / state.widthScale + +state.min)
-                return {
-                    ...state,
-                    right: right,
-                    value2: value2
-                }
-        case 'CHANGE_MIN': 
+            let right = action.amount;
+            if (right >= state.widthScale - state.ballWidth/2) {right = state.widthScale - state.ballWidth/2} 
+            if (right <= state.left + state.step* state.widthScale/(state.max - state.min)) {right = state.left + state.step* state.widthScale/(state.max - state.min)}
+            let value2 = Math.round((right + state.ballWidth/2) * (state.max - state.min) / state.widthScale + +state.min)
+            return {
+                ...state,
+                right: right,
+                value2: value2
+            }
+        case 'CHANGE_MIN':
+            if (action.amount >= state.max - state.step) action.amount = state.min
             return {
                 ...state,
                 min: action.amount
             }
-        case 'CHANGE_MAX': 
+        case 'CHANGE_MAX':
+            if (action.amount <= +state.min + +state.step) action.amount = state.max 
             return {
                 ...state,
                 max: action.amount
             }
-        case 'CHANGE_VALUE_FIRST': 
+        case 'CHANGE_VALUE_FIRST':
+            if (action.amount >= state.right - state.step || action.amount < state.min) action.amount = state.value1
             return {
                 ...state,
                 value1: action.amount
             }
         case 'CHANGE_VALUE_SECOND': 
+            if (action.amount <= +state.left + +state.step || action.amount > state.max) action.amount = state.value2
             return {
                 ...state,
                 value2: action.amount
@@ -79,6 +83,14 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
             return {
                 ...state,
                 step: action.amount
+            }
+        case 'CALCULATE_LEFT_FROM_VALUE':
+            let newLeft = (state.value1 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
+            let newRight = (state.value2 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
+            return {
+                ...state,
+                left: newLeft,
+                right: newRight
             }
         default: 
             return state;

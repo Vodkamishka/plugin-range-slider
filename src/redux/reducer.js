@@ -50,12 +50,20 @@ var reducer = function (action, state) {
             var value2 = Math.round((right + state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
             return __assign(__assign({}, state), { right: right, value2: value2 });
         case 'CHANGE_MIN':
+            if (action.amount >= state.max - state.step)
+                action.amount = state.min;
             return __assign(__assign({}, state), { min: action.amount });
         case 'CHANGE_MAX':
+            if (action.amount <= +state.min + +state.step)
+                action.amount = state.max;
             return __assign(__assign({}, state), { max: action.amount });
         case 'CHANGE_VALUE_FIRST':
+            if (action.amount >= state.right - state.step || action.amount < state.min)
+                action.amount = state.value1;
             return __assign(__assign({}, state), { value1: action.amount });
         case 'CHANGE_VALUE_SECOND':
+            if (action.amount <= +state.left + +state.step || action.amount > state.max)
+                action.amount = state.value2;
             return __assign(__assign({}, state), { value2: action.amount });
         case 'DISABLE_RUNNERS_VALUES':
             return __assign(__assign({}, state), { disableValues: !state.disableValues });
@@ -65,6 +73,10 @@ var reducer = function (action, state) {
             return __assign(__assign({}, state), { oneRunner: action.amount });
         case 'CHANGE_STEP':
             return __assign(__assign({}, state), { step: action.amount });
+        case 'CALCULATE_LEFT_FROM_VALUE':
+            var newLeft = (state.value1 - state.min) * state.widthScale / (state.max - state.min) - state.ballWidth / 2;
+            var newRight = (state.value2 - state.min) * state.widthScale / (state.max - state.min) - state.ballWidth / 2;
+            return __assign(__assign({}, state), { left: newLeft, right: newRight });
         default:
             return state;
     }

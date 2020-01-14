@@ -39,6 +39,7 @@ class View {
         };
     } 
     mousedown = (event, func, ball) => {
+        
         let ballCoords = this.getCoords(ball);
         let shift = event.pageX - ballCoords.left;
         const mousemove = (e) => {
@@ -90,6 +91,7 @@ class View {
         this.sliderVertical(vertical)
         this.$ball1.css('left', left)
         this.$ball2.css('left', right)
+        
     }
     sendDataToController = () => this.data
 

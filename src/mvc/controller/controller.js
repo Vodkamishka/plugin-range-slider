@@ -4,9 +4,9 @@ var Controller = /** @class */ (function () {
     function Controller(view, model) {
         var _this = this;
         this.init = function () {
+            _this.controllerSubscribe();
             var first_options = _this.getDataFromView();
             _this.sendDataToModel(first_options);
-            _this.controllerSubscribe();
             _this.controllerBalls();
             _this.controllerMin();
             _this.controllerMax();

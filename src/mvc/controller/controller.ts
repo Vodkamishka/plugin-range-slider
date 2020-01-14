@@ -7,10 +7,9 @@ class Controller {
         this.init()
 }
     init = () => {
-        
+        this.controllerSubscribe()
         let first_options = this.getDataFromView()
         this.sendDataToModel(first_options)
-        this.controllerSubscribe()
         this.controllerBalls()
         this.controllerMin()
         this.controllerMax()
@@ -20,7 +19,6 @@ class Controller {
         this.controllerVerticalView()
     }
    
-    
     getDataFromView = () => this.view.sendDataToController() 
     sendDataToModel = (options: any) => this.model.getDataFromController(options)
     controllerSubscribe = () => this.model.subscribe(this.view.render)
@@ -32,7 +30,6 @@ class Controller {
     controllerDisableValues = () => this.view.addEventListenersDisableValues(this.model.dispatchDisableValues)
     controllerVerticalView = () => this.view.addEventListenersVerticalView(this.model.dispatchVerticalView)
 
-   
 }
 
 export default Controller;

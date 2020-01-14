@@ -8,17 +8,21 @@ var Model = /** @class */ (function () {
         var _this = this;
         this.getDataFromController = function (options) {
             _this.store.dispatch(actionCreators_1.loadFirstData(options));
-            //console.log(store.getState())
+            _this.store.dispatch(actionCreators_1.calculateLeftFromValue());
         };
-        this.subscribe = function (f) {
-            _this.store.subscribe(function () { return f(_this.store.getState()); });
-        };
+        this.subscribe = function (f) { return _this.store.subscribe(function () { return f(_this.store.getState()); }); };
         this.dispatchBallValueFirst = function (left) { return _this.store.dispatch(actionCreators_1.changeBallValueFirst(left)); };
         this.dispatchBallValueSecond = function (right) { return _this.store.dispatch(actionCreators_1.changeBallValueSecond(right)); };
         this.dispatchMin = function (min) { return _this.store.dispatch(actionCreators_1.changeMin(min)); };
         this.dispatchMax = function (max) { return _this.store.dispatch(actionCreators_1.changeMax(max)); };
-        this.dispatchValueFirst = function (value) { return _this.store.dispatch(actionCreators_1.changeValueFirst(value)); };
-        this.dispatchValueSecond = function (value) { return _this.store.dispatch(actionCreators_1.changeValueSecond(value)); };
+        this.dispatchValueFirst = function (value) {
+            _this.store.dispatch(actionCreators_1.changeValueFirst(value));
+            _this.store.dispatch(actionCreators_1.calculateLeftFromValue());
+        };
+        this.dispatchValueSecond = function (value) {
+            _this.store.dispatch(actionCreators_1.changeValueSecond(value));
+            _this.store.dispatch(actionCreators_1.calculateLeftFromValue());
+        };
         this.dispatchDisableValues = function () { return _this.store.dispatch(actionCreators_1.disableRunnersValues()); };
         this.dispatchVerticalView = function () { return _this.store.dispatch(actionCreators_1.toggleVerticalPosition()); };
         this.wrapper = value;
