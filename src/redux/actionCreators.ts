@@ -1,5 +1,7 @@
 import {
     LOAD_FIRST_DATA,
+    CHANGE_BALL_VALUE_FIRST,
+    CHANGE_BALL_VALUE_SECOND,
     CHANGE_MIN,
     CHANGE_MAX,
     CHANGE_VALUE_FIRST,
@@ -14,6 +16,20 @@ const loadFirstData = (data:any) => {
     return {
         type: LOAD_FIRST_DATA,
         amount: data
+    }
+}
+
+const changeBallValueFirst = (left: string) => {
+    return {
+        type: CHANGE_BALL_VALUE_FIRST,
+        amount: left
+    }
+}
+
+const changeBallValueSecond = (right: string) => {
+    return {
+        type: CHANGE_BALL_VALUE_SECOND,
+        amount: right
     }
 }
 
@@ -45,17 +61,15 @@ const changeValueSecond = (value: string) => {
     }
 }
 
-const disableRunnersValues = (disable: boolean) => {
+const disableRunnersValues = () => {
     return {
-        type: DISABLE_RUNNERS_VALUES,
-        amount: disable
+        type: DISABLE_RUNNERS_VALUES
     }
 }
 
-const toggleVerticalPosition = (toggle: boolean) => {
+const toggleVerticalPosition = () => {
     return {
-        type: TOGGLE_VERTICAL_POSITION,
-        amount: toggle
+        type: TOGGLE_VERTICAL_POSITION
     }
 }
 
@@ -75,6 +89,8 @@ const changeStep = (step: string) => {
 
 export {
     loadFirstData,
+    changeBallValueFirst,
+    changeBallValueSecond,
     changeMin,
     changeMax,
     changeValueFirst,

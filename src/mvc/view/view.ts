@@ -2,8 +2,6 @@ class View {
     $slider: HTMLElement | null
     settings: any
     $between: HTMLElement | null | undefined
-    $slider1: any
-    $slider2: any
     $step: any
     $range: HTMLElement | null | undefined
     $num1: HTMLElement | null | undefined
@@ -15,20 +13,46 @@ class View {
     data: any
     $value1: any
     $value2: any
+    $disableValues: any
+    $rotate: any
+    $ball1: any
+    $ball2: any
+    $scale: HTMLElement
+    $sliderCoords: any
     constructor($slider: HTMLElement) {
         this.$slider = $slider
-        this.init()   
+        this.init()
+           
     }
+     
     init = () => {
         this.findDom()
         this.getData()
         this.sendDataToController()
         this.render(this.data)
     }
+    getCoords = (elem) => {
+        var box = elem[0].getBoundingClientRect();
+        return {
+            top: box.top + pageYOffset,
+            left: box.left + pageXOffset
+        };
+    } 
+    mousedown = (event, func, ball) => {
+        let ballCoords = this.getCoords(ball);
+        let shift = event.pageX - ballCoords.left;
+        const mousemove = (e) => {
+            let left = e.pageX - shift - this.$sliderCoords.left;
+            func(left)
+        }
+        $(document).mousemove(mousemove)
+        $(document).mouseup(() => $(document).off('mousemove'))      
+    }
     findDom = () => {
         if (this.$slider) {
-            this.$slider1 = this.$slider.find('.slider_first')
-            this.$slider2 = this.$slider.find('.slider_second')
+            this.$scale = this.$slider.find(`.slider__scale`)
+            this.$ball1 = this.$slider.find(`.slider__ball_first`)
+            this.$ball2 = this.$slider.find(`.slider__ball_second`)
             this.$min = this.$slider.find('.slider__min')
             this.$max = this.$slider.find('.slider__max')
             this.$value1 = this.$slider.find('.slider__value_first')
@@ -40,36 +64,38 @@ class View {
             this.$between = this.$slider.find('.slider__between')
             this.$begin = this.$slider.find('.slider__begin')
             this.$end = this.$slider.find('.slider__end')
+            this.$disableValues = this.$slider.find('.slider__values-runners')
+            this.$rotate = this.$slider.find('.slider__rotate')
         }
     }
     getData = () => {
         if (this.$slider !== null ) {
         let options = this.$slider.attr('data-options')
         this.data = JSON.parse(options)
+        this.data.widthScale = this.$scale.width()
+        this.data.ballWidth = this.$ball1.width()
+        this.$sliderCoords = this.getCoords(this.$scale);
         }
     }
     render = (data) => {
-        console.log(data)
-            const {value1, value2, min, max, step} = data
-            this.$begin.html(min)
-            this.$end.html(max)
-            this.$min.val(min)
-            this.$max.val(max)
-            this.$slider1.val(value1)
-            this.$slider2.val(value2)
-            this.$value1.val(value1)
-            this.$value2.val(value2)
-            this.$step.val(step)
-            this.$slider1.attr({
-                'min': min,
-                'max': max,
-                'step': step,
-            })
-            this.$slider2.attr({
-                'min': min,
-                'max': max,
-                'step': step,
-            })    
+        const {value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right} = data
+        this.$begin.html(min)
+        this.$end.html(max)
+        this.$min.val(min)
+        this.$max.val(max)
+        this.$value1.val(value1)
+        this.$value2.val(value2)
+        this.$step.val(step)
+        this.disableValuesRunners(disableValues) 
+        this.sliderVertical(vertical)
+        this.$ball1.css('left', left)
+        this.$ball2.css('left', right)
+    }
+    sendDataToController = () => this.data
+
+    addEventListenerBalls = (func: any, func2: any) => {
+        this.$ball1.mousedown((event) => this.mousedown(event, func, this.$ball1))
+        this.$ball2.mousedown((event) => this.mousedown(event, func2, this.$ball2))
     }
     addEventListenerMin = (f: any) => {
         this.$min.change(() => f(this.$min.val()))
@@ -83,45 +109,23 @@ class View {
     addEventListenerValueSecond = (f: any) => {
         this.$value2.change(() => f(this.$value2.val()))
     }
-    sendDataToController = () => this.data
+    addEventListenersDisableValues = (f: any) => {
+        this.$disableValues.change(() => f())
+    }
+    addEventListenersVerticalView = (f: any) => {
+        this.$rotate.change(() => f())
+    }
+    disableValuesRunners = (disableValues: boolean) => {
+        disableValues ? this.$num1.addClass('slider_white') : this.$num1.removeClass('slider_white')
+        disableValues ? this.$num2.addClass('slider_white') : this.$num2.removeClass('slider_white')
+    }
     
-    viewBetween = (left: number,  betwWidth: number) => {
-        if (this.$between !== null && this.$between !== undefined) {
-            this.$between.css({'marginLeft': left + 16 + 'px', 'width': betwWidth + 'px'})
-        }
-        
-    }
-    viewStep = (slider1: HTMLInputElement, slider2: HTMLInputElement, step: HTMLInputElement) => {
-        if (this.$slider1 !== null && this.$slider1 !== undefined && this.$slider2 !== null && this.$slider2 !== undefined && this.$step !== null && this.$step !== undefined) {
-            slider1.step = this.$step.val() || this.settings.step
-            slider2.step = this.$step.val() || this.settings.step
-        }
-    }  
-
-    viewNum = (el: HTMLElement, num: number, left: number) => {
-        el.innerHTML = num.toString()
-        el.style.marginLeft = left.toString() + 'px'
-    }
-
-    viewValue = (el: HTMLInputElement , num: number) => el.value = num.toString()
-
-    viewHideNum = () => {
-        if (this.$num1 !== null && this.$num1 !== undefined && this.$num2 !== null && this.$num2 !== undefined) {
-            this.$num1.toggleClass('slider_white')
-            this.$num2.toggleClass('slider_white')
-        }
-    }
-
-    viewRotate = () => {
-        if (this.$range !== null && this.$range !== undefined && this.$num1 !== null && this.$num1 !== undefined && 
-            this.$num2 !== null && this.$num2 !== undefined && this.$slider1 !== null && this.$slider1 !== undefined && 
-            this.$slider2 !== null && this.$slider2 !== undefined) {
-            this.$range.toggleClass('slider_vertical')
-            this.$num1.toggleClass('slider__rotateReverse')
-            this.$num2.toggleClass('slider__rotateReverse')
-            this.$slider1.toggleClass('slider_short')
-            this.$slider2.toggleClass('slider_short')
-        }
+    sliderVertical = (vertical) => {
+        vertical ? this.$range.addClass('slider_vertical') : this.$range.removeClass('slider_vertical')
+        vertical ? this.$num1.addClass('slider__rotate-reverse') : this.$num1.removeClass('slider__rotate-reverse')
+        vertical ? this.$num2.addClass('slider__rotate-reverse') : this.$num2.removeClass('slider__rotate-reverse')
+        //vertical ? this.$slider1.addClass('slider_short') : this.$slider1.removeClass('slider_short')
+        //vertical ? this.$slider2.addClass('slider_short') : this.$slider2.removeClass('slider_short')
     }
 }
 

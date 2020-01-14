@@ -8,6 +8,20 @@ var loadFirstData = function (data) {
     };
 };
 exports.loadFirstData = loadFirstData;
+var changeBallValueFirst = function (left) {
+    return {
+        type: actions_1.CHANGE_BALL_VALUE_FIRST,
+        amount: left
+    };
+};
+exports.changeBallValueFirst = changeBallValueFirst;
+var changeBallValueSecond = function (right) {
+    return {
+        type: actions_1.CHANGE_BALL_VALUE_SECOND,
+        amount: right
+    };
+};
+exports.changeBallValueSecond = changeBallValueSecond;
 var changeMin = function (min) {
     return {
         type: actions_1.CHANGE_MIN,
@@ -36,17 +50,15 @@ var changeValueSecond = function (value) {
     };
 };
 exports.changeValueSecond = changeValueSecond;
-var disableRunnersValues = function (disable) {
+var disableRunnersValues = function () {
     return {
-        type: actions_1.DISABLE_RUNNERS_VALUES,
-        amount: disable
+        type: actions_1.DISABLE_RUNNERS_VALUES
     };
 };
 exports.disableRunnersValues = disableRunnersValues;
-var toggleVerticalPosition = function (toggle) {
+var toggleVerticalPosition = function () {
     return {
-        type: actions_1.TOGGLE_VERTICAL_POSITION,
-        amount: toggle
+        type: actions_1.TOGGLE_VERTICAL_POSITION
     };
 };
 exports.toggleVerticalPosition = toggleVerticalPosition;

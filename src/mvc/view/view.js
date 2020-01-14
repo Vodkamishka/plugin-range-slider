@@ -9,10 +9,28 @@ var View = /** @class */ (function () {
             _this.sendDataToController();
             _this.render(_this.data);
         };
+        this.getCoords = function (elem) {
+            var box = elem[0].getBoundingClientRect();
+            return {
+                top: box.top + pageYOffset,
+                left: box.left + pageXOffset
+            };
+        };
+        this.mousedown = function (event, func, ball) {
+            var ballCoords = _this.getCoords(ball);
+            var shift = event.pageX - ballCoords.left;
+            var mousemove = function (e) {
+                var left = e.pageX - shift - _this.$sliderCoords.left;
+                func(left);
+            };
+            $(document).mousemove(mousemove);
+            $(document).mouseup(function () { return $(document).off('mousemove'); });
+        };
         this.findDom = function () {
             if (_this.$slider) {
-                _this.$slider1 = _this.$slider.find('.slider_first');
-                _this.$slider2 = _this.$slider.find('.slider_second');
+                _this.$scale = _this.$slider.find(".slider__scale");
+                _this.$ball1 = _this.$slider.find(".slider__ball_first");
+                _this.$ball2 = _this.$slider.find(".slider__ball_second");
                 _this.$min = _this.$slider.find('.slider__min');
                 _this.$max = _this.$slider.find('.slider__max');
                 _this.$value1 = _this.$slider.find('.slider__value_first');
@@ -24,36 +42,37 @@ var View = /** @class */ (function () {
                 _this.$between = _this.$slider.find('.slider__between');
                 _this.$begin = _this.$slider.find('.slider__begin');
                 _this.$end = _this.$slider.find('.slider__end');
+                _this.$disableValues = _this.$slider.find('.slider__values-runners');
+                _this.$rotate = _this.$slider.find('.slider__rotate');
             }
         };
         this.getData = function () {
             if (_this.$slider !== null) {
                 var options = _this.$slider.attr('data-options');
                 _this.data = JSON.parse(options);
+                _this.data.widthScale = _this.$scale.width();
+                _this.data.ballWidth = _this.$ball1.width();
+                _this.$sliderCoords = _this.getCoords(_this.$scale);
             }
         };
         this.render = function (data) {
-            console.log(data);
-            var value1 = data.value1, value2 = data.value2, min = data.min, max = data.max, step = data.step;
+            var value1 = data.value1, value2 = data.value2, min = data.min, max = data.max, step = data.step, disableValues = data.disableValues, vertical = data.vertical, oneRunner = data.oneRunner, left = data.left, right = data.right;
             _this.$begin.html(min);
             _this.$end.html(max);
             _this.$min.val(min);
             _this.$max.val(max);
-            _this.$slider1.val(value1);
-            _this.$slider2.val(value2);
             _this.$value1.val(value1);
             _this.$value2.val(value2);
             _this.$step.val(step);
-            _this.$slider1.attr({
-                'min': min,
-                'max': max,
-                'step': step
-            });
-            _this.$slider2.attr({
-                'min': min,
-                'max': max,
-                'step': step
-            });
+            _this.disableValuesRunners(disableValues);
+            _this.sliderVertical(vertical);
+            _this.$ball1.css('left', left);
+            _this.$ball2.css('left', right);
+        };
+        this.sendDataToController = function () { return _this.data; };
+        this.addEventListenerBalls = function (func, func2) {
+            _this.$ball1.mousedown(function (event) { return _this.mousedown(event, func, _this.$ball1); });
+            _this.$ball2.mousedown(function (event) { return _this.mousedown(event, func2, _this.$ball2); });
         };
         this.addEventListenerMin = function (f) {
             _this.$min.change(function () { return f(_this.$min.val()); });
@@ -67,39 +86,22 @@ var View = /** @class */ (function () {
         this.addEventListenerValueSecond = function (f) {
             _this.$value2.change(function () { return f(_this.$value2.val()); });
         };
-        this.sendDataToController = function () { return _this.data; };
-        this.viewBetween = function (left, betwWidth) {
-            if (_this.$between !== null && _this.$between !== undefined) {
-                _this.$between.css({ 'marginLeft': left + 16 + 'px', 'width': betwWidth + 'px' });
-            }
+        this.addEventListenersDisableValues = function (f) {
+            _this.$disableValues.change(function () { return f(); });
         };
-        this.viewStep = function (slider1, slider2, step) {
-            if (_this.$slider1 !== null && _this.$slider1 !== undefined && _this.$slider2 !== null && _this.$slider2 !== undefined && _this.$step !== null && _this.$step !== undefined) {
-                slider1.step = _this.$step.val() || _this.settings.step;
-                slider2.step = _this.$step.val() || _this.settings.step;
-            }
+        this.addEventListenersVerticalView = function (f) {
+            _this.$rotate.change(function () { return f(); });
         };
-        this.viewNum = function (el, num, left) {
-            el.innerHTML = num.toString();
-            el.style.marginLeft = left.toString() + 'px';
+        this.disableValuesRunners = function (disableValues) {
+            disableValues ? _this.$num1.addClass('slider_white') : _this.$num1.removeClass('slider_white');
+            disableValues ? _this.$num2.addClass('slider_white') : _this.$num2.removeClass('slider_white');
         };
-        this.viewValue = function (el, num) { return el.value = num.toString(); };
-        this.viewHideNum = function () {
-            if (_this.$num1 !== null && _this.$num1 !== undefined && _this.$num2 !== null && _this.$num2 !== undefined) {
-                _this.$num1.toggleClass('slider_white');
-                _this.$num2.toggleClass('slider_white');
-            }
-        };
-        this.viewRotate = function () {
-            if (_this.$range !== null && _this.$range !== undefined && _this.$num1 !== null && _this.$num1 !== undefined &&
-                _this.$num2 !== null && _this.$num2 !== undefined && _this.$slider1 !== null && _this.$slider1 !== undefined &&
-                _this.$slider2 !== null && _this.$slider2 !== undefined) {
-                _this.$range.toggleClass('slider_vertical');
-                _this.$num1.toggleClass('slider__rotateReverse');
-                _this.$num2.toggleClass('slider__rotateReverse');
-                _this.$slider1.toggleClass('slider_short');
-                _this.$slider2.toggleClass('slider_short');
-            }
+        this.sliderVertical = function (vertical) {
+            vertical ? _this.$range.addClass('slider_vertical') : _this.$range.removeClass('slider_vertical');
+            vertical ? _this.$num1.addClass('slider__rotate-reverse') : _this.$num1.removeClass('slider__rotate-reverse');
+            vertical ? _this.$num2.addClass('slider__rotate-reverse') : _this.$num2.removeClass('slider__rotate-reverse');
+            //vertical ? this.$slider1.addClass('slider_short') : this.$slider1.removeClass('slider_short')
+            //vertical ? this.$slider2.addClass('slider_short') : this.$slider2.removeClass('slider_short')
         };
         this.$slider = $slider;
         this.init();
