@@ -7,7 +7,7 @@ var controller_1 = require("./mvc/controller/controller");
     $.fn.slider = function (options) {
         this.each(function (index, element) {
             var view = new view_1["default"]($(element));
-            var model = new model_1["default"](element);
+            var model = new model_1["default"]();
             new controller_1["default"](view, model);
         });
     };

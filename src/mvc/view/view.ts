@@ -1,7 +1,7 @@
 class View {
     $slider: HTMLElement | null
     settings: any
-    $between: HTMLElement | null | undefined
+    $between: any
     $step: any
     $range: HTMLElement | null | undefined
     $num1: HTMLElement | null | undefined
@@ -84,6 +84,8 @@ class View {
         this.$end.html(max)
         this.$min.val(min)
         this.$max.val(max)
+        this.$num1.html(value1)
+        this.$num2.html(value2)
         this.$value1.val(value1)
         this.$value2.val(value2)
         this.$step.val(step)
@@ -91,6 +93,7 @@ class View {
         this.sliderVertical(vertical)
         this.$ball1.css('left', left)
         this.$ball2.css('left', right)
+        this.$between.css({'left': left + this.$ball1.width()/2, 'width': right - left})
         
     }
     sendDataToController = () => this.data
@@ -118,10 +121,9 @@ class View {
         this.$rotate.change(() => f())
     }
     disableValuesRunners = (disableValues: boolean) => {
-        disableValues ? this.$num1.addClass('slider_white') : this.$num1.removeClass('slider_white')
-        disableValues ? this.$num2.addClass('slider_white') : this.$num2.removeClass('slider_white')
+        disableValues ? this.$num1.addClass('slider__num_hide') : this.$num1.removeClass('slider__num_hide')
+        disableValues ? this.$num2.addClass('slider__num_hide') : this.$num2.removeClass('slider__num_hide')
     }
-    
     sliderVertical = (vertical) => {
         vertical ? this.$range.addClass('slider_vertical') : this.$range.removeClass('slider_vertical')
         vertical ? this.$num1.addClass('slider__rotate-reverse') : this.$num1.removeClass('slider__rotate-reverse')
@@ -129,6 +131,7 @@ class View {
         //vertical ? this.$slider1.addClass('slider_short') : this.$slider1.removeClass('slider_short')
         //vertical ? this.$slider2.addClass('slider_short') : this.$slider2.removeClass('slider_short')
     }
+   
 }
 
 export default View;

@@ -61,6 +61,8 @@ var View = /** @class */ (function () {
             _this.$end.html(max);
             _this.$min.val(min);
             _this.$max.val(max);
+            _this.$num1.html(value1);
+            _this.$num2.html(value2);
             _this.$value1.val(value1);
             _this.$value2.val(value2);
             _this.$step.val(step);
@@ -68,6 +70,7 @@ var View = /** @class */ (function () {
             _this.sliderVertical(vertical);
             _this.$ball1.css('left', left);
             _this.$ball2.css('left', right);
+            _this.$between.css({ 'left': left + _this.$ball1.width() / 2, 'width': right - left });
         };
         this.sendDataToController = function () { return _this.data; };
         this.addEventListenerBalls = function (func, func2) {
@@ -93,8 +96,8 @@ var View = /** @class */ (function () {
             _this.$rotate.change(function () { return f(); });
         };
         this.disableValuesRunners = function (disableValues) {
-            disableValues ? _this.$num1.addClass('slider_white') : _this.$num1.removeClass('slider_white');
-            disableValues ? _this.$num2.addClass('slider_white') : _this.$num2.removeClass('slider_white');
+            disableValues ? _this.$num1.addClass('slider__num_hide') : _this.$num1.removeClass('slider__num_hide');
+            disableValues ? _this.$num2.addClass('slider__num_hide') : _this.$num2.removeClass('slider__num_hide');
         };
         this.sliderVertical = function (vertical) {
             vertical ? _this.$range.addClass('slider_vertical') : _this.$range.removeClass('slider_vertical');

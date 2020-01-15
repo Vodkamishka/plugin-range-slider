@@ -5,10 +5,9 @@ import Controller from './mvc/controller/controller';
 
 (function ($: any) {
     $.fn.slider = function (options: any) {
-    
-       this.each((index: number, element: HTMLElement) => {    
+        this.each((index: number, element: HTMLElement) => {    
         const view = new View($(element))
-        const model = new Model(element)
+        const model = new Model()
         new Controller(view, model)
     })
     }

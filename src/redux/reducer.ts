@@ -13,6 +13,7 @@ let initialState = {
     ballWidth: ''
 }
 
+
 const reducer = (action: {type: any; amount: any; }, state: any) => {
     switch (action.type){
         case 'LOAD_FIRST_DATA': 
@@ -41,25 +42,26 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
                 value2: value2
             }
         case 'CHANGE_MIN':
-            if (action.amount >= state.max - state.step) action.amount = state.min
+            if (action.amount >= state.max - state.step*state.widthScale/(state.max - state.min)) action.amount = state.min
             return {
                 ...state,
-                min: action.amount
+                min: action.amount,
             }
         case 'CHANGE_MAX':
-            if (action.amount <= +state.min + +state.step) action.amount = state.max 
+            if (action.amount <= +state.min + state.step*state.widthScale/(state.max - state.min)) action.amount = state.max
             return {
                 ...state,
-                max: action.amount
+                max: action.amount,
+               
             }
         case 'CHANGE_VALUE_FIRST':
-            if (action.amount >= state.right - state.step || action.amount < state.min) action.amount = state.value1
+            if (action.amount >= state.value2 - state.step || action.amount < state.min) action.amount = state.value1
             return {
                 ...state,
                 value1: action.amount
             }
         case 'CHANGE_VALUE_SECOND': 
-            if (action.amount <= +state.left + +state.step || action.amount > state.max) action.amount = state.value2
+            if (action.amount <= +state.value1 + +state.step || action.amount > state.max) action.amount = state.value2
             return {
                 ...state,
                 value2: action.amount

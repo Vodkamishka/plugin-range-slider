@@ -11,13 +11,12 @@ import { loadFirstData,
     toggleVerticalPosition,
     enableOneRunner,
     changeStep,
-    calculateLeftFromValue} from '../../redux/actionCreators';
+    calculateLeftFromValue,
+    } from '../../redux/actionCreators';
 
 class Model {
-    wrapper: HTMLElement | null
     store: { getState: () => any; dispatch: (action: any) => void; subscribe: (callback: any) => any[]; };
-    constructor(value: HTMLElement) {
-        this.wrapper = value
+    constructor() {
         this.store = createStore(reducer);
     }
    
@@ -28,8 +27,14 @@ class Model {
     subscribe = (f: any) => this.store.subscribe(() => f(this.store.getState()))
     dispatchBallValueFirst = (left) => this.store.dispatch(changeBallValueFirst(left))
     dispatchBallValueSecond = (right) => this.store.dispatch(changeBallValueSecond(right))
-    dispatchMin = (min) => this.store.dispatch(changeMin(min))
-    dispatchMax = (max) => this.store.dispatch(changeMax(max))
+    dispatchMin = (min) => {
+        this.store.dispatch(changeMin(min))
+        this.store.dispatch(calculateLeftFromValue())
+    }
+    dispatchMax = (max) => {
+        this.store.dispatch(changeMax(max))
+        this.store.dispatch(calculateLeftFromValue())
+    }
     dispatchValueFirst = (value) => {
         this.store.dispatch(changeValueFirst(value))
         this.store.dispatch(calculateLeftFromValue())

@@ -50,19 +50,19 @@ var reducer = function (action, state) {
             var value2 = Math.round((right + state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
             return __assign(__assign({}, state), { right: right, value2: value2 });
         case 'CHANGE_MIN':
-            if (action.amount >= state.max - state.step)
+            if (action.amount >= state.max - state.step * state.widthScale / (state.max - state.min))
                 action.amount = state.min;
             return __assign(__assign({}, state), { min: action.amount });
         case 'CHANGE_MAX':
-            if (action.amount <= +state.min + +state.step)
+            if (action.amount <= +state.min + state.step * state.widthScale / (state.max - state.min))
                 action.amount = state.max;
             return __assign(__assign({}, state), { max: action.amount });
         case 'CHANGE_VALUE_FIRST':
-            if (action.amount >= state.right - state.step || action.amount < state.min)
+            if (action.amount >= state.value2 - state.step || action.amount < state.min)
                 action.amount = state.value1;
             return __assign(__assign({}, state), { value1: action.amount });
         case 'CHANGE_VALUE_SECOND':
-            if (action.amount <= +state.left + +state.step || action.amount > state.max)
+            if (action.amount <= +state.value1 + +state.step || action.amount > state.max)
                 action.amount = state.value2;
             return __assign(__assign({}, state), { value2: action.amount });
         case 'DISABLE_RUNNERS_VALUES':

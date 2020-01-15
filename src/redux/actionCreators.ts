@@ -10,7 +10,9 @@ import {
     TOGGLE_VERTICAL_POSITION,
     ENABLE_ONE_RUNNER,
     CHANGE_STEP,
-    CALCULATE_LEFT_FROM_VALUE
+    CALCULATE_LEFT_FROM_VALUE,
+   
+    
     
 } from './actions';
 
@@ -19,13 +21,15 @@ const changeBallValueFirst = (left: string) => ({type: CHANGE_BALL_VALUE_FIRST, 
 const changeBallValueSecond = (right: string) => ({type: CHANGE_BALL_VALUE_SECOND,amount: right})
 const changeMin = (min: string) => ({type: CHANGE_MIN, amount: min})
 const changeMax = (max: string) => ({type: CHANGE_MAX, amount: max})
-const changeValueFirst = (value: string) => ({type: CHANGE_VALUE_FIRST,amount: value})
+const changeValueFirst = (value: string) => ({type: CHANGE_VALUE_FIRST, amount: value})
 const changeValueSecond = (value: string) => ({type: CHANGE_VALUE_SECOND, amount: value})
 const disableRunnersValues = () => ({type: DISABLE_RUNNERS_VALUES})
 const toggleVerticalPosition = () => ({type: TOGGLE_VERTICAL_POSITION})
 const enableOneRunner = (enable: boolean) => ({type: ENABLE_ONE_RUNNER, amount: enable})
 const changeStep = (step: string) => ({type: CHANGE_STEP, amount: step})
 const calculateLeftFromValue = () => ({type: CALCULATE_LEFT_FROM_VALUE})
+
+
 
 
 export {
@@ -40,5 +44,6 @@ export {
     toggleVerticalPosition,
     enableOneRunner,
     changeStep,
-    calculateLeftFromValue
+    calculateLeftFromValue,
+
 }
