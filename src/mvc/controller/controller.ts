@@ -17,6 +17,8 @@ class Controller {
         this.controllerValueSecond()
         this.controllerDisableValues()
         this.controllerVerticalView()
+        this.controllerOneRunner()
+        this.controllerStep()
     }
    
     getDataFromView = () => this.view.sendDataToController() 
@@ -27,9 +29,10 @@ class Controller {
     controllerMax = () => this.view.addEventListenerMax(this.model.dispatchMax)
     controllerValueFirst = () => this.view.addEventListenerValueFirst(this.model.dispatchValueFirst)
     controllerValueSecond = () => this.view.addEventListenerValueSecond(this.model.dispatchValueSecond)
-    controllerDisableValues = () => this.view.addEventListenersDisableValues(this.model.dispatchDisableValues)
-    controllerVerticalView = () => this.view.addEventListenersVerticalView(this.model.dispatchVerticalView)
-
+    controllerDisableValues = () => this.view.addEventListenerDisableValues(this.model.dispatchDisableValues)
+    controllerVerticalView = () => this.view.addEventListenerVerticalView(this.model.dispatchVerticalView)
+    controllerOneRunner = () => this.view.addEventListenerOneToggle(this.model.dispatchOneToggle)
+    controllerStep = () => this.view.addEventListenerStep(this.model.dispatchStep)
 }
 
 export default Controller;

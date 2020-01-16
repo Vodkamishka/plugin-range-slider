@@ -19,6 +19,7 @@ class View {
     $ball2: any
     $scale: HTMLElement
     $sliderCoords: any
+    $toggle: any
     constructor($slider: HTMLElement) {
         this.$slider = $slider
         this.init()
@@ -67,6 +68,7 @@ class View {
             this.$end = this.$slider.find('.slider__end')
             this.$disableValues = this.$slider.find('.slider__values-runners')
             this.$rotate = this.$slider.find('.slider__rotate')
+            this.$toggle = this.$slider.find('.slider__one-toggle')
         }
     }
     getData = () => {
@@ -80,6 +82,7 @@ class View {
     }
     render = (data) => {
         const {value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right} = data
+        console.log(step)
         this.$begin.html(min)
         this.$end.html(max)
         this.$min.val(min)
@@ -89,12 +92,13 @@ class View {
         this.$value1.val(value1)
         this.$value2.val(value2)
         this.$step.val(step)
-        this.disableValuesRunners(disableValues) 
+        this.disableValuesOverBalls(disableValues) 
         this.sliderVertical(vertical)
         this.$ball1.css('left', left)
         this.$ball2.css('left', right)
         this.$between.css({'left': left + this.$ball1.width()/2, 'width': right - left})
-        
+        this.eneblaOneRunners(oneRunner)
+     
     }
     sendDataToController = () => this.data
 
@@ -102,25 +106,16 @@ class View {
         this.$ball1.mousedown((event) => this.mousedown(event, func, this.$ball1))
         this.$ball2.mousedown((event) => this.mousedown(event, func2, this.$ball2))
     }
-    addEventListenerMin = (f: any) => {
-        this.$min.change(() => f(this.$min.val()))
-    }
-    addEventListenerMax = (f: any) => {
-        this.$max.change(() => f(this.$max.val()))
-    }
-    addEventListenerValueFirst = (f: any) => {
-        this.$value1.change(() => f(this.$value1.val()))
-    }
-    addEventListenerValueSecond = (f: any) => {
-        this.$value2.change(() => f(this.$value2.val()))
-    }
-    addEventListenersDisableValues = (f: any) => {
-        this.$disableValues.change(() => f())
-    }
-    addEventListenersVerticalView = (f: any) => {
-        this.$rotate.change(() => f())
-    }
-    disableValuesRunners = (disableValues: boolean) => {
+    addEventListenerMin = (f: any) => this.$min.change(() => f(this.$min.val()))
+    addEventListenerMax = (f: any) => this.$max.change(() => f(this.$max.val()))
+    addEventListenerValueFirst = (f: any) => this.$value1.change(() => f(this.$value1.val()))
+    addEventListenerValueSecond = (f: any) => this.$value2.change(() => f(this.$value2.val()))
+    addEventListenerDisableValues = (f: any) => this.$disableValues.change(() => f())
+    addEventListenerVerticalView = (f: any) => this.$rotate.change(() => f())
+    addEventListenerOneToggle = (f: any) => this.$toggle.change(() => f())
+    addEventListenerStep = (f: any) => this.$step.change(() => f(this.$step.val()))
+
+    disableValuesOverBalls = (disableValues: boolean) => {
         disableValues ? this.$num1.addClass('slider__num_hide') : this.$num1.removeClass('slider__num_hide')
         disableValues ? this.$num2.addClass('slider__num_hide') : this.$num2.removeClass('slider__num_hide')
     }
@@ -131,7 +126,10 @@ class View {
         //vertical ? this.$slider1.addClass('slider_short') : this.$slider1.removeClass('slider_short')
         //vertical ? this.$slider2.addClass('slider_short') : this.$slider2.removeClass('slider_short')
     }
-   
+    eneblaOneRunners = (oneRunner) => {
+        oneRunner ? this.$ball1.addClass('slider__ball_hide') : this.$ball1.removeClass('slider__ball_hide')
+        oneRunner ? this.$value1.addClass('slider__value_white'): this.$value1.removeClass('slider__value_white')
+    }
 }
 
 export default View;

@@ -13,6 +13,8 @@ let initialState = {
     ballWidth: ''
 }
 
+const calculateLeft = (state) => (state.value1 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
+const calculateRight = (state) => (state.value2 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
 
 const reducer = (action: {type: any; amount: any; }, state: any) => {
     switch (action.type){
@@ -34,7 +36,7 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
         case 'CHANGE_BALL_VALUE_SECOND':
             let right = action.amount;
             if (right >= state.widthScale - state.ballWidth/2) {right = state.widthScale - state.ballWidth/2} 
-            if (right <= state.left + state.step* state.widthScale/(state.max - state.min)) {right = state.left + state.step* state.widthScale/(state.max - state.min)}
+            if (right <= state.left) {right = state.left}
             let value2 = Math.round((right + state.ballWidth/2) * (state.max - state.min) / state.widthScale + +state.min)
             return {
                 ...state,
@@ -43,6 +45,11 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
             }
         case 'CHANGE_MIN':
             if (action.amount >= state.max - state.step*state.widthScale/(state.max - state.min)) action.amount = state.min
+            if (action.amount > value1) {state.value1 = action.amount}
+            if (action.amount > value2) {
+                state.value1 = action.amount
+                state.value2 = action.amount + state.step
+            }
             return {
                 ...state,
                 min: action.amount,
@@ -79,7 +86,9 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
         case 'ENABLE_ONE_RUNNER': 
             return {
                 ...state,
-                oneRunner: action.amount
+                oneRunner: !state.oneRunner,
+                left: - state.ballWidth/2,
+                value1: 0
             }
         case 'CHANGE_STEP': 
             return {
@@ -87,13 +96,18 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
                 step: action.amount
             }
         case 'CALCULATE_LEFT_FROM_VALUE':
-            let newLeft = (state.value1 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
-            let newRight = (state.value2 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
             return {
                 ...state,
-                left: newLeft,
-                right: newRight
+                left: state.oneRunner ? -state.ballWidth/2 : calculateLeft(state),
+                right: calculateRight(state)
             }
+        case 'MADE_LEFT_ZERO':
+            return {
+                ...state,
+                left: - state.ballWidth/2,
+                value1: 0
+                }
+            
         default: 
             return state;
     }

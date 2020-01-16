@@ -19,11 +19,11 @@
         margin-left: 0.125rem;
         margin-right: 0.5rem;
     }
-    &__label {
+    &__wrapper-input {
         display: flex;
         align-items: center;
     }
-    &_white {
+    &__value_white {
         color: white;
     }
     &__rotate-reverse {

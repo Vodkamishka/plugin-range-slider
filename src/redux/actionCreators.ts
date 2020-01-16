@@ -11,7 +11,7 @@ import {
     ENABLE_ONE_RUNNER,
     CHANGE_STEP,
     CALCULATE_LEFT_FROM_VALUE,
-   
+    MADE_LEFT_ZERO 
     
     
 } from './actions';
@@ -25,10 +25,10 @@ const changeValueFirst = (value: string) => ({type: CHANGE_VALUE_FIRST, amount: 
 const changeValueSecond = (value: string) => ({type: CHANGE_VALUE_SECOND, amount: value})
 const disableRunnersValues = () => ({type: DISABLE_RUNNERS_VALUES})
 const toggleVerticalPosition = () => ({type: TOGGLE_VERTICAL_POSITION})
-const enableOneRunner = (enable: boolean) => ({type: ENABLE_ONE_RUNNER, amount: enable})
+const enableOneRunner = () => ({type: ENABLE_ONE_RUNNER})
 const changeStep = (step: string) => ({type: CHANGE_STEP, amount: step})
 const calculateLeftFromValue = () => ({type: CALCULATE_LEFT_FROM_VALUE})
-
+const madeLeftZero = () => ({type: MADE_LEFT_ZERO })
 
 
 
@@ -45,5 +45,5 @@ export {
     enableOneRunner,
     changeStep,
     calculateLeftFromValue,
-
+    madeLeftZero
 }

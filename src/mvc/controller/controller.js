@@ -14,6 +14,8 @@ var Controller = /** @class */ (function () {
             _this.controllerValueSecond();
             _this.controllerDisableValues();
             _this.controllerVerticalView();
+            _this.controllerOneRunner();
+            _this.controllerStep();
         };
         this.getDataFromView = function () { return _this.view.sendDataToController(); };
         this.sendDataToModel = function (options) { return _this.model.getDataFromController(options); };
@@ -23,8 +25,10 @@ var Controller = /** @class */ (function () {
         this.controllerMax = function () { return _this.view.addEventListenerMax(_this.model.dispatchMax); };
         this.controllerValueFirst = function () { return _this.view.addEventListenerValueFirst(_this.model.dispatchValueFirst); };
         this.controllerValueSecond = function () { return _this.view.addEventListenerValueSecond(_this.model.dispatchValueSecond); };
-        this.controllerDisableValues = function () { return _this.view.addEventListenersDisableValues(_this.model.dispatchDisableValues); };
-        this.controllerVerticalView = function () { return _this.view.addEventListenersVerticalView(_this.model.dispatchVerticalView); };
+        this.controllerDisableValues = function () { return _this.view.addEventListenerDisableValues(_this.model.dispatchDisableValues); };
+        this.controllerVerticalView = function () { return _this.view.addEventListenerVerticalView(_this.model.dispatchVerticalView); };
+        this.controllerOneRunner = function () { return _this.view.addEventListenerOneToggle(_this.model.dispatchOneToggle); };
+        this.controllerStep = function () { return _this.view.addEventListenerStep(_this.model.dispatchStep); };
         this.view = view;
         this.model = model;
         this.init();

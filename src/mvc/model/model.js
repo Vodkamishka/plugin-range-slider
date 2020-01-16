@@ -31,6 +31,11 @@ var Model = /** @class */ (function () {
         };
         this.dispatchDisableValues = function () { return _this.store.dispatch(actionCreators_1.disableRunnersValues()); };
         this.dispatchVerticalView = function () { return _this.store.dispatch(actionCreators_1.toggleVerticalPosition()); };
+        this.dispatchOneToggle = function () {
+            _this.store.dispatch(actionCreators_1.enableOneRunner());
+            //this.store.dispatch(madeLeftZero())
+        };
+        this.dispatchStep = function (step) { return _this.store.dispatch(actionCreators_1.changeStep(step)); };
         this.store = createStore_1["default"](reducer_1["default"]);
     }
     return Model;

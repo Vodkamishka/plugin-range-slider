@@ -44,6 +44,7 @@ var View = /** @class */ (function () {
                 _this.$end = _this.$slider.find('.slider__end');
                 _this.$disableValues = _this.$slider.find('.slider__values-runners');
                 _this.$rotate = _this.$slider.find('.slider__rotate');
+                _this.$toggle = _this.$slider.find('.slider__one-toggle');
             }
         };
         this.getData = function () {
@@ -57,6 +58,7 @@ var View = /** @class */ (function () {
         };
         this.render = function (data) {
             var value1 = data.value1, value2 = data.value2, min = data.min, max = data.max, step = data.step, disableValues = data.disableValues, vertical = data.vertical, oneRunner = data.oneRunner, left = data.left, right = data.right;
+            console.log(step);
             _this.$begin.html(min);
             _this.$end.html(max);
             _this.$min.val(min);
@@ -66,36 +68,27 @@ var View = /** @class */ (function () {
             _this.$value1.val(value1);
             _this.$value2.val(value2);
             _this.$step.val(step);
-            _this.disableValuesRunners(disableValues);
+            _this.disableValuesOverBalls(disableValues);
             _this.sliderVertical(vertical);
             _this.$ball1.css('left', left);
             _this.$ball2.css('left', right);
             _this.$between.css({ 'left': left + _this.$ball1.width() / 2, 'width': right - left });
+            _this.eneblaOneRunners(oneRunner);
         };
         this.sendDataToController = function () { return _this.data; };
         this.addEventListenerBalls = function (func, func2) {
             _this.$ball1.mousedown(function (event) { return _this.mousedown(event, func, _this.$ball1); });
             _this.$ball2.mousedown(function (event) { return _this.mousedown(event, func2, _this.$ball2); });
         };
-        this.addEventListenerMin = function (f) {
-            _this.$min.change(function () { return f(_this.$min.val()); });
-        };
-        this.addEventListenerMax = function (f) {
-            _this.$max.change(function () { return f(_this.$max.val()); });
-        };
-        this.addEventListenerValueFirst = function (f) {
-            _this.$value1.change(function () { return f(_this.$value1.val()); });
-        };
-        this.addEventListenerValueSecond = function (f) {
-            _this.$value2.change(function () { return f(_this.$value2.val()); });
-        };
-        this.addEventListenersDisableValues = function (f) {
-            _this.$disableValues.change(function () { return f(); });
-        };
-        this.addEventListenersVerticalView = function (f) {
-            _this.$rotate.change(function () { return f(); });
-        };
-        this.disableValuesRunners = function (disableValues) {
+        this.addEventListenerMin = function (f) { return _this.$min.change(function () { return f(_this.$min.val()); }); };
+        this.addEventListenerMax = function (f) { return _this.$max.change(function () { return f(_this.$max.val()); }); };
+        this.addEventListenerValueFirst = function (f) { return _this.$value1.change(function () { return f(_this.$value1.val()); }); };
+        this.addEventListenerValueSecond = function (f) { return _this.$value2.change(function () { return f(_this.$value2.val()); }); };
+        this.addEventListenerDisableValues = function (f) { return _this.$disableValues.change(function () { return f(); }); };
+        this.addEventListenerVerticalView = function (f) { return _this.$rotate.change(function () { return f(); }); };
+        this.addEventListenerOneToggle = function (f) { return _this.$toggle.change(function () { return f(); }); };
+        this.addEventListenerStep = function (f) { return _this.$step.change(function () { return f(_this.$step.val()); }); };
+        this.disableValuesOverBalls = function (disableValues) {
             disableValues ? _this.$num1.addClass('slider__num_hide') : _this.$num1.removeClass('slider__num_hide');
             disableValues ? _this.$num2.addClass('slider__num_hide') : _this.$num2.removeClass('slider__num_hide');
         };
@@ -105,6 +98,10 @@ var View = /** @class */ (function () {
             vertical ? _this.$num2.addClass('slider__rotate-reverse') : _this.$num2.removeClass('slider__rotate-reverse');
             //vertical ? this.$slider1.addClass('slider_short') : this.$slider1.removeClass('slider_short')
             //vertical ? this.$slider2.addClass('slider_short') : this.$slider2.removeClass('slider_short')
+        };
+        this.eneblaOneRunners = function (oneRunner) {
+            oneRunner ? _this.$ball1.addClass('slider__ball_hide') : _this.$ball1.removeClass('slider__ball_hide');
+            oneRunner ? _this.$value1.addClass('slider__value_white') : _this.$value1.removeClass('slider__value_white');
         };
         this.$slider = $slider;
         this.init();

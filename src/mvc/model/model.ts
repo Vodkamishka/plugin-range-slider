@@ -12,6 +12,7 @@ import { loadFirstData,
     enableOneRunner,
     changeStep,
     calculateLeftFromValue,
+    madeLeftZero
     } from '../../redux/actionCreators';
 
 class Model {
@@ -45,6 +46,11 @@ class Model {
     }
     dispatchDisableValues = () => this.store.dispatch(disableRunnersValues())
     dispatchVerticalView = () => this.store.dispatch(toggleVerticalPosition())
+    dispatchOneToggle = () => {
+        this.store.dispatch(enableOneRunner())
+        //this.store.dispatch(madeLeftZero())
+    }
+    dispatchStep = (step) => this.store.dispatch(changeStep(step))
 }
 
 export default Model;
