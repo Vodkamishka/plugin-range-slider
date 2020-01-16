@@ -25,45 +25,35 @@ var initialState = {
     widthScale: '',
     ballWidth: ''
 };
-var calculateLeft = function (state) { return (state.value1 - state.min) * state.widthScale / (state.max - state.min) - state.ballWidth / 2; };
-var calculateRight = function (state) { return (state.value2 - state.min) * state.widthScale / (state.max - state.min) - state.ballWidth / 2; };
+var calcLeftRight = function (state, value) { return (value - state.min) * state.widthScale / (state.max - state.min) - state.ballWidth / 2; };
+var widthStep = function (state) { return state.step * state.widthScale / (state.max - state.min); };
+var calcValue = function (state, leftOrRight) { return Math.round((leftOrRight + state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min); };
 var reducer = function (action, state) {
     switch (action.type) {
         case 'LOAD_FIRST_DATA':
             return __assign(__assign({}, state), action.amount);
         case 'CHANGE_BALL_VALUE_FIRST':
-            var left = action.amount;
-            if (left <= 0 - state.ballWidth / 2) {
-                left = 0 - state.ballWidth / 2;
+            if (action.amount <= 0 - state.ballWidth / 2) {
+                action.amount = 0 - state.ballWidth / 2;
             }
-            if (left >= state.right - state.step * state.widthScale / (state.max - state.min)) {
-                left = state.right - state.step * state.widthScale / (state.max - state.min);
+            if (action.amount >= state.right - widthStep(state)) {
+                action.amount = state.right - widthStep(state);
             }
-            var value1 = Math.round((left + state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
-            return __assign(__assign({}, state), { left: left, value1: value1 });
+            return __assign(__assign({}, state), { left: action.amount, value1: calcValue(state, action.amount) });
         case 'CHANGE_BALL_VALUE_SECOND':
-            var right = action.amount;
-            if (right >= state.widthScale - state.ballWidth / 2) {
-                right = state.widthScale - state.ballWidth / 2;
+            if (action.amount >= state.widthScale - state.ballWidth / 2) {
+                action.amount = state.widthScale - state.ballWidth / 2;
             }
-            if (right <= state.left) {
-                right = state.left;
+            if (action.amount <= state.left) {
+                action.amount = state.left;
             }
-            var value2 = Math.round((right + state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
-            return __assign(__assign({}, state), { right: right, value2: value2 });
+            return __assign(__assign({}, state), { right: action.amount, value2: calcValue(state, action.amount) });
         case 'CHANGE_MIN':
-            if (action.amount >= state.max - state.step * state.widthScale / (state.max - state.min))
+            if (action.amount >= state.max - state.step)
                 action.amount = state.min;
-            if (action.amount > value1) {
-                state.value1 = action.amount;
-            }
-            if (action.amount > value2) {
-                state.value1 = action.amount;
-                state.value2 = action.amount + state.step;
-            }
-            return __assign(__assign({}, state), { min: action.amount });
+            return __assign(__assign({}, state), { min: action.amount, value1: (action.amount >= state.value1) ? action.amount : state.value1, value2: (action.amount >= state.value2) ? +action.amount + +state.step : state.value2 });
         case 'CHANGE_MAX':
-            if (action.amount <= +state.min + state.step * state.widthScale / (state.max - state.min))
+            if (action.amount <= +state.min + +state.step)
                 action.amount = state.max;
             return __assign(__assign({}, state), { max: action.amount });
         case 'CHANGE_VALUE_FIRST':
@@ -83,7 +73,7 @@ var reducer = function (action, state) {
         case 'CHANGE_STEP':
             return __assign(__assign({}, state), { step: action.amount });
         case 'CALCULATE_LEFT_FROM_VALUE':
-            return __assign(__assign({}, state), { left: state.oneRunner ? -state.ballWidth / 2 : calculateLeft(state), right: calculateRight(state) });
+            return __assign(__assign({}, state), { left: state.oneRunner ? -state.ballWidth / 2 : calcLeftRight(state, state.value1), right: calcLeftRight(state, state.value2) });
         case 'MADE_LEFT_ZERO':
             return __assign(__assign({}, state), { left: -state.ballWidth / 2, value1: 0 });
         default:

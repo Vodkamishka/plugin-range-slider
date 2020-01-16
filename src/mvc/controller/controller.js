@@ -8,27 +8,22 @@ var Controller = /** @class */ (function () {
             var first_options = _this.getDataFromView();
             _this.sendDataToModel(first_options);
             _this.controllerBalls();
-            _this.controllerMin();
-            _this.controllerMax();
-            _this.controllerValueFirst();
-            _this.controllerValueSecond();
-            _this.controllerDisableValues();
-            _this.controllerVerticalView();
-            _this.controllerOneRunner();
-            _this.controllerStep();
         };
         this.getDataFromView = function () { return _this.view.sendDataToController(); };
         this.sendDataToModel = function (options) { return _this.model.getDataFromController(options); };
         this.controllerSubscribe = function () { return _this.model.subscribe(_this.view.render); };
-        this.controllerBalls = function () { return _this.view.addEventListenerBalls(_this.model.dispatchBallValueFirst, _this.model.dispatchBallValueSecond); };
-        this.controllerMin = function () { return _this.view.addEventListenerMin(_this.model.dispatchMin); };
-        this.controllerMax = function () { return _this.view.addEventListenerMax(_this.model.dispatchMax); };
-        this.controllerValueFirst = function () { return _this.view.addEventListenerValueFirst(_this.model.dispatchValueFirst); };
-        this.controllerValueSecond = function () { return _this.view.addEventListenerValueSecond(_this.model.dispatchValueSecond); };
-        this.controllerDisableValues = function () { return _this.view.addEventListenerDisableValues(_this.model.dispatchDisableValues); };
-        this.controllerVerticalView = function () { return _this.view.addEventListenerVerticalView(_this.model.dispatchVerticalView); };
-        this.controllerOneRunner = function () { return _this.view.addEventListenerOneToggle(_this.model.dispatchOneToggle); };
-        this.controllerStep = function () { return _this.view.addEventListenerStep(_this.model.dispatchStep); };
+        this.controllerBalls = function () { return _this.view.addEventListeners({
+            dispatchBallValueFirst: _this.model.dispatchBallValueFirst,
+            dispatchBallValueSecond: _this.model.dispatchBallValueSecond,
+            dispatchMin: _this.model.dispatchMin,
+            dispatchMax: _this.model.dispatchMax,
+            dispatchValueFirst: _this.model.dispatchValueFirst,
+            dispatchValueSecond: _this.model.dispatchValueSecond,
+            dispatchDisableValues: _this.model.dispatchDisableValues,
+            dispatchVerticalView: _this.model.dispatchVerticalView,
+            dispatchOneToggle: _this.model.dispatchOneToggle,
+            dispatchStep: _this.model.dispatchStep
+        }); };
         this.view = view;
         this.model = model;
         this.init();

@@ -11,28 +11,25 @@ class Controller {
         let first_options = this.getDataFromView()
         this.sendDataToModel(first_options)
         this.controllerBalls()
-        this.controllerMin()
-        this.controllerMax()
-        this.controllerValueFirst()
-        this.controllerValueSecond()
-        this.controllerDisableValues()
-        this.controllerVerticalView()
-        this.controllerOneRunner()
-        this.controllerStep()
+        
     }
    
     getDataFromView = () => this.view.sendDataToController() 
     sendDataToModel = (options: any) => this.model.getDataFromController(options)
     controllerSubscribe = () => this.model.subscribe(this.view.render)
-    controllerBalls = () => this.view.addEventListenerBalls(this.model.dispatchBallValueFirst, this.model.dispatchBallValueSecond)
-    controllerMin = () => this.view.addEventListenerMin(this.model.dispatchMin)
-    controllerMax = () => this.view.addEventListenerMax(this.model.dispatchMax)
-    controllerValueFirst = () => this.view.addEventListenerValueFirst(this.model.dispatchValueFirst)
-    controllerValueSecond = () => this.view.addEventListenerValueSecond(this.model.dispatchValueSecond)
-    controllerDisableValues = () => this.view.addEventListenerDisableValues(this.model.dispatchDisableValues)
-    controllerVerticalView = () => this.view.addEventListenerVerticalView(this.model.dispatchVerticalView)
-    controllerOneRunner = () => this.view.addEventListenerOneToggle(this.model.dispatchOneToggle)
-    controllerStep = () => this.view.addEventListenerStep(this.model.dispatchStep)
+
+    controllerBalls = () => this.view.addEventListeners({
+        dispatchBallValueFirst: this.model.dispatchBallValueFirst,
+        dispatchBallValueSecond: this.model.dispatchBallValueSecond,
+        dispatchMin: this.model.dispatchMin,
+        dispatchMax: this.model.dispatchMax,
+        dispatchValueFirst: this.model.dispatchValueFirst,
+        dispatchValueSecond: this.model.dispatchValueSecond,
+        dispatchDisableValues: this.model.dispatchDisableValues,
+        dispatchVerticalView: this.model.dispatchVerticalView,
+        dispatchOneToggle: this.model.dispatchOneToggle,
+        dispatchStep: this.model.dispatchStep
+    })
 }
 
 export default Controller;

@@ -22,15 +22,13 @@ class View {
     $toggle: any
     constructor($slider: HTMLElement) {
         this.$slider = $slider
-        this.init()
-           
+        this.init()    
     }
      
     init = () => {
         this.findDom()
         this.getData()
         this.sendDataToController()
-        this.render(this.data)
     }
     getCoords = (elem) => {
         var box = elem[0].getBoundingClientRect();
@@ -40,7 +38,6 @@ class View {
         };
     } 
     mousedown = (event, func, ball) => {
-        
         let ballCoords = this.getCoords(ball);
         let shift = event.pageX - ballCoords.left;
         const mousemove = (e) => {
@@ -52,23 +49,12 @@ class View {
     }
     findDom = () => {
         if (this.$slider) {
-            this.$scale = this.$slider.find(`.slider__scale`)
-            this.$ball1 = this.$slider.find(`.slider__ball_first`)
-            this.$ball2 = this.$slider.find(`.slider__ball_second`)
-            this.$min = this.$slider.find('.slider__min')
-            this.$max = this.$slider.find('.slider__max')
-            this.$value1 = this.$slider.find('.slider__value_first')
-            this.$value2 = this.$slider.find('.slider__value_second')
-            this.$step = this.$slider.find('.slider__step')
-            this.$range = this.$slider.find('.slider__range')
-            this.$num1 = this.$slider.find('.slider__num_first')
-            this.$num2 = this.$slider.find('.slider__num_second')
-            this.$between = this.$slider.find('.slider__between')
-            this.$begin = this.$slider.find('.slider__begin')
-            this.$end = this.$slider.find('.slider__end')
-            this.$disableValues = this.$slider.find('.slider__values-runners')
-            this.$rotate = this.$slider.find('.slider__rotate')
-            this.$toggle = this.$slider.find('.slider__one-toggle')
+            let domNames = [['$scale', 'scale'], ['$ball1', 'ball_first'], ['$ball2', 'ball_second'], ['$ball1', 'ball_first'], ['$min', 'min'],
+                ['$max', 'max'], ['$value1', 'value_first'], ['$value2', 'value_second'], ['$step', 'step'], ['$range', 'range'], ['$num1', 'num_first'],
+                ['$num2', 'num_second'], ['$between', 'between'], ['$begin', 'begin'], ['$end', 'end'], ['$disableValues', 'values-runners'],
+                ['$rotate', 'rotate'], ['$toggle', 'one-toggle'],
+            ]
+            domNames.forEach(el => this[`${el[0]}`] = this.$slider.find(`.slider__${el[1]}`))
         }
     }
     getData = () => {
@@ -80,40 +66,33 @@ class View {
         this.$sliderCoords = this.getCoords(this.$scale);
         }
     }
-    render = (data) => {
-        const {value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right} = data
-        console.log(step)
-        this.$begin.html(min)
-        this.$end.html(max)
-        this.$min.val(min)
-        this.$max.val(max)
-        this.$num1.html(value1)
-        this.$num2.html(value2)
-        this.$value1.val(value1)
-        this.$value2.val(value2)
-        this.$step.val(step)
+    render = ({value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right}) => {
+        let renderHtml = [['$begin', min], ['$end', max], ['$num1', value1], ['$num2', value2]] 
+        let renderVal = [['$min', min], ['$max', max], ['$value1', value1], ['$value2', value2], ['$step', step]]
+        let renderCss = [['$ball1', 'left', left], ['$ball2', 'left', right], ['$between', 'width', right - left]]
+        renderHtml.forEach(el => this[`${el[0]}`].html(el[1]))
+        renderVal.forEach(el => this[`${el[0]}`].val(el[1]))
+        renderCss.forEach(el => this[`${el[0]}`].css(el[1], el[2]))
+        this.$between.css('left', left + this.$ball1.width()/2)
         this.disableValuesOverBalls(disableValues) 
         this.sliderVertical(vertical)
-        this.$ball1.css('left', left)
-        this.$ball2.css('left', right)
-        this.$between.css({'left': left + this.$ball1.width()/2, 'width': right - left})
         this.eneblaOneRunners(oneRunner)
-     
     }
+
     sendDataToController = () => this.data
 
-    addEventListenerBalls = (func: any, func2: any) => {
-        this.$ball1.mousedown((event) => this.mousedown(event, func, this.$ball1))
-        this.$ball2.mousedown((event) => this.mousedown(event, func2, this.$ball2))
+    addEventListeners = (props) => {
+        this.$ball1.mousedown((event) => this.mousedown(event, props.dispatchBallValueFirst, this.$ball1))
+        this.$ball2.mousedown((event) => this.mousedown(event, props.dispatchBallValueSecond, this.$ball2))
+        this.$min.change(() => props.dispatchMin(this.$min.val()))
+        this.$max.change(() => props.dispatchMax(this.$max.val()))
+        this.$value1.change(() => props.dispatchValueFirst(this.$value1.val()))
+        this.$value2.change(() => props.dispatchValueSecond(this.$value2.val()))
+        this.$disableValues.change(() => props.dispatchDisableValues())
+        this.$rotate.change(() => props.dispatchVerticalView())
+        this.$toggle.change(() => props.dispatchOneToggle())
+        this.$step.change(() => props.dispatchStep(this.$step.val()))
     }
-    addEventListenerMin = (f: any) => this.$min.change(() => f(this.$min.val()))
-    addEventListenerMax = (f: any) => this.$max.change(() => f(this.$max.val()))
-    addEventListenerValueFirst = (f: any) => this.$value1.change(() => f(this.$value1.val()))
-    addEventListenerValueSecond = (f: any) => this.$value2.change(() => f(this.$value2.val()))
-    addEventListenerDisableValues = (f: any) => this.$disableValues.change(() => f())
-    addEventListenerVerticalView = (f: any) => this.$rotate.change(() => f())
-    addEventListenerOneToggle = (f: any) => this.$toggle.change(() => f())
-    addEventListenerStep = (f: any) => this.$step.change(() => f(this.$step.val()))
 
     disableValuesOverBalls = (disableValues: boolean) => {
         disableValues ? this.$num1.addClass('slider__num_hide') : this.$num1.removeClass('slider__num_hide')

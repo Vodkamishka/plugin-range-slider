@@ -7,7 +7,6 @@ var View = /** @class */ (function () {
             _this.findDom();
             _this.getData();
             _this.sendDataToController();
-            _this.render(_this.data);
         };
         this.getCoords = function (elem) {
             var box = elem[0].getBoundingClientRect();
@@ -28,23 +27,12 @@ var View = /** @class */ (function () {
         };
         this.findDom = function () {
             if (_this.$slider) {
-                _this.$scale = _this.$slider.find(".slider__scale");
-                _this.$ball1 = _this.$slider.find(".slider__ball_first");
-                _this.$ball2 = _this.$slider.find(".slider__ball_second");
-                _this.$min = _this.$slider.find('.slider__min');
-                _this.$max = _this.$slider.find('.slider__max');
-                _this.$value1 = _this.$slider.find('.slider__value_first');
-                _this.$value2 = _this.$slider.find('.slider__value_second');
-                _this.$step = _this.$slider.find('.slider__step');
-                _this.$range = _this.$slider.find('.slider__range');
-                _this.$num1 = _this.$slider.find('.slider__num_first');
-                _this.$num2 = _this.$slider.find('.slider__num_second');
-                _this.$between = _this.$slider.find('.slider__between');
-                _this.$begin = _this.$slider.find('.slider__begin');
-                _this.$end = _this.$slider.find('.slider__end');
-                _this.$disableValues = _this.$slider.find('.slider__values-runners');
-                _this.$rotate = _this.$slider.find('.slider__rotate');
-                _this.$toggle = _this.$slider.find('.slider__one-toggle');
+                var domNames = [['$scale', 'scale'], ['$ball1', 'ball_first'], ['$ball2', 'ball_second'], ['$ball1', 'ball_first'], ['$min', 'min'],
+                    ['$max', 'max'], ['$value1', 'value_first'], ['$value2', 'value_second'], ['$step', 'step'], ['$range', 'range'], ['$num1', 'num_first'],
+                    ['$num2', 'num_second'], ['$between', 'between'], ['$begin', 'begin'], ['$end', 'end'], ['$disableValues', 'values-runners'],
+                    ['$rotate', 'rotate'], ['$toggle', 'one-toggle'],
+                ];
+                domNames.forEach(function (el) { return _this["" + el[0]] = _this.$slider.find(".slider__" + el[1]); });
             }
         };
         this.getData = function () {
@@ -56,38 +44,32 @@ var View = /** @class */ (function () {
                 _this.$sliderCoords = _this.getCoords(_this.$scale);
             }
         };
-        this.render = function (data) {
-            var value1 = data.value1, value2 = data.value2, min = data.min, max = data.max, step = data.step, disableValues = data.disableValues, vertical = data.vertical, oneRunner = data.oneRunner, left = data.left, right = data.right;
-            console.log(step);
-            _this.$begin.html(min);
-            _this.$end.html(max);
-            _this.$min.val(min);
-            _this.$max.val(max);
-            _this.$num1.html(value1);
-            _this.$num2.html(value2);
-            _this.$value1.val(value1);
-            _this.$value2.val(value2);
-            _this.$step.val(step);
+        this.render = function (_a) {
+            var value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step = _a.step, disableValues = _a.disableValues, vertical = _a.vertical, oneRunner = _a.oneRunner, left = _a.left, right = _a.right;
+            var renderHtml = [['$begin', min], ['$end', max], ['$num1', value1], ['$num2', value2]];
+            var renderVal = [['$min', min], ['$max', max], ['$value1', value1], ['$value2', value2], ['$step', step]];
+            var renderCss = [['$ball1', 'left', left], ['$ball2', 'left', right], ['$between', 'width', right - left]];
+            renderHtml.forEach(function (el) { return _this["" + el[0]].html(el[1]); });
+            renderVal.forEach(function (el) { return _this["" + el[0]].val(el[1]); });
+            renderCss.forEach(function (el) { return _this["" + el[0]].css(el[1], el[2]); });
+            _this.$between.css('left', left + _this.$ball1.width() / 2);
             _this.disableValuesOverBalls(disableValues);
             _this.sliderVertical(vertical);
-            _this.$ball1.css('left', left);
-            _this.$ball2.css('left', right);
-            _this.$between.css({ 'left': left + _this.$ball1.width() / 2, 'width': right - left });
             _this.eneblaOneRunners(oneRunner);
         };
         this.sendDataToController = function () { return _this.data; };
-        this.addEventListenerBalls = function (func, func2) {
-            _this.$ball1.mousedown(function (event) { return _this.mousedown(event, func, _this.$ball1); });
-            _this.$ball2.mousedown(function (event) { return _this.mousedown(event, func2, _this.$ball2); });
+        this.addEventListeners = function (props) {
+            _this.$ball1.mousedown(function (event) { return _this.mousedown(event, props.dispatchBallValueFirst, _this.$ball1); });
+            _this.$ball2.mousedown(function (event) { return _this.mousedown(event, props.dispatchBallValueSecond, _this.$ball2); });
+            _this.$min.change(function () { return props.dispatchMin(_this.$min.val()); });
+            _this.$max.change(function () { return props.dispatchMax(_this.$max.val()); });
+            _this.$value1.change(function () { return props.dispatchValueFirst(_this.$value1.val()); });
+            _this.$value2.change(function () { return props.dispatchValueSecond(_this.$value2.val()); });
+            _this.$disableValues.change(function () { return props.dispatchDisableValues(); });
+            _this.$rotate.change(function () { return props.dispatchVerticalView(); });
+            _this.$toggle.change(function () { return props.dispatchOneToggle(); });
+            _this.$step.change(function () { return props.dispatchStep(_this.$step.val()); });
         };
-        this.addEventListenerMin = function (f) { return _this.$min.change(function () { return f(_this.$min.val()); }); };
-        this.addEventListenerMax = function (f) { return _this.$max.change(function () { return f(_this.$max.val()); }); };
-        this.addEventListenerValueFirst = function (f) { return _this.$value1.change(function () { return f(_this.$value1.val()); }); };
-        this.addEventListenerValueSecond = function (f) { return _this.$value2.change(function () { return f(_this.$value2.val()); }); };
-        this.addEventListenerDisableValues = function (f) { return _this.$disableValues.change(function () { return f(); }); };
-        this.addEventListenerVerticalView = function (f) { return _this.$rotate.change(function () { return f(); }); };
-        this.addEventListenerOneToggle = function (f) { return _this.$toggle.change(function () { return f(); }); };
-        this.addEventListenerStep = function (f) { return _this.$step.change(function () { return f(_this.$step.val()); }); };
         this.disableValuesOverBalls = function (disableValues) {
             disableValues ? _this.$num1.addClass('slider__num_hide') : _this.$num1.removeClass('slider__num_hide');
             disableValues ? _this.$num2.addClass('slider__num_hide') : _this.$num2.removeClass('slider__num_hide');

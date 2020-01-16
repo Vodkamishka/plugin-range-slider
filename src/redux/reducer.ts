@@ -13,8 +13,9 @@ let initialState = {
     ballWidth: ''
 }
 
-const calculateLeft = (state) => (state.value1 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
-const calculateRight = (state) => (state.value2 - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
+const calcLeftRight = (state, value) => (value - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
+const widthStep = (state) => state.step* state.widthScale/(state.max - state.min)
+const calcValue = (state, leftOrRight) => Math.round((leftOrRight + state.ballWidth/2) * (state.max - state.min) / state.widthScale + +state.min)
 
 const reducer = (action: {type: any; amount: any; }, state: any) => {
     switch (action.type){
@@ -24,38 +25,31 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
                 ...action.amount
             }
         case 'CHANGE_BALL_VALUE_FIRST':
-            let left = action.amount;
-            if (left <= 0 - state.ballWidth/2) {left = 0 - state.ballWidth/2}
-            if (left >= state.right - state.step* state.widthScale/(state.max - state.min)) {left = state.right - state.step* state.widthScale/(state.max - state.min)}
-            let value1 = Math.round((left + state.ballWidth/2) * (state.max - state.min) / state.widthScale + +state.min)
+            if (action.amount <= 0 - state.ballWidth/2) {action.amount = 0 - state.ballWidth/2}
+            if (action.amount >= state.right - widthStep(state)) {action.amount = state.right - widthStep(state)}
             return {
                 ...state,
-                left: left,
-                value1: value1
+                left: action.amount,
+                value1: calcValue(state, action.amount)
             }
         case 'CHANGE_BALL_VALUE_SECOND':
-            let right = action.amount;
-            if (right >= state.widthScale - state.ballWidth/2) {right = state.widthScale - state.ballWidth/2} 
-            if (right <= state.left) {right = state.left}
-            let value2 = Math.round((right + state.ballWidth/2) * (state.max - state.min) / state.widthScale + +state.min)
+            if (action.amount >= state.widthScale - state.ballWidth/2) {action.amount = state.widthScale - state.ballWidth/2} 
+            if (action.amount <= state.left) {action.amount = state.left}
             return {
                 ...state,
-                right: right,
-                value2: value2
+                right: action.amount,
+                value2: calcValue(state, action.amount)
             }
         case 'CHANGE_MIN':
-            if (action.amount >= state.max - state.step*state.widthScale/(state.max - state.min)) action.amount = state.min
-            if (action.amount > value1) {state.value1 = action.amount}
-            if (action.amount > value2) {
-                state.value1 = action.amount
-                state.value2 = action.amount + state.step
-            }
+            if (action.amount >= state.max - state.step) action.amount = state.min
             return {
                 ...state,
                 min: action.amount,
+                value1: (action.amount >= state.value1) ? action.amount : state.value1,
+                value2: (action.amount >= state.value2) ? +action.amount + +state.step : state.value2, 
             }
         case 'CHANGE_MAX':
-            if (action.amount <= +state.min + state.step*state.widthScale/(state.max - state.min)) action.amount = state.max
+            if (action.amount <= +state.min + +state.step) action.amount = state.max
             return {
                 ...state,
                 max: action.amount,
@@ -98,8 +92,8 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
         case 'CALCULATE_LEFT_FROM_VALUE':
             return {
                 ...state,
-                left: state.oneRunner ? -state.ballWidth/2 : calculateLeft(state),
-                right: calculateRight(state)
+                left: state.oneRunner ? -state.ballWidth/2 : calcLeftRight(state, state.value1),
+                right: calcLeftRight(state, state.value2)
             }
         case 'MADE_LEFT_ZERO':
             return {
