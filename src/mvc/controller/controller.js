@@ -8,22 +8,16 @@ var Controller = /** @class */ (function () {
             var first_options = _this.getDataFromView();
             _this.sendDataToModel(first_options);
             _this.controllerBalls();
+            _this.controllerState();
         };
         this.getDataFromView = function () { return _this.view.sendDataToController(); };
         this.sendDataToModel = function (options) { return _this.model.getDataFromController(options); };
         this.controllerSubscribe = function () { return _this.model.subscribe(_this.view.render); };
         this.controllerBalls = function () { return _this.view.addEventListeners({
             dispatchBallValueFirst: _this.model.dispatchBallValueFirst,
-            dispatchBallValueSecond: _this.model.dispatchBallValueSecond,
-            dispatchMin: _this.model.dispatchMin,
-            dispatchMax: _this.model.dispatchMax,
-            dispatchValueFirst: _this.model.dispatchValueFirst,
-            dispatchValueSecond: _this.model.dispatchValueSecond,
-            dispatchDisableValues: _this.model.dispatchDisableValues,
-            dispatchVerticalView: _this.model.dispatchVerticalView,
-            dispatchOneToggle: _this.model.dispatchOneToggle,
-            dispatchStep: _this.model.dispatchStep
+            dispatchBallValueSecond: _this.model.dispatchBallValueSecond
         }); };
+        this.controllerState = function () { return _this.view.addEventListener(_this.model.dispatchState); };
         this.view = view;
         this.model = model;
         this.init();

@@ -1,23 +1,72 @@
-let initialState = {
-    min: '',
-    max: '',
-    value1: '',
-    value2: '',
-    disableValues: undefined,
-    vertical: undefined,
-    oneRunner: undefined,
-    step: '',
-    left: '',
-    right: '',
-    widthScale: '',
-    ballWidth: ''
-}
-
-const calcLeftRight = (state, value) => (value - state.min)* state.widthScale/(state.max - state.min) - state.ballWidth/2;
+const calcLeftRight = (state, value, min, max) => (value - min)* state.widthScale/(max - min) - state.ballWidth/2;
 const widthStep = (state) => state.step* state.widthScale/(state.max - state.min)
 const calcValue = (state, leftOrRight) => Math.round((leftOrRight + state.ballWidth/2) * (state.max - state.min) / state.widthScale + +state.min)
 
 const reducer = (action: {type: any; amount: any; }, state: any) => {
+    switch (action.type){
+        case 'LOAD_FIRST_DATA': 
+            return {
+                ...state,
+                ...action.amount,
+                left: action.amount.oneRunner ? -action.amount.ballWidth/2 : calcLeftRight(action.amount, action.amount.value1, action.amount.min, action.amount.max),
+                right: calcLeftRight(action.amount, action.amount.value2, action.amount.min, action.amount.max)
+            }
+        case 'CHANGE_BALL_VALUE_FIRST':
+            if (action.amount <= 0 - state.ballWidth/2) {action.amount = 0 - state.ballWidth/2}
+            if (action.amount >= state.right - widthStep(state)) {action.amount = state.right - widthStep(state)}
+            return {
+                ...state,
+                left: action.amount,
+                value1: calcValue(state, action.amount)
+            }
+        case 'CHANGE_BALL_VALUE_SECOND':
+            if (action.amount >= state.widthScale - state.ballWidth/2) {action.amount = state.widthScale - state.ballWidth/2} 
+            if (action.amount <= state.left) {action.amount = state.left}
+            return {
+                ...state,
+                right: action.amount,
+                value2: calcValue(state, action.amount)
+            }
+        case 'CHANGE_STATE':
+            let {min, max, step, value1, value2, disableValues, vertical, oneRunner} = action.amount
+
+            value1 = value1 || state.value1
+            value2 = value2 || state.value2
+
+            if (min >= max - step) min = state.min
+            if (max <= +min + +step) max = state.max
+
+            if (value1 >= value2 - state.step || value1 < min) value1 = state.value1
+            if (value2 <= +value1 + +step || value2 > max) value2 = state.value2
+
+            if (min >= value1 && min < value2) {
+                value1 = min
+                
+            }
+            else if (min > value2) {
+                value1 = min
+                value2 = +min + +step
+            }
+            return {
+                ...state,
+                min,
+                max,
+                value1,
+                value2,
+                disableValues,
+                vertical,
+                oneRunner,
+                step,
+                left: oneRunner ? -state.ballWidth/2 : calcLeftRight(state, value1, min, max),
+                right: calcLeftRight(state, value2, min, max)
+            }
+        default: 
+            return state;
+    }
+}
+
+
+/*const reducer = (action: {type: any; amount: any; }, state: any) => {
     switch (action.type){
         case 'LOAD_FIRST_DATA': 
             return {
@@ -105,6 +154,6 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
         default: 
             return state;
     }
-}
+}*/
 
 export default reducer;

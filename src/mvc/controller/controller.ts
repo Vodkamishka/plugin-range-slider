@@ -11,7 +11,7 @@ class Controller {
         let first_options = this.getDataFromView()
         this.sendDataToModel(first_options)
         this.controllerBalls()
-        
+        this.controllerState()
     }
    
     getDataFromView = () => this.view.sendDataToController() 
@@ -21,15 +21,9 @@ class Controller {
     controllerBalls = () => this.view.addEventListeners({
         dispatchBallValueFirst: this.model.dispatchBallValueFirst,
         dispatchBallValueSecond: this.model.dispatchBallValueSecond,
-        dispatchMin: this.model.dispatchMin,
-        dispatchMax: this.model.dispatchMax,
-        dispatchValueFirst: this.model.dispatchValueFirst,
-        dispatchValueSecond: this.model.dispatchValueSecond,
-        dispatchDisableValues: this.model.dispatchDisableValues,
-        dispatchVerticalView: this.model.dispatchVerticalView,
-        dispatchOneToggle: this.model.dispatchOneToggle,
-        dispatchStep: this.model.dispatchStep
     })
+
+    controllerState = () => this.view.addEventListener(this.model.dispatchState)
 }
 
 export default Controller;

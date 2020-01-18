@@ -20,6 +20,7 @@ class View {
     $scale: HTMLElement
     $sliderCoords: any
     $toggle: any
+    props: any
     constructor($slider: HTMLElement) {
         this.$slider = $slider
         this.init()    
@@ -47,6 +48,7 @@ class View {
         $(document).mousemove(mousemove)
         $(document).mouseup(() => $(document).off('mousemove'))      
     }
+    
     findDom = () => {
         if (this.$slider) {
             let domNames = [['$scale', 'scale'], ['$ball1', 'ball_first'], ['$ball2', 'ball_second'], ['$ball1', 'ball_first'], ['$min', 'min'],
@@ -66,7 +68,9 @@ class View {
         this.$sliderCoords = this.getCoords(this.$scale);
         }
     }
-    render = ({value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right}) => {
+    render = (data) => {
+        const {value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right} = data
+        
         let renderHtml = [['$begin', min], ['$end', max], ['$num1', value1], ['$num2', value2]] 
         let renderVal = [['$min', min], ['$max', max], ['$value1', value1], ['$value2', value2], ['$step', step]]
         let renderCss = [['$ball1', 'left', left], ['$ball2', 'left', right], ['$between', 'width', right - left]]
@@ -84,14 +88,46 @@ class View {
     addEventListeners = (props) => {
         this.$ball1.mousedown((event) => this.mousedown(event, props.dispatchBallValueFirst, this.$ball1))
         this.$ball2.mousedown((event) => this.mousedown(event, props.dispatchBallValueSecond, this.$ball2))
-        this.$min.change(() => props.dispatchMin(this.$min.val()))
-        this.$max.change(() => props.dispatchMax(this.$max.val()))
-        this.$value1.change(() => props.dispatchValueFirst(this.$value1.val()))
-        this.$value2.change(() => props.dispatchValueSecond(this.$value2.val()))
-        this.$disableValues.change(() => props.dispatchDisableValues())
-        this.$rotate.change(() => props.dispatchVerticalView())
-        this.$toggle.change(() => props.dispatchOneToggle())
-        this.$step.change(() => props.dispatchStep(this.$step.val()))
+    }
+
+    addEventListener = (f: any) => {
+        let {min, max, step, disableValues, vertical, oneRunner} = this.data
+        let props = {min, max, step, disableValues, vertical, oneRunner}
+        this.$min.change(() => {
+            props['min'] = this.$min.val()
+            f(props)
+        })
+        this.$max.change(() => {
+            props['max'] = this.$max.val()
+            f(props)
+        })
+        this.$value1.change(() => {
+            props['value1'] = this.$value1.val()
+            f(props)
+        })
+        this.$value2.change(() => {
+            props['value2'] = this.$value2.val()
+            f(props)
+        })
+        this.$step.change(() => {
+            props['step'] = this.$step.val()
+            f(props)
+        })
+
+        this.$disableValues.change(() => {
+            props['disableValues'] = !props.disableValues
+            f(props)
+        })
+
+        this.$rotate.change(() => {
+            props['vertical'] = !props.vertical
+            f(props)
+        })
+       
+        this.$toggle.change(() => {
+            props['oneRunner'] = !props.oneRunner
+            f(props)
+        }) 
     }
 
     disableValuesOverBalls = (disableValues: boolean) => {

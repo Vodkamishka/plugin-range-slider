@@ -1,12 +1,16 @@
 # Range slider plugin tdd mvc typescript
 
-[Демонстрация](https://vodkamishka.github.io/plugin-range-slider/) | [Репозиторий](https://github.com/Vodkamishka/plugin-range-slider)
+[Демонстрация](https://vodkamishka.github.io/plugin-range-slider/public/) 
+
+[Репозиторий](https://github.com/Vodkamishka/plugin-range-slider)
 
 Тестовое задание для Fullstack Development
 
 ## Описание
 
 Слайдер с двумя бегунками с возможностью менять значения в панели конфигурации.
+
+
 
 ## Установка плагина
 
