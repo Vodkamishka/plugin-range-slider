@@ -7,7 +7,5 @@ var changeBallValueFirst = function (left) { return ({ type: actions_1.CHANGE_BA
 exports.changeBallValueFirst = changeBallValueFirst;
 var changeBallValueSecond = function (right) { return ({ type: actions_1.CHANGE_BALL_VALUE_SECOND, amount: right }); };
 exports.changeBallValueSecond = changeBallValueSecond;
-var changeState = function (props) {
-    return { type: actions_1.CHANGE_STATE, amount: props };
-};
+var changeState = function (props) { return ({ type: actions_1.CHANGE_STATE, amount: props }); };
 exports.changeState = changeState;

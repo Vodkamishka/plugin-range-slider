@@ -2,17 +2,15 @@ import {
     LOAD_FIRST_DATA,
     CHANGE_BALL_VALUE_FIRST,
     CHANGE_BALL_VALUE_SECOND,
-    CHANGE_STATE
+    CHANGE_STATE,
     
 } from './actions';
 
 const loadFirstData = (data:any) => ({type: LOAD_FIRST_DATA, amount: data})
 const changeBallValueFirst = (left: string) => ({type: CHANGE_BALL_VALUE_FIRST, amount: left})
 const changeBallValueSecond = (right: string) => ({type: CHANGE_BALL_VALUE_SECOND,amount: right})
-const changeState = (props: any) => {
-   
-    return {type: CHANGE_STATE, amount: props}
-}
+const changeState = (props: any) => ({type: CHANGE_STATE, amount: props})
+
 
 export {
     loadFirstData,

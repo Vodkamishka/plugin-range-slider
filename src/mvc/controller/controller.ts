@@ -10,7 +10,7 @@ class Controller {
         this.controllerSubscribe()
         let first_options = this.getDataFromView()
         this.sendDataToModel(first_options)
-        this.controllerBalls()
+        //this.controllerBalls()
         this.controllerState()
     }
    
@@ -18,12 +18,12 @@ class Controller {
     sendDataToModel = (options: any) => this.model.getDataFromController(options)
     controllerSubscribe = () => this.model.subscribe(this.view.render)
 
-    controllerBalls = () => this.view.addEventListeners({
+    controllerBalls = () => this.view.addEventListenersBalls({
         dispatchBallValueFirst: this.model.dispatchBallValueFirst,
         dispatchBallValueSecond: this.model.dispatchBallValueSecond,
     })
 
-    controllerState = () => this.view.addEventListener(this.model.dispatchState)
+    controllerState = () => this.view.addEventListeners(this.model.dispatchState, this.model.dispatchBallValueFirst, this.model.dispatchBallValueSecond)
 }
 
 export default Controller;

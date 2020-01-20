@@ -3,7 +3,7 @@ import reducer from '../../redux/reducer';
 import {loadFirstData,
     changeBallValueFirst,
     changeBallValueSecond,
-    changeState
+    changeState,
     } from '../../redux/actionCreators';
 
 class Model {
@@ -16,9 +16,9 @@ class Model {
         
     subscribe = (f: any) => this.store.subscribe(() => f(this.store.getState()))
 
+
     dispatchBallValueFirst = (left) => this.store.dispatch(changeBallValueFirst(left))
     dispatchBallValueSecond = (right) => this.store.dispatch(changeBallValueSecond(right))
-   
     dispatchState = (options) => this.store.dispatch(changeState(options))
 }
 
