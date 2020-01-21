@@ -68,6 +68,7 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
             }
             
             return {
+                
                 ...state,
                 min,
                 max,
