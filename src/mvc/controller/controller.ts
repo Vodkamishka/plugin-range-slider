@@ -7,23 +7,15 @@ class Controller {
         this.init()
 }
     init = () => {
-        this.controllerSubscribe()
-        let first_options = this.getDataFromView()
-        this.sendDataToModel(first_options)
-        //this.controllerBalls()
+        this.model.subscribe(this.view.render)
+        let first_options = this.view.sendDatafromViewToController()
+        this.model.sendDataFromControllerToModel(first_options)
         this.controllerState()
     }
-   
-    getDataFromView = () => this.view.sendDataToController() 
-    sendDataToModel = (options: any) => this.model.getDataFromController(options)
-    controllerSubscribe = () => this.model.subscribe(this.view.render)
-
-    controllerBalls = () => this.view.addEventListenersBalls({
-        dispatchBallValueFirst: this.model.dispatchBallValueFirst,
-        dispatchBallValueSecond: this.model.dispatchBallValueSecond,
-    })
-
-    controllerState = () => this.view.addEventListeners(this.model.dispatchState, this.model.dispatchBallValueFirst, this.model.dispatchBallValueSecond)
+    controllerState = () => this.view.addEventListeners(
+        this.model.dispatchState, 
+        this.model.dispatchBallValueFirst, 
+        this.model.dispatchBallValueSecond)
 }
 
 export default Controller;

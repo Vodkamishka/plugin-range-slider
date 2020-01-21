@@ -36,6 +36,8 @@ var reducer = function (action, state) {
             return __assign(__assign({}, state), { right: action.amount, value2: calcValue(state, action.amount) });
         case 'CHANGE_STATE':
             var _a = action.amount, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step = _a.step, disableValues = _a.disableValues, vertical = _a.vertical, oneRunner = _a.oneRunner;
+            step = +step <= 0 ? state.step : step;
+            step = +step >= +max ? state.step : step;
             value1 = value1 || state.value1;
             value2 = value2 || state.value2;
             var widthScale = state.widthScale;
@@ -63,7 +65,8 @@ var reducer = function (action, state) {
                 value2 = max;
                 value1 = max - step;
             }
-            if (min !== state.min || max !== state.max || vertical !== state.vertical) {
+            if (min !== state.min || max !== state.max || vertical !== state.vertical || value1 !== state.value1 ||
+                value2 !== state.value2) {
                 left = calcLeftRight(state, value1, min, max, widthScale);
                 right = calcLeftRight(state, value2, min, max, widthScale);
             }
@@ -80,93 +83,4 @@ var reducer = function (action, state) {
             return state;
     }
 };
-/*const reducer = (action: {type: any; amount: any; }, state: any) => {
-    switch (action.type){
-        case 'LOAD_FIRST_DATA':
-            return {
-                ...state,
-                ...action.amount
-            }
-        case 'CHANGE_BALL_VALUE_FIRST':
-            if (action.amount <= 0 - state.ballWidth/2) {action.amount = 0 - state.ballWidth/2}
-            if (action.amount >= state.right - widthStep(state)) {action.amount = state.right - widthStep(state)}
-            return {
-                ...state,
-                left: action.amount,
-                value1: calcValue(state, action.amount)
-            }
-        case 'CHANGE_BALL_VALUE_SECOND':
-            if (action.amount >= state.widthScale - state.ballWidth/2) {action.amount = state.widthScale - state.ballWidth/2}
-            if (action.amount <= state.left) {action.amount = state.left}
-            return {
-                ...state,
-                right: action.amount,
-                value2: calcValue(state, action.amount)
-            }
-        case 'CHANGE_MIN':
-            if (action.amount >= state.max - state.step) action.amount = state.min
-            return {
-                ...state,
-                min: action.amount,
-                value1: (action.amount >= state.value1) ? action.amount : state.value1,
-                value2: (action.amount >= state.value2) ? +action.amount + +state.step : state.value2,
-            }
-        case 'CHANGE_MAX':
-            if (action.amount <= +state.min + +state.step) action.amount = state.max
-            return {
-                ...state,
-                max: action.amount,
-               
-            }
-        case 'CHANGE_VALUE_FIRST':
-            if (action.amount >= state.value2 - state.step || action.amount < state.min) action.amount = state.value1
-            return {
-                ...state,
-                value1: action.amount
-            }
-        case 'CHANGE_VALUE_SECOND':
-            if (action.amount <= +state.value1 + +state.step || action.amount > state.max) action.amount = state.value2
-            return {
-                ...state,
-                value2: action.amount
-            }
-        case 'DISABLE_RUNNERS_VALUES':
-            return {
-                ...state,
-                disableValues: !state.disableValues
-            }
-        case 'TOGGLE_VERTICAL_POSITION':
-            return {
-                ...state,
-                vertical: !state.vertical
-            }
-        case 'ENABLE_ONE_RUNNER':
-            return {
-                ...state,
-                oneRunner: !state.oneRunner,
-                left: - state.ballWidth/2,
-                value1: 0
-            }
-        case 'CHANGE_STEP':
-            return {
-                ...state,
-                step: action.amount
-            }
-        case 'CALCULATE_LEFT_FROM_VALUE':
-            return {
-                ...state,
-                left: state.oneRunner ? -state.ballWidth/2 : calcLeftRight(state, state.value1),
-                right: calcLeftRight(state, state.value2)
-            }
-        case 'MADE_LEFT_ZERO':
-            return {
-                ...state,
-                left: - state.ballWidth/2,
-                value1: 0
-                }
-            
-        default:
-            return state;
-    }
-}*/
 exports["default"] = reducer;

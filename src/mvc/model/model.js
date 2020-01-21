@@ -6,8 +6,8 @@ var actionCreators_1 = require("../../redux/actionCreators");
 var Model = /** @class */ (function () {
     function Model() {
         var _this = this;
-        this.getDataFromController = function (options) { return _this.store.dispatch(actionCreators_1.loadFirstData(options)); };
-        this.subscribe = function (f) { return _this.store.subscribe(function () { return f(_this.store.getState()); }); };
+        this.sendDataFromControllerToModel = function (options) { return _this.store.dispatch(actionCreators_1.loadFirstData(options)); };
+        this.subscribe = function (render) { return _this.store.subscribe(function () { return render(_this.store.getState()); }); };
         this.dispatchBallValueFirst = function (left) { return _this.store.dispatch(actionCreators_1.changeBallValueFirst(left)); };
         this.dispatchBallValueSecond = function (right) { return _this.store.dispatch(actionCreators_1.changeBallValueSecond(right)); };
         this.dispatchState = function (options) { return _this.store.dispatch(actionCreators_1.changeState(options)); };
