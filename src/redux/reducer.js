@@ -75,9 +75,7 @@ var reducer = function (action, state) {
                 disableValues: disableValues,
                 vertical: vertical,
                 oneRunner: oneRunner,
-                step: step,
-                value1: value1,
-                value2: value2, left: oneRunner ? -state.ballWidth / 2 : left, right: right,
+                step: step, value1: oneRunner ? 0 : value1, value2: value2, left: oneRunner ? -state.ballWidth / 2 : left, right: right,
                 widthScale: widthScale });
         default:
             return state;

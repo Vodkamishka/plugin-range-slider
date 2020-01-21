@@ -75,7 +75,7 @@ const reducer = (action: {type: any; amount: any; }, state: any) => {
                 vertical,
                 oneRunner,
                 step,
-                value1,
+                value1: oneRunner ? 0 : value1,
                 value2,
                 left: oneRunner ? -state.ballWidth/2 : left,
                 right, 
