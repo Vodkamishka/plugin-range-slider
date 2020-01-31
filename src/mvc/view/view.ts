@@ -36,13 +36,11 @@ class View {
             left: box.left + pageXOffset
         };
     } 
-    mousedown = (event, dispatchBall, ball, props) => {
+    mousedown = (dispatchBall, props) => {
         let {vertical, step, widthScale, max, min, ballWidth} = props
-        let ballCoords = this.getCoords(ball);
-        let shift = vertical ? event.pageY - ballCoords.top : event.pageX - ballCoords.left
         let stepLength = vertical ? step * widthScale / ((max - min) * 3) : step * widthScale / (max - min)
         const mousemove = (e) => {
-            let left = vertical ? e.pageY - shift - this.$sliderCoords.top : e.pageX - shift - this.$sliderCoords.left;
+            let left = vertical ? e.pageY - this.$sliderCoords.top : e.pageX - this.$sliderCoords.left;
             left = stepLength * Math.round(left/stepLength) - ballWidth/2 
             dispatchBall(left)
         }
@@ -109,8 +107,8 @@ class View {
                 changeState(props) 
             })
         })
-        this.$ball1.mousedown((event) => this.mousedown(event, dispatchBallValueFirst, this.$ball1, props))
-        this.$ball2.mousedown((event) => this.mousedown(event, dispatchBallValueSecond, this.$ball2, props))
+        this.$ball1.mousedown(() => this.mousedown(dispatchBallValueFirst, props))
+        this.$ball2.mousedown(() => this.mousedown(dispatchBallValueSecond, props))
     }
     disableValuesOverBalls = (disableValues: boolean) => {
         disableValues ? this.$num1.addClass('slider__num_hide') : this.$num1.removeClass('slider__num_hide')

@@ -14,13 +14,11 @@ var View = /** @class */ (function () {
                 left: box.left + pageXOffset
             };
         };
-        this.mousedown = function (event, dispatchBall, ball, props) {
+        this.mousedown = function (dispatchBall, props) {
             var vertical = props.vertical, step = props.step, widthScale = props.widthScale, max = props.max, min = props.min, ballWidth = props.ballWidth;
-            var ballCoords = _this.getCoords(ball);
-            var shift = vertical ? event.pageY - ballCoords.top : event.pageX - ballCoords.left;
             var stepLength = vertical ? step * widthScale / ((max - min) * 3) : step * widthScale / (max - min);
             var mousemove = function (e) {
-                var left = vertical ? e.pageY - shift - _this.$sliderCoords.top : e.pageX - shift - _this.$sliderCoords.left;
+                var left = vertical ? e.pageY - _this.$sliderCoords.top : e.pageX - _this.$sliderCoords.left;
                 left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
                 dispatchBall(left);
             };
@@ -83,8 +81,8 @@ var View = /** @class */ (function () {
                     changeState(props);
                 });
             });
-            _this.$ball1.mousedown(function (event) { return _this.mousedown(event, dispatchBallValueFirst, _this.$ball1, props); });
-            _this.$ball2.mousedown(function (event) { return _this.mousedown(event, dispatchBallValueSecond, _this.$ball2, props); });
+            _this.$ball1.mousedown(function () { return _this.mousedown(dispatchBallValueFirst, props); });
+            _this.$ball2.mousedown(function () { return _this.mousedown(dispatchBallValueSecond, props); });
         };
         this.disableValuesOverBalls = function (disableValues) {
             disableValues ? _this.$num1.addClass('slider__num_hide') : _this.$num1.removeClass('slider__num_hide');

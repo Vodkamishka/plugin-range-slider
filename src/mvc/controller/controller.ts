@@ -15,7 +15,8 @@ class Controller {
     controllerState = () => this.view.addEventListeners(
         this.model.dispatchState, 
         this.model.dispatchBallValueFirst, 
-        this.model.dispatchBallValueSecond)
+        this.model.dispatchBallValueSecond
+    )
 }
 
 export default Controller;

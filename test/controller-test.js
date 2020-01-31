@@ -1,0 +1,1 @@
+import Controller from '../src/mvc/controller/controller';
