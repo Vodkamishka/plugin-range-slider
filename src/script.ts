@@ -10,7 +10,6 @@ import Controller from './mvc/controller/controller';
         new Controller(view, model)
     })
     }
-   
    $('.slider').slider()
 
 }(jQuery))
