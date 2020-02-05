@@ -67,9 +67,9 @@ class View {
   findDom = () => {
     if (this.$slider) {
       const domNames = ['scale', 'min', 'max', 'step', 'range', 'between', 'begin', 'end', 'vertical', ['ball1', 'ball_first'],
-            ['ball2', 'ball_second'], ['ball1', 'ball_first'], ['value1', 'value_first'], ['value2', 'value_second'],
-            ['num1', 'num_first'], ['num2', 'num_second'],  ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
-      // tslint:disable-next-line:ter-arrow-parens
+              ['ball2', 'ball_second'], ['ball1', 'ball_first'], ['value1', 'value_first'], ['value2', 'value_second'],
+              ['num1', 'num_first'], ['num2', 'num_second'],  ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
+        // tslint:disable-next-line:ter-arrow-parens
       domNames.forEach(el => {
         typeof el === 'string' ?  this[`$${el}`] = this.$slider.find(`.slider__${el}`) : this[`$${el[0]}`] = this.$slider.find(`.slider__${el[1]}`);
       });
@@ -88,10 +88,10 @@ class View {
     const renderHtml = [['begin', min], ['end', max], ['num1', value1], ['num2', value2]];
     const renderVal = [['min', min], ['max', max], ['value1', value1], ['value2', value2], ['step', step]];
     const renderCss = [['between', vertical ? 'height' : 'width', right - left], ['between', vertical ? 'width' : 'height', '0.75rem'],
-        ['between', 'left', vertical ? '0' : +left + +this.$ball1.width() / 2], ['between', 'top', vertical ? +left + +this.$ball1.width() / 2 : '0'],
-        ['ball1', 'left', vertical ? '0' : left], ['ball1', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'],
-        ['ball1', 'top', vertical ? left : '50%'], ['ball2', 'left', vertical ? '0' : right],
-        ['ball2', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'], ['ball2', 'top', vertical ? right : '50%']];
+          ['between', 'left', vertical ? '0' : +left + +this.$ball1.width() / 2], ['between', 'top', vertical ? +left + +this.$ball1.width() / 2 : '0'],
+          ['ball1', 'left', vertical ? '0' : left], ['ball1', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'],
+          ['ball1', 'top', vertical ? left : '50%'], ['ball2', 'left', vertical ? '0' : right],
+          ['ball2', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'], ['ball2', 'top', vertical ? right : '50%']];
     renderHtml.forEach(el => this[`$${el[0]}`].html(el[1]));
     renderVal.forEach(el => this[`$${el[0]}`].val(el[1]));
     renderCss.forEach(el => this[`$${el[0]}`].css(el[1], el[2]));
@@ -108,14 +108,14 @@ class View {
     const propsArray = ['min', 'max', 'value1', 'value2', 'step'];
     const properties = ['disableValues', 'vertical', 'oneRunner'];
 
-    // tslint:disable-next-line:ter-arrow-parens
+      // tslint:disable-next-line:ter-arrow-parens
     propsArray.forEach(el => {
       this[`$${el}`].change(() => {
         props[el] = this[`$${el}`].val();
         changeState(props);
       });
     });
-    // tslint:disable-next-line:ter-arrow-parens
+      // tslint:disable-next-line:ter-arrow-parens
     properties.forEach(el => {
       this[`$${el}`].change(() => {
         props[el] = !props[el];
