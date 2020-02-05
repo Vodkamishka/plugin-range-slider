@@ -1,5 +1,7 @@
 node_modules/
 .vscode/
-src/mvc/viev/*.js
-src/mvc/model/*.js
-src/mvc/controller/*.js
+src/mvc/view/view.js
+src/mvc/model/model.js
+src/mvc/controller/controller.js
+src/script.js
+

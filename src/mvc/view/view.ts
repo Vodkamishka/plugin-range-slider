@@ -1,13 +1,13 @@
 class View {
-  $slider: HTMLElement | null;
+  $slider: any;
   settings: any;
   $between: any;
   $step: any;
-  $range: HTMLElement | null | undefined;
-  $num1: HTMLElement | null | undefined;
-  $num2: HTMLElement | null | undefined;
-  $end: HTMLElement | null | undefined;
-  $begin: HTMLElement | null | undefined;
+  $range: any;
+  $num1: any;
+  $num2: any;
+  $end: any;
+  $begin: any;
   $min!: any;
   $max:any;
   data: any;

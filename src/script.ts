@@ -1,5 +1,5 @@
 import View from './mvc/view/view';
-import Model from './mvc//model/model';
+import Model from './mvc/model/model';
 import Controller from './mvc/controller/controller';
 
 // tslint:disable-next-line:only-arrow-functions
