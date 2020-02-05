@@ -5,6 +5,7 @@ var Controller = /** @class */ (function () {
         var _this = this;
         this.init = function () {
             _this.model.subscribe(_this.view.render);
+            // tslint:disable-next-line:variable-name
             var first_options = _this.view.sendDatafromViewToController();
             _this.model.sendDataFromControllerToModel(first_options);
             _this.controllerState();

@@ -51,11 +51,13 @@ var Model = /** @class */ (function () {
                     if (action.amount >= state.widthScale - state.ballWidth / 2) {
                         action.amount = state.widthScale - state.ballWidth / 2;
                     }
+                    // tslint:disable-next-line:block-spacing
                     if (action.amount <= state.left) {
                         action.amount = state.left;
                     }
                     return __assign(__assign({}, state), { right: action.amount, value2: calcValue(state, action.amount) });
                 case 'CHANGE_STATE':
+                    // tslint:disable-next-line:prefer-const
                     var _a = action.amount, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step = _a.step, disableValues = _a.disableValues, vertical = _a.vertical, oneRunner = _a.oneRunner;
                     step = +step <= 0 ? state.step : step;
                     step = +step >= +max ? state.step : step;
@@ -96,7 +98,12 @@ var Model = /** @class */ (function () {
                         disableValues: disableValues,
                         vertical: vertical,
                         oneRunner: oneRunner,
-                        step: step, value1: oneRunner ? min : value1, value2: value2, left: oneRunner ? -state.ballWidth / 2 : left, right: right,
+                        step: step, value1: oneRunner ? min : value1, 
+                        // tslint:disable-next-line:object-shorthand-properties-first
+                        value2: value2, left: oneRunner ? -state.ballWidth / 2 : left, 
+                        // tslint:disable-next-line:object-shorthand-properties-first
+                        right: right,
+                        // tslint:disable-next-line:object-shorthand-properties-first
                         widthScale: widthScale });
                 default:
                     return state;

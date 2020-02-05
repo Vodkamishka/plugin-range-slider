@@ -29,11 +29,25 @@ var View = /** @class */ (function () {
             $(document).on('mousemove', mousemove);
             $(document).on('mouseup', mouseup);
         };
+        this.clicker = function (e, props, dispatch) {
+            var click = function () {
+                var vertical = props.vertical, widthScale = props.widthScale, ballWidth = props.ballWidth;
+                var left = vertical ? e.pageY - _this.$sliderCoords.top - -ballWidth / 2 : e.pageX - _this.$sliderCoords.left - ballWidth / 2;
+                left < widthScale / 2 ? dispatch.dispatchBallValueFirst(left) : dispatch.dispatchBallValueSecond(left);
+            };
+            var mouseup = function () {
+                $(document).off('click', click);
+                $(document).off('mouseup', mouseup);
+            };
+            $(document).on('click', click);
+            $(document).on('mouseup', mouseup);
+        };
         this.findDom = function () {
             if (_this.$slider) {
                 var domNames = ['scale', 'min', 'max', 'step', 'range', 'between', 'begin', 'end', 'vertical', ['ball1', 'ball_first'],
                     ['ball2', 'ball_second'], ['ball1', 'ball_first'], ['value1', 'value_first'], ['value2', 'value_second'],
                     ['num1', 'num_first'], ['num2', 'num_second'], ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
+                // tslint:disable-next-line:ter-arrow-parens
                 domNames.forEach(function (el) {
                     typeof el === 'string' ? _this["$" + el] = _this.$slider.find(".slider__" + el) : _this["$" + el[0]] = _this.$slider.find(".slider__" + el[1]);
                 });
@@ -53,9 +67,9 @@ var View = /** @class */ (function () {
             var renderVal = [['min', min], ['max', max], ['value1', value1], ['value2', value2], ['step', step]];
             var renderCss = [['between', vertical ? 'height' : 'width', right - left], ['between', vertical ? 'width' : 'height', '0.75rem'],
                 ['between', 'left', vertical ? '0' : +left + +_this.$ball1.width() / 2], ['between', 'top', vertical ? +left + +_this.$ball1.width() / 2 : '0'],
-                ['ball1', 'left', vertical ? '50%' : left], ['ball1', 'transform', vertical ? 'translateX(-50%) translateY(0%)' : 'translateX(0%) translateY(-50%)'],
-                ['ball1', 'top', vertical ? left : '50%'], ['ball2', 'left', vertical ? '50%' : right],
-                ['ball2', 'transform', vertical ? 'translateX(-50%) translateY(0%)' : 'translateX(0%) translateY(-50%)'], ['ball2', 'top', vertical ? right : '50%']];
+                ['ball1', 'left', vertical ? '0' : left], ['ball1', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'],
+                ['ball1', 'top', vertical ? left : '50%'], ['ball2', 'left', vertical ? '0' : right],
+                ['ball2', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'], ['ball2', 'top', vertical ? right : '50%']];
             renderHtml.forEach(function (el) { return _this["$" + el[0]].html(el[1]); });
             renderVal.forEach(function (el) { return _this["$" + el[0]].val(el[1]); });
             renderCss.forEach(function (el) { return _this["$" + el[0]].css(el[1], el[2]); });
@@ -69,12 +83,14 @@ var View = /** @class */ (function () {
             var props = { min: min, max: max, step: step, disableValues: disableValues, vertical: vertical, oneRunner: oneRunner, widthScale: widthScale, ballWidth: ballWidth };
             var propsArray = ['min', 'max', 'value1', 'value2', 'step'];
             var properties = ['disableValues', 'vertical', 'oneRunner'];
+            // tslint:disable-next-line:ter-arrow-parens
             propsArray.forEach(function (el) {
                 _this["$" + el].change(function () {
                     props[el] = _this["$" + el].val();
                     changeState(props);
                 });
             });
+            // tslint:disable-next-line:ter-arrow-parens
             properties.forEach(function (el) {
                 _this["$" + el].change(function () {
                     props[el] = !props[el];
@@ -83,6 +99,7 @@ var View = /** @class */ (function () {
             });
             _this.$ball1.mousedown(function () { return _this.mousedown(dispatchBallValueFirst, props); });
             _this.$ball2.mousedown(function () { return _this.mousedown(dispatchBallValueSecond, props); });
+            _this.$scale.on('click', function (e) { return _this.clicker(e, props, { dispatchBallValueFirst: dispatchBallValueFirst, dispatchBallValueSecond: dispatchBallValueSecond }); });
         };
         this.disableValuesOverBalls = function (disableValues) {
             disableValues ? _this.$num1.addClass('slider__num_hide') : _this.$num1.removeClass('slider__num_hide');
@@ -91,8 +108,8 @@ var View = /** @class */ (function () {
         this.sliderVertical = function (vertical) {
             var verticalArray = ['range', 'scale', 'between', 'begin', 'end'];
             verticalArray.forEach(function (el) { return vertical ? _this["$" + el].addClass("slider__" + el + "_vertical") : _this["$" + el].removeClass("slider__" + el + "_vertical"); });
-            vertical ? _this.$num1.addClass("slider__num_vertical") : _this.$num1.removeClass("slider__num_vertical");
-            vertical ? _this.$num2.addClass("slider__num_vertical") : _this.$num2.removeClass("slider__num_vertical");
+            vertical ? _this.$num1.addClass('slider__num_vertical') : _this.$num1.removeClass('slider__num_vertical');
+            vertical ? _this.$num2.addClass('slider__num_vertical') : _this.$num2.removeClass('slider__num_vertical');
         };
         this.enableOneBall = function (oneRunner) {
             oneRunner ? _this.$ball1.addClass('slider__ball_hide') : _this.$ball1.removeClass('slider__ball_hide');
