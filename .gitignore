@@ -1,7 +1,4 @@
 node_modules/
 .vscode/
-src/mvc/view/view.js
-src/mvc/model/model.js
-src/mvc/controller/controller.js
-src/script.js
+
 
