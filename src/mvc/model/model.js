@@ -59,8 +59,8 @@ var Model = /** @class */ (function () {
                 case 'CHANGE_STATE':
                     // tslint:disable-next-line:prefer-const
                     var _a = action.amount, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step = _a.step, disableValues = _a.disableValues, vertical = _a.vertical, oneRunner = _a.oneRunner;
-                    step = +step <= 0 ? state.step : step;
-                    step = +step >= +max ? state.step : step;
+                    step = Number(step) <= 0 ? state.step : step;
+                    step = Number(step) >= Number(max) ? state.step : step;
                     value1 = value1 || state.value1;
                     value2 = value2 || state.value2;
                     var widthScale = state.widthScale;
@@ -70,21 +70,21 @@ var Model = /** @class */ (function () {
                         widthScale = widthScale * 3;
                     var left = state.left;
                     var right = state.right;
-                    if (+value1 >= value2 - step || +value1 < +min)
+                    if (Number(value1) >= value2 - step || Number(value1) < Number(min))
                         value1 = state.value1;
-                    if (+value2 <= +value1 + +step || +value2 > +max)
+                    if (Number(value2) <= Number(value1) + Number(step) || Number(value2) > Number(max))
                         value2 = state.value2;
-                    if (+min >= +max + +step)
+                    if (Number(min) >= Number(max) + Number(step))
                         min = state.min;
-                    value1 = (+min >= +value1) ? min : value1;
-                    if (+min > +value2) {
+                    value1 = (Number(min) >= Number(value1)) ? min : value1;
+                    if (Number(min) > Number(value2)) {
                         value1 = min;
-                        value2 = +min + +step;
+                        value2 = Number(min) + Number(step);
                     }
-                    if (+max <= +min + +step)
+                    if (Number(max) <= Number(min) + Number(step))
                         max = state.max;
-                    value2 = (+max <= +value2) ? max : value2;
-                    if (+max <= +value1) {
+                    value2 = (Number(max) <= Number(value2)) ? max : value2;
+                    if (Number(max) <= Number(value1)) {
                         value2 = max;
                         value1 = max - step;
                     }

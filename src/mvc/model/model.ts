@@ -67,8 +67,8 @@ class Model {
         // tslint:disable-next-line:prefer-const
         let { value1, value2, min, max, step, disableValues, vertical, oneRunner } = action.amount;
 
-        step = +step <= 0 ? state.step : step;
-        step = +step >= +max ? state.step : step;
+        step = Number(step) <= 0 ? state.step : step;
+        step = Number(step) >= Number(max) ? state.step : step;
 
         value1 = value1 || state.value1;
         value2 = value2 || state.value2;
@@ -80,19 +80,19 @@ class Model {
         let left = state.left;
         let right = state.right;
 
-        if (+value1 >= value2 - step || +value1 < +min) value1 = state.value1;
-        if (+value2 <= +value1 + +step || +value2 > +max) value2 = state.value2;
+        if (Number(value1) >= value2 - step || Number(value1) < Number(min)) value1 = state.value1;
+        if (Number(value2) <= Number(value1) + Number(step) || Number(value2) > Number(max)) value2 = state.value2;
 
-        if (+min >= +max + +step) min = state.min;
-        value1 = (+min >= +value1) ? min : value1;
-        if (+min > +value2) {
+        if (Number(min) >= Number(max) + Number(step)) min = state.min;
+        value1 = (Number(min) >= Number(value1)) ? min : value1;
+        if (Number(min) > Number(value2)) {
           value1 = min;
-          value2 = +min + +step;
+          value2 = Number(min) + Number(step);
         }
 
-        if (+max <= +min + +step) max = state.max;
-        value2 = (+max <= +value2) ? max : value2;
-        if (+max <= +value1) {
+        if (Number(max) <= Number(min) + Number(step)) max = state.max;
+        value2 = (Number(max) <= Number(value2)) ? max : value2;
+        if (Number(max) <= Number(value1)) {
           value2 = max;
           value1 = max - step;
         }
