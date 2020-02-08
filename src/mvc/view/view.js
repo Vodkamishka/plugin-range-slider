@@ -44,12 +44,18 @@ var View = /** @class */ (function () {
         };
         this.findDom = function () {
             if (_this.$slider) {
-                var domNames = ['scale', 'min', 'max', 'step', 'range', 'between', 'begin', 'end', 'vertical', ['ball1', 'ball_first'],
-                    ['ball2', 'ball_second'], ['ball1', 'ball_first'], ['value1', 'value_first'], ['value2', 'value_second'],
-                    ['num1', 'num_first'], ['num2', 'num_second'], ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
+                var domNames = ['scale', 'range', 'between', 'begin', 'end', ['ball1', 'ball_first'], ['ball2', 'ball_second'],
+                    ['ball1', 'ball_first'], ['num1', 'num_first'], ['num2', 'num_second']];
+                // tslint:disable-next-line:ter-arrow-parens
+                var panel = ['min', 'max', 'step', 'vertical', ['value1', 'value_first'], ['value2', 'value_second'],
+                    ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
                 // tslint:disable-next-line:ter-arrow-parens
                 domNames.forEach(function (el) {
                     typeof el === 'string' ? _this["$" + el] = _this.$slider.find(".slider__" + el) : _this["$" + el[0]] = _this.$slider.find(".slider__" + el[1]);
+                });
+                // tslint:disable-next-line:ter-arrow-parens
+                panel.forEach(function (el) {
+                    typeof el === 'string' ? _this["$" + el] = _this.$slider.find(".panel__" + el) : _this["$" + el[0]] = _this.$slider.find(".panel__" + el[1]);
                 });
             }
         };

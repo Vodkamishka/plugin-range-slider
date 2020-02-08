@@ -66,12 +66,18 @@ class View {
   }
   findDom = () => {
     if (this.$slider) {
-      const domNames = ['scale', 'min', 'max', 'step', 'range', 'between', 'begin', 'end', 'vertical', ['ball1', 'ball_first'],
-              ['ball2', 'ball_second'], ['ball1', 'ball_first'], ['value1', 'value_first'], ['value2', 'value_second'],
-              ['num1', 'num_first'], ['num2', 'num_second'],  ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
+      const domNames = ['scale', 'range', 'between', 'begin', 'end',  ['ball1', 'ball_first'], ['ball2', 'ball_second'],
+      ['ball1', 'ball_first'], ['num1', 'num_first'], ['num2', 'num_second']];
         // tslint:disable-next-line:ter-arrow-parens
+      const panel = ['min', 'max', 'step', 'vertical', ['value1', 'value_first'], ['value2', 'value_second'],
+      ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
+      // tslint:disable-next-line:ter-arrow-parens
       domNames.forEach(el => {
         typeof el === 'string' ?  this[`$${el}`] = this.$slider.find(`.slider__${el}`) : this[`$${el[0]}`] = this.$slider.find(`.slider__${el[1]}`);
+      });
+      // tslint:disable-next-line:ter-arrow-parens
+      panel.forEach(el => {
+        typeof el === 'string' ?  this[`$${el}`] = this.$slider.find(`.panel__${el}`) : this[`$${el[0]}`] = this.$slider.find(`.panel__${el[1]}`);
       });
     }
   }
