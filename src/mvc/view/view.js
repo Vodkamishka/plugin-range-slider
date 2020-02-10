@@ -55,7 +55,7 @@ var View = /** @class */ (function () {
                 });
                 // tslint:disable-next-line:ter-arrow-parens
                 panel.forEach(function (el) {
-                    typeof el === 'string' ? _this["$" + el] = _this.$slider.find(".panel__" + el) : _this["$" + el[0]] = _this.$slider.find(".panel__" + el[1]);
+                    typeof el === 'string' ? _this["$" + el] = _this.$slider.next().find(".panel__" + el) : _this["$" + el[0]] = _this.$slider.next().find(".panel__" + el[1]);
                 });
             }
         };

@@ -77,7 +77,7 @@ class View {
       });
       // tslint:disable-next-line:ter-arrow-parens
       panel.forEach(el => {
-        typeof el === 'string' ?  this[`$${el}`] = this.$slider.find(`.panel__${el}`) : this[`$${el[0]}`] = this.$slider.find(`.panel__${el[1]}`);
+        typeof el === 'string' ?  this[`$${el}`] = this.$slider.next().find(`.panel__${el}`) : this[`$${el[0]}`] = this.$slider.next().find(`.panel__${el[1]}`);
       });
     }
   }

@@ -1,1 +1,0 @@
-import View from '../src/mvc/view/view';
