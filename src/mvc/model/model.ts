@@ -1,10 +1,10 @@
-const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
-const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
-const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
-const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
-const calcLeftRight = (state, value, min, max, widthScale) => (value - min) * widthScale / (max - min) - state.ballWidth / 2;
-const widthStep = (state: { step: number; widthScale: number; max: number; min: number; }) => state.step * state.widthScale / (state.max - state.min);
-const calcValue = (state, leftOrRight) => Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
+export const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
+export const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
+export const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
+export const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
+export const calcLeftRight = (state, value, min, max, widthScale) => (value - min) * widthScale / (max - min) - state.ballWidth / 2;
+export const widthStep = (state: { step: number; widthScale: number; max: number; min: number; }) => state.step * state.widthScale / (state.max - state.min);
+export const calcValue = (state, leftOrRight) => Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
 
 class Model {
   store: {getState: () => any; dispatch: (action: any) => void; subscribe: (callback: any) => any[]; };
@@ -22,10 +22,7 @@ class Model {
       callbacks.forEach(callback => callback());
     };
 
-    const subscribe = (callback: any) => {
-      callbacks.push(callback);
-      return callbacks.filter(cb => cb !== callback);
-    };
+    const subscribe = (arrayCallbacks: any) => arrayCallbacks.forEach(callback => callbacks.push(callback));
 
     return { getState, dispatch, subscribe };
   }
@@ -128,10 +125,11 @@ class Model {
   }
 
   sendDataFromControllerToModel = (options: any) => this.store.dispatch(loadFirstData(options));
-  subscribe = (render: any) => this.store.subscribe(() => render(this.store.getState()));
+  subscribe = (renderView: any, renderPanel) => this.store.subscribe([() => renderView(this.store.getState()), () => renderPanel(this.store.getState())]);
   dispatchBallValueFirst = (left: string) => this.store.dispatch(changeBallValueFirst(left));
   dispatchBallValueSecond = (right: string) => this.store.dispatch(changeBallValueSecond(right));
   dispatchState = (options: any) => this.store.dispatch(changeState(options));
+  getState = () => this.store.getState();
 }
 
 export default Model;

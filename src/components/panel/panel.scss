@@ -1,7 +1,6 @@
 .panel {
     display: flex;
     margin-bottom: 2rem;
-    justify-content: center;
     &__min, &__max, &__value_first, &__value_second, &__step {
         width: 4rem;
         height: 1.5rem;

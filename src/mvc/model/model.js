@@ -11,13 +11,13 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 exports.__esModule = true;
-var loadFirstData = function (data) { return ({ type: 'LOAD_FIRST_DATA', amount: data }); };
-var changeBallValueFirst = function (left) { return ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left }); };
-var changeBallValueSecond = function (right) { return ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right }); };
-var changeState = function (props) { return ({ type: 'CHANGE_STATE', amount: props }); };
-var calcLeftRight = function (state, value, min, max, widthScale) { return (value - min) * widthScale / (max - min) - state.ballWidth / 2; };
-var widthStep = function (state) { return state.step * state.widthScale / (state.max - state.min); };
-var calcValue = function (state, leftOrRight) { return Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min); };
+exports.loadFirstData = function (data) { return ({ type: 'LOAD_FIRST_DATA', amount: data }); };
+exports.changeBallValueFirst = function (left) { return ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left }); };
+exports.changeBallValueSecond = function (right) { return ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right }); };
+exports.changeState = function (props) { return ({ type: 'CHANGE_STATE', amount: props }); };
+exports.calcLeftRight = function (state, value, min, max, widthScale) { return (value - min) * widthScale / (max - min) - state.ballWidth / 2; };
+exports.widthStep = function (state) { return state.step * state.widthScale / (state.max - state.min); };
+exports.calcValue = function (state, leftOrRight) { return Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min); };
 var Model = /** @class */ (function () {
     function Model() {
         var _this = this;
@@ -29,24 +29,21 @@ var Model = /** @class */ (function () {
                 state = reducer(action, state);
                 callbacks.forEach(function (callback) { return callback(); });
             };
-            var subscribe = function (callback) {
-                callbacks.push(callback);
-                return callbacks.filter(function (cb) { return cb !== callback; });
-            };
+            var subscribe = function (arrayCallbacks) { return arrayCallbacks.forEach(function (callback) { return callbacks.push(callback); }); };
             return { getState: getState, dispatch: dispatch, subscribe: subscribe };
         };
         this.reducer = function (action, state) {
             switch (action.type) {
                 case 'LOAD_FIRST_DATA':
-                    return __assign(__assign(__assign({}, state), action.amount), { left: action.amount.oneRunner ? -action.amount.ballWidth / 2 : calcLeftRight(action.amount, action.amount.value1, action.amount.min, action.amount.max, action.amount.widthScale), right: calcLeftRight(action.amount, action.amount.value2, action.amount.min, action.amount.max, action.amount.widthScale) });
+                    return __assign(__assign(__assign({}, state), action.amount), { left: action.amount.oneRunner ? -action.amount.ballWidth / 2 : exports.calcLeftRight(action.amount, action.amount.value1, action.amount.min, action.amount.max, action.amount.widthScale), right: exports.calcLeftRight(action.amount, action.amount.value2, action.amount.min, action.amount.max, action.amount.widthScale) });
                 case 'CHANGE_BALL_VALUE_FIRST':
                     if (action.amount <= 0 - state.ballWidth / 2) {
                         action.amount = 0 - state.ballWidth / 2;
                     }
-                    if (action.amount >= state.right - widthStep(state)) {
-                        action.amount = state.right - widthStep(state);
+                    if (action.amount >= state.right - exports.widthStep(state)) {
+                        action.amount = state.right - exports.widthStep(state);
                     }
-                    return __assign(__assign({}, state), { left: action.amount, value1: calcValue(state, action.amount) });
+                    return __assign(__assign({}, state), { left: action.amount, value1: exports.calcValue(state, action.amount) });
                 case 'CHANGE_BALL_VALUE_SECOND':
                     if (action.amount >= state.widthScale - state.ballWidth / 2) {
                         action.amount = state.widthScale - state.ballWidth / 2;
@@ -55,7 +52,7 @@ var Model = /** @class */ (function () {
                     if (action.amount <= state.left) {
                         action.amount = state.left;
                     }
-                    return __assign(__assign({}, state), { right: action.amount, value2: calcValue(state, action.amount) });
+                    return __assign(__assign({}, state), { right: action.amount, value2: exports.calcValue(state, action.amount) });
                 case 'CHANGE_STATE':
                     // tslint:disable-next-line:prefer-const
                     var _a = action.amount, value1 = _a.value1, value2 = _a.value2, min = _a.min, max = _a.max, step = _a.step, disableValues = _a.disableValues, vertical = _a.vertical, oneRunner = _a.oneRunner;
@@ -90,8 +87,8 @@ var Model = /** @class */ (function () {
                     }
                     if (min !== state.min || max !== state.max || vertical !== state.vertical || value1 !== state.value1 ||
                         value2 !== state.value2) {
-                        left = calcLeftRight(state, value1, min, max, widthScale);
-                        right = calcLeftRight(state, value2, min, max, widthScale);
+                        left = exports.calcLeftRight(state, value1, min, max, widthScale);
+                        right = exports.calcLeftRight(state, value2, min, max, widthScale);
                     }
                     return __assign(__assign({}, state), { min: min,
                         max: max,
@@ -109,11 +106,12 @@ var Model = /** @class */ (function () {
                     return state;
             }
         };
-        this.sendDataFromControllerToModel = function (options) { return _this.store.dispatch(loadFirstData(options)); };
-        this.subscribe = function (render) { return _this.store.subscribe(function () { return render(_this.store.getState()); }); };
-        this.dispatchBallValueFirst = function (left) { return _this.store.dispatch(changeBallValueFirst(left)); };
-        this.dispatchBallValueSecond = function (right) { return _this.store.dispatch(changeBallValueSecond(right)); };
-        this.dispatchState = function (options) { return _this.store.dispatch(changeState(options)); };
+        this.sendDataFromControllerToModel = function (options) { return _this.store.dispatch(exports.loadFirstData(options)); };
+        this.subscribe = function (renderView, renderPanel) { return _this.store.subscribe([function () { return renderView(_this.store.getState()); }, function () { return renderPanel(_this.store.getState()); }]); };
+        this.dispatchBallValueFirst = function (left) { return _this.store.dispatch(exports.changeBallValueFirst(left)); };
+        this.dispatchBallValueSecond = function (right) { return _this.store.dispatch(exports.changeBallValueSecond(right)); };
+        this.dispatchState = function (options) { return _this.store.dispatch(exports.changeState(options)); };
+        this.getState = function () { return _this.store.getState(); };
         this.store = this.createStore(this.reducer);
     }
     return Model;
