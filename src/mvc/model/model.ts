@@ -125,7 +125,7 @@ class Model {
   }
 
   sendDataFromControllerToModel = (options: any) => this.store.dispatch(loadFirstData(options));
-  subscribe = (renderView: any, renderPanel) => this.store.subscribe([() => renderView(this.store.getState()), () => renderPanel(this.store.getState())]);
+  subscribe = (renderView: any, renderPanel: any) => this.store.subscribe([() => renderView(this.store.getState()), () => renderPanel(this.store.getState())]);
   dispatchBallValueFirst = (left: string) => this.store.dispatch(changeBallValueFirst(left));
   dispatchBallValueSecond = (right: string) => this.store.dispatch(changeBallValueSecond(right));
   dispatchState = (options: any) => this.store.dispatch(changeState(options));
