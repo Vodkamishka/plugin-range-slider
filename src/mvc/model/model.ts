@@ -1,17 +1,17 @@
-export const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
-export const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
-export const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
-export const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
-export const calcLeftRight = (state, value, min, max, widthScale) => (value - min) * widthScale / (max - min) - state.ballWidth / 2;
-export const widthStep = (state: { step: number; widthScale: number; max: number; min: number; }) => state.step * state.widthScale / (state.max - state.min);
-export const calcValue = (state, leftOrRight) => Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
+const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
+const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
+const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
+const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
+const calcLeftRight = (state, value, min, max, widthScale) => (value - min) * widthScale / (max - min) - state.ballWidth / 2;
+const widthStep = (state: { step: number; widthScale: number; max: number; min: number; }) => state.step * state.widthScale / (state.max - state.min);
+const calcValue = (state, leftOrRight) => Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
 
 class Model {
   store: {getState: () => any; dispatch: (action: any) => void; subscribe: (callback: any) => any[]; };
   constructor() {
     this.store = this.createStore(this.reducer);
   }
-  createStore = (reducer: (arg0: any, arg1: any) => any) => {
+  createStore = (reducer: (type: any, amount: any) => any) => {
     let state: any;
     const callbacks: any[] = [];
 
@@ -133,3 +133,4 @@ class Model {
 }
 
 export default Model;
+export { loadFirstData, changeBallValueFirst, changeBallValueSecond, changeState, calcLeftRight, widthStep, calcValue };
