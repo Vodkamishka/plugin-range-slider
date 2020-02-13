@@ -4,6 +4,7 @@ var View = /** @class */ (function () {
     function View($wrapper, options) {
         var _this = this;
         this.init = function () {
+            _this.createSlider();
             _this.findDom();
             _this.loadOptionsToThisData();
         };
@@ -44,7 +45,7 @@ var View = /** @class */ (function () {
         };
         this.findDom = function () {
             if (_this.$wrapper) {
-                var domNames = ['scale', 'range', 'between', 'begin', 'end', ['ball1', 'ball_first'], ['ball2', 'ball_second'],
+                var domNames = ['scale', 'between', 'begin', 'end', ['ball1', 'ball_first'], ['ball2', 'ball_second'],
                     ['ball1', 'ball_first'], ['num1', 'num_first'], ['num2', 'num_second']];
                 // tslint:disable-next-line:ter-arrow-parens
                 domNames.forEach(function (el) {
@@ -95,6 +96,11 @@ var View = /** @class */ (function () {
         this.options = options;
         this.init();
     }
+    View.prototype.createSlider = function () {
+        this.$range = this.$wrapper.find('.slider__range');
+        var slider = $("\n      <div class=\"slider__scale\">\n        <div class=\"slider__between\"></div>\n        <div class=\"slider__begin\"></div>\n        <div class=\"slider__end\"></div>\n      </div>\n      <div class=\"slider__ball_first\">\n        <div class=\"slider__num_first\"></div>\n      </div>\n      <div class=\"slider__ball_second\">\n        <div class=\"slider__num_second\"></div>\n      </div>\n    ");
+        this.$range.append(slider);
+    };
     return View;
 }());
 exports["default"] = View;

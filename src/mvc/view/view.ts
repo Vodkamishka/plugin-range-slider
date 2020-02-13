@@ -19,6 +19,7 @@ class View {
     this.init();
   }
   init = () => {
+    this.createSlider();
     this.findDom();
     this.loadOptionsToThisData();
   }
@@ -28,6 +29,23 @@ class View {
       top: box.top + pageYOffset,
       left: box.left + pageXOffset,
     };
+  }
+  createSlider() {
+    this.$range = this.$wrapper.find('.slider__range');
+    const slider = $(`
+      <div class="slider__scale">
+        <div class="slider__between"></div>
+        <div class="slider__begin"></div>
+        <div class="slider__end"></div>
+      </div>
+      <div class="slider__ball_first">
+        <div class="slider__num_first"></div>
+      </div>
+      <div class="slider__ball_second">
+        <div class="slider__num_second"></div>
+      </div>
+    `);
+    this.$range.append(slider);
   }
   mousedown = (dispatchBall, props) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
@@ -60,7 +78,7 @@ class View {
   }
   findDom = () => {
     if (this.$wrapper) {
-      const domNames = ['scale', 'range', 'between', 'begin', 'end',  ['ball1', 'ball_first'], ['ball2', 'ball_second'],
+      const domNames = ['scale', 'between', 'begin', 'end',  ['ball1', 'ball_first'], ['ball2', 'ball_second'],
       ['ball1', 'ball_first'], ['num1', 'num_first'], ['num2', 'num_second']];
       // tslint:disable-next-line:ter-arrow-parens
       domNames.forEach(el => {
