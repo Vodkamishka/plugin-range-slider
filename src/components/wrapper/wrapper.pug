@@ -3,6 +3,7 @@ include ../slider/slider
 
 mixin wrapper (id = '', options = {value1: '5000', value2: '15000', min: '0', max: '25000', step: '50', disableValues: false, vertical: false, oneRunner: false})
     .wrapper(id= id data-options=options)
-        +slider
+        .wrapper__slider
+            +slider
         +panel
         

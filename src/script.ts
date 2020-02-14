@@ -1,7 +1,7 @@
 import View from './mvc/view';
 import Model from './mvc/model';
 import Controller from './mvc/controller';
-import Panel from './mvc/panel';
+import Panel from './components/panel/panel';
 
 // tslint:disable-next-line:only-arrow-functions
 (function ($: any) {
