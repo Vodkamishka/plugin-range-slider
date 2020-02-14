@@ -1,39 +1,39 @@
-import Model, {loadFirstData, calcLeftRight, widthStep, calcValue, changeBallValueFirst, 
-    changeBallValueSecond,  changeState}  from '../src/mvc/model/model.js';
+import Model, {loadFirstData, calcLeftRight, widthStep, calcValue, changeBallValueFirst,
+    changeBallValueSecond,  changeState}  from '../src/mvc/model.ts';
 
-let model = new Model ();
+const model = new Model();
 
-const {createStore, reducer} = model
-const store = createStore(reducer)
+const { createStore, reducer } = model;
+const store = createStore(reducer);
 
-let shortState = {
-    min: 0,
-    max: 30000,
-    disableValues: false,
-    vertical: false,
-    oneRunner: false,
-    step: 50,
-    value1: 5000,
-    value2: 15000,
-    widthScale: 600,
-}
-let state = {
-    ...shortState,
-    ballWidth: 30,
-}
+const shortState = {
+  min: 0,
+  max: 30000,
+  disableValues: false,
+  vertical: false,
+  oneRunner: false,
+  step: 50,
+  value1: 5000,
+  value2: 15000,
+  widthScale: 600,
+};
+const state = {
+  ...shortState,
+  ballWidth: 30,
+};
 
-let initialState = {
-    min: 0,
-    max: 5000,
-    disableValues: false,
-    vertical: false,
-    oneRunner: false,
-    step: 100,
-    value1: 2000,
-    value2: 3000,
-    widthScale: 200,
-    ballWidth: 40
-}
+const initialState = {
+  min: 0,
+  max: 5000,
+  disableValues: false,
+  vertical: false,
+  oneRunner: false,
+  step: 100,
+  value1: 2000,
+  value2: 3000,
+  widthScale: 200,
+  ballWidth: 40,
+};
 
 describe('Тестирование вспомогательных функций', function () {
 
@@ -121,14 +121,14 @@ describe('Тестирование функций Model', function () {
 
     it('Тестирование функции dispatchBallValueFirst', () => {
         spyOn(model, 'dispatchBallValueFirst')
-        model.dispatchBallValueFirst({left: '40'})
-        expect(model.dispatchBallValueFirst).toHaveBeenCalledWith({left: '40'})
+        model.dispatchBallValueFirst('40')
+        expect(model.dispatchBallValueFirst).toHaveBeenCalledWith('40')
     });
 
     it('Тестирование функции dispatchBallValueSecond', () => {
         spyOn(model, 'dispatchBallValueSecond')
-        model.dispatchBallValueSecond({right: '87'})
-        expect(model.dispatchBallValueSecond).toHaveBeenCalledWith({right: '87'})
+        model.dispatchBallValueSecond('87')
+        expect(model.dispatchBallValueSecond).toHaveBeenCalledWith('87')
     });
 
     it('Тестирование функции dispatchState', () => {
@@ -143,14 +143,4 @@ describe('Тестирование функций Model', function () {
         expect(model.getState).toHaveBeenCalledWith()
     });
 
-})    
-
-    
-   
-    
-   
-    
-
-
-
-
+});    

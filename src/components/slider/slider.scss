@@ -1,13 +1,11 @@
 .slider {
-    &__range {
-        position: relative;
-        height: 1.75rem;
-        display: flex;
-        align-items: center;
-        margin-bottom: 2rem;
-        &_vertical {
-            height: 16.625rem;
-        }
+    position: relative;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    &_vertical {
+        height: 16.625rem;
     }
     &__scale {
         position: relative;

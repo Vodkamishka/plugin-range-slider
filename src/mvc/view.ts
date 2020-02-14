@@ -31,7 +31,7 @@ class View {
     };
   }
   createSlider() {
-    this.$range = this.$wrapper.find('.slider__range');
+    this.$range = this.$wrapper.find('.slider');
     const slider = $(`
       <div class="slider__scale">
         <div class="slider__between"></div>
@@ -121,8 +121,9 @@ class View {
     disableValues ? this.$num2.addClass('slider__num_hide') : this.$num2.removeClass('slider__num_hide');
   }
   sliderVertical = (vertical) => {
-    const verticalArray = ['range', 'scale', 'between', 'begin', 'end'];
+    const verticalArray = ['scale', 'between', 'begin', 'end'];
     verticalArray.forEach(el => vertical ? this[`$${el}`].addClass(`slider__${el}_vertical`) : this[`$${el}`].removeClass(`slider__${el}_vertical`));
+    vertical ? this.$range.addClass('slider_vertical') : this.$range.removeClass('slider_vertical');
     vertical ? this.$num1.addClass('slider__num_vertical') : this.$num1.removeClass('slider__num_vertical');
     vertical ? this.$num2.addClass('slider__num_vertical') : this.$num2.removeClass('slider__num_vertical');
   }
