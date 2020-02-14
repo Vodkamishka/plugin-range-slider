@@ -14,6 +14,7 @@ class Controller {
     first_options.addEventListeners(this.model.dispatchState);
     this.controllerState();
   }
+  // tslint:disable-next-line:max-line-length
   controllerState = () => this.view.addEventListeners(this.model.dispatchBallValueFirst, this.model.dispatchBallValueSecond, this.model.getState);
 }
 

@@ -47,13 +47,12 @@ class View {
     `);
     this.$range.append(slider);
   }
-  // tslint:disable-next-line:max-line-length
-  mousedown = (dispatchBall: (property: number) => void, props: { vertical: boolean; step: number; widthScale: number; max: number; min: number; ballWidth: number; }) => {
+  mousedown = (dispatchBall, props) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
     // tslint:disable-next-line:max-line-length
     const stepLength = vertical ? step * widthScale / ((max - min) * 3) : step * widthScale / (max - min);
 
-    const mousemove = (e: { pageY: number; pageX: number; }) => {
+    const mousemove = (e: any) => {
       let left = vertical ? e.pageY - this.$sliderCoords.top : e.pageX - this.$sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
       dispatchBall(left);
@@ -65,8 +64,7 @@ class View {
     $(document).on('mousemove', mousemove);
     $(document).on('mouseup', mouseup);
   }
-  // tslint:disable-next-line:max-line-length
-  clicker = (e: { pageY: number; pageX: number; }, props: { vertical: boolean; widthScale: number; ballWidth: number; }, dispatch: { dispatchBallValueFirst: (property: number) => any; dispatchBallValueSecond: (property: number) => any; }) => {
+  clicker = (e: any, props: any, dispatch: any) => {
     const click = () => {
       const { vertical, widthScale, ballWidth } = props;
       // tslint:disable-next-line:max-line-length
@@ -99,8 +97,7 @@ class View {
       this.$sliderCoords = this.getCoords(this.$scale);
     }
   }
-  // tslint:disable-next-line:max-line-length
-  render = (data: { value1: number; value2: number; min: number; max: number; step: number; disableValues: boolean; vertical: boolean; oneRunner: boolean; left: number; right: number; }) => {
+  render = (data) => {
     const { value1, value2, min, max, disableValues, vertical, oneRunner, left, right } = data;
     const renderHtml = [['begin', min], ['end', max], ['num1', value1], ['num2', value2]];
     // tslint:disable-next-line:max-line-length

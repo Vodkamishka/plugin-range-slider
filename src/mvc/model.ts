@@ -1,17 +1,25 @@
 const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
 const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
+// tslint:disable-next-line:max-line-length
 const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
 const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
-const calcLeftRight = ({ballWidth}, value, min, max, widthScale) => (value - min) * widthScale / (max - min) - ballWidth / 2;
-const widthStep = ({step, widthScale, max, min}) => step * widthScale / (max - min);
-const calcValue = ({ballWidth, max, min, widthScale}, leftOrRight) => Math.round((+leftOrRight + +ballWidth / 2) * (max - min) / widthScale + +min);
+// tslint:disable-next-line:max-line-length
+const calcLeftRight = ({ ballWidth }, value: number, min: number, max: number, widthScale: number) => (value - min) * widthScale / (max - min) - ballWidth / 2;
+const widthStep = (state) => {
+  const { step, widthScale, max, min } = state;
+  return step * widthScale / (max - min);
+};
+const calcValue = (state, leftOrRight) => {
+  const { ballWidth, max, min, widthScale } = state;
+  return Math.round((+leftOrRight + +ballWidth / 2) * (max - min) / widthScale + +min);
+};
 
 class Model {
-  store: {getState: () => any; dispatch: (action: any) => void; subscribe: (callback: any) => any[]; };
+  store: any;
   constructor() {
     this.store = this.createStore(this.reducer);
   }
-  createStore = (reducer: (type: any, amount: any) => any) => {
+  createStore = (reducer: any) => {
     let state: any;
     const callbacks: any[] = [];
 
@@ -22,6 +30,7 @@ class Model {
       callbacks.forEach(callback => callback());
     };
 
+    // tslint:disable-next-line:max-line-length
     const subscribe = (arrayCallbacks: any) => arrayCallbacks.forEach((callback: any) => callbacks.push(callback));
 
     return { getState, dispatch, subscribe };
@@ -33,7 +42,9 @@ class Model {
         return {
           ...state,
           ...action.amount,
+          // tslint:disable-next-line:max-line-length
           left: action.amount.oneRunner ? -action.amount.ballWidth / 2 : calcLeftRight(action.amount, action.amount.value1, action.amount.min, action.amount.max, action.amount.widthScale),
+          // tslint:disable-next-line:max-line-length
           right: calcLeftRight(action.amount, action.amount.value2, action.amount.min, action.amount.max, action.amount.widthScale),
         };
       case 'CHANGE_BALL_VALUE_FIRST':
@@ -78,6 +89,7 @@ class Model {
         let right = state.right;
 
         if (Number(value1) >= value2 - step || Number(value1) < Number(min)) value1 = state.value1;
+        // tslint:disable-next-line:max-line-length
         if (Number(value2) <= Number(value1) + Number(step) || Number(value2) > Number(max)) value2 = state.value2;
 
         if (Number(min) >= Number(max) + Number(step)) min = state.min;
@@ -94,6 +106,7 @@ class Model {
           value1 = max - step;
         }
 
+        // tslint:disable-next-line:max-line-length
         if (min !== state.min || max !== state.max || vertical !== state.vertical || value1 !== state.value1 ||
                 value2 !== state.value2) {
           left = calcLeftRight(state, value1, min, max, widthScale);
@@ -125,6 +138,7 @@ class Model {
   }
 
   sendDataFromControllerToModel = (options: any) => this.store.dispatch(loadFirstData(options));
+  // tslint:disable-next-line:max-line-length
   subscribe = (renderView: any, renderPanel: any) => this.store.subscribe([() => renderView(this.store.getState()), () => renderPanel(this.store.getState())]);
   dispatchBallValueFirst = (left: string) => this.store.dispatch(changeBallValueFirst(left));
   dispatchBallValueSecond = (right: string) => this.store.dispatch(changeBallValueSecond(right));
@@ -133,4 +147,5 @@ class Model {
 }
 
 export default Model;
+// tslint:disable-next-line:max-line-length
 export { loadFirstData, changeBallValueFirst, changeBallValueSecond, changeState, calcLeftRight, widthStep, calcValue };

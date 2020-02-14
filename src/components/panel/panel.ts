@@ -47,8 +47,9 @@ class Panel {
       });
     });
   }
-  render = (data: { value1: any; value2: any; min: any; max: any; step: any; oneRunner: any; }) => {
+  render = (data: any) => {
     const { value1, value2, min, max, step, oneRunner } = data;
+    // tslint:disable-next-line:max-line-length
     const renderVal = [['min', min], ['max', max], ['value1', value1], ['value2', value2], ['step', step]];
     renderVal.forEach(el => this[`$${el[0]}`].val(el[1]));
     oneRunner ? this.$value1.addClass('panel__value_white') : this.$value1.removeClass('panel__value_white');
