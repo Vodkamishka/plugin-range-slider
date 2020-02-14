@@ -12,8 +12,8 @@ class View {
   $sliderCoords: any;
   props: any;
   options: any;
-  $wrapper: HTMLElement;
-  constructor($wrapper: HTMLElement, options: any) {
+  $wrapper: any;
+  constructor($wrapper: any, options: any) {
     this.$wrapper = $wrapper;
     this.options = options;
     this.init();
@@ -23,7 +23,7 @@ class View {
     this.findDom();
     this.loadOptionsToThisData();
   }
-  getCoords = (elem) => {
+  getCoords = (elem: { getBoundingClientRect: () => any; }[]) => {
     const box = elem[0].getBoundingClientRect();
     return {
       top: box.top + pageYOffset,
@@ -47,11 +47,11 @@ class View {
     `);
     this.$range.append(slider);
   }
-  mousedown = (dispatchBall, props) => {
+  mousedown = (dispatchBall: (property: number) => void, props: { vertical: boolean; step: number; widthScale: number; max: number; min: number; ballWidth: number; }) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
     const stepLength = vertical ? step * widthScale / ((max - min) * 3) : step * widthScale / (max - min);
 
-    const mousemove = (e) => {
+    const mousemove = (e: { pageY: number; pageX: number; }) => {
       let left = vertical ? e.pageY - this.$sliderCoords.top : e.pageX - this.$sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
       dispatchBall(left);
@@ -63,7 +63,7 @@ class View {
     $(document).on('mousemove', mousemove);
     $(document).on('mouseup', mouseup);
   }
-  clicker = (e, props, dispatch) => {
+  clicker = (e: { pageY: number; pageX: number; }, props: { vertical: boolean; widthScale: number; ballWidth: number; }, dispatch: { dispatchBallValueFirst: (property: number) => any; dispatchBallValueSecond: (property: number) => any; }) => {
     const click = () => {
       const { vertical, widthScale, ballWidth } = props;
       const left = vertical ? e.pageY - this.$sliderCoords.top - - ballWidth / 2 : e.pageX - this.$sliderCoords.left - ballWidth / 2;
@@ -94,7 +94,7 @@ class View {
       this.$sliderCoords = this.getCoords(this.$scale);
     }
   }
-  render = (data) => {
+  render = (data: { value1: number; value2: number; min: number; max: number; step: number; disableValues: boolean; vertical: boolean; oneRunner: boolean; left: number; right: number; }) => {
     const { value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right } = data;
     const renderHtml = [['begin', min], ['end', max], ['num1', value1], ['num2', value2]];
     const renderCss = [['between', vertical ? 'height' : 'width', right - left], ['between', vertical ? 'width' : 'height', '0.75rem'],

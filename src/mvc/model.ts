@@ -2,9 +2,9 @@ const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
 const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
 const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
 const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
-const calcLeftRight = (state, value, min, max, widthScale) => (value - min) * widthScale / (max - min) - state.ballWidth / 2;
+const calcLeftRight = (state: { ballWidth: any; }, value: number, min: number, max: number, widthScale: number) => (value - min) * widthScale / (max - min) - state.ballWidth / 2;
 const widthStep = (state: { step: number; widthScale: number; max: number; min: number; }) => state.step * state.widthScale / (state.max - state.min);
-const calcValue = (state, leftOrRight) => Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
+const calcValue = (state: { ballWidth: any; max: any; min: any; widthScale: any; }, leftOrRight: number) => Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
 
 class Model {
   store: {getState: () => any; dispatch: (action: any) => void; subscribe: (callback: any) => any[]; };
@@ -22,12 +22,12 @@ class Model {
       callbacks.forEach(callback => callback());
     };
 
-    const subscribe = (arrayCallbacks: any) => arrayCallbacks.forEach(callback => callbacks.push(callback));
+    const subscribe = (arrayCallbacks: any) => arrayCallbacks.forEach((callback: any) => callbacks.push(callback));
 
     return { getState, dispatch, subscribe };
   }
 
-  reducer = (action: {type: any; amount: any; }, state: any) => {
+  reducer = (action: {type: string; amount: any; }, state: any) => {
     switch (action.type){
       case 'LOAD_FIRST_DATA':
         return {

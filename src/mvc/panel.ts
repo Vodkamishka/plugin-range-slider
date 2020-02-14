@@ -3,7 +3,7 @@ class Panel {
   data: any;
   slider: any;
   $value1: any;
-  constructor(element) {
+  constructor(element: any) {
     this.$wrapper = element;
     this.init();
   }
@@ -22,9 +22,9 @@ class Panel {
       const panel = ['min', 'max', 'step', 'vertical', ['value1', 'value_first'], ['value2', 'value_second'],
       ['disableValues', 'values-runners'], ['oneRunner', 'one-runner']];
       // tslint:disable-next-line:ter-arrow-parens
-      panel.forEach(el => {
+      panel.forEach((el => {
         typeof el === 'string' ?  this[`$${el}`] = this.$wrapper.find(`.panel__${el}`) : this[`$${el[0]}`] = this.$wrapper.find(`.panel__${el[1]}`);
-      });
+      }));
     }
   }
   addEventListeners = (dispatchState: any) => {
@@ -47,7 +47,7 @@ class Panel {
       });
     });
   }
-  render = (data) => {
+  render = (data: { value1: any; value2: any; min: any; max: any; step: any; oneRunner: any; }) => {
     const { value1, value2, min, max, step, oneRunner } = data;
     const renderVal = [['min', min], ['max', max], ['value1', value1], ['value2', value2], ['step', step]];
     renderVal.forEach(el => this[`$${el[0]}`].val(el[1]));

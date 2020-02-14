@@ -9,12 +9,16 @@ module.exports = {
     path: path.resolve(__dirname, 'public'),
     filename: '[name].js',
   },
+  mode: 'production',
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx']
+  },
   module: {
     rules: [
       {
-        test: /\.(ts)$/,
+        test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: '/node_modules/',
+        exclude: /node_modules/
       },
       {
         test: /\.(scss|css)$/,
