@@ -47,8 +47,10 @@ class View {
     `);
     this.$range.append(slider);
   }
+  // tslint:disable-next-line:max-line-length
   mousedown = (dispatchBall: (property: number) => void, props: { vertical: boolean; step: number; widthScale: number; max: number; min: number; ballWidth: number; }) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
+    // tslint:disable-next-line:max-line-length
     const stepLength = vertical ? step * widthScale / ((max - min) * 3) : step * widthScale / (max - min);
 
     const mousemove = (e: { pageY: number; pageX: number; }) => {
@@ -63,10 +65,13 @@ class View {
     $(document).on('mousemove', mousemove);
     $(document).on('mouseup', mouseup);
   }
+  // tslint:disable-next-line:max-line-length
   clicker = (e: { pageY: number; pageX: number; }, props: { vertical: boolean; widthScale: number; ballWidth: number; }, dispatch: { dispatchBallValueFirst: (property: number) => any; dispatchBallValueSecond: (property: number) => any; }) => {
     const click = () => {
       const { vertical, widthScale, ballWidth } = props;
+      // tslint:disable-next-line:max-line-length
       const left = vertical ? e.pageY - this.$sliderCoords.top - - ballWidth / 2 : e.pageX - this.$sliderCoords.left - ballWidth / 2;
+      // tslint:disable-next-line:max-line-length
       left < widthScale / 2 ? dispatch.dispatchBallValueFirst(left) : dispatch.dispatchBallValueSecond(left);
     };
     const mouseup = () => {
@@ -94,10 +99,13 @@ class View {
       this.$sliderCoords = this.getCoords(this.$scale);
     }
   }
+  // tslint:disable-next-line:max-line-length
   render = (data: { value1: number; value2: number; min: number; max: number; step: number; disableValues: boolean; vertical: boolean; oneRunner: boolean; left: number; right: number; }) => {
-    const { value1, value2, min, max, step, disableValues, vertical, oneRunner, left, right } = data;
+    const { value1, value2, min, max, disableValues, vertical, oneRunner, left, right } = data;
     const renderHtml = [['begin', min], ['end', max], ['num1', value1], ['num2', value2]];
+    // tslint:disable-next-line:max-line-length
     const renderCss = [['between', vertical ? 'height' : 'width', right - left], ['between', vertical ? 'width' : 'height', '0.75rem'],
+          // tslint:disable-next-line:max-line-length
           ['between', 'left', vertical ? '0' : +left + +this.$ball1.width() / 2], ['between', 'top', vertical ? +left + +this.$ball1.width() / 2 : '0'],
           ['ball1', 'left', vertical ? '0' : left], ['ball1', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'],
           ['ball1', 'top', vertical ? left : '50%'], ['ball2', 'left', vertical ? '0' : right],
@@ -111,9 +119,11 @@ class View {
 
   sendDatafromViewToController = () => this.data;
 
+  // tslint:disable-next-line:max-line-length
   addEventListeners = (dispatchBallValueFirst: any, dispatchBallValueSecond: any, getState: any) => {
     this.$ball1.mousedown(() => this.mousedown(dispatchBallValueFirst, getState()));
     this.$ball2.mousedown(() => this.mousedown(dispatchBallValueSecond, getState()));
+    // tslint:disable-next-line:max-line-length
     this.$scale.on('click', (e: any) => this.clicker(e, getState(), { dispatchBallValueFirst, dispatchBallValueSecond }));
   }
   disableValuesOverBalls = (disableValues: boolean) => {
@@ -127,6 +137,7 @@ class View {
     vertical ? this.$num1.addClass('slider__num_vertical') : this.$num1.removeClass('slider__num_vertical');
     vertical ? this.$num2.addClass('slider__num_vertical') : this.$num2.removeClass('slider__num_vertical');
   }
+  // tslint:disable-next-line:max-line-length
   enableOneBall = (oneRunner: any) => oneRunner ? this.$ball1.addClass('slider__ball_hide') : this.$ball1.removeClass('slider__ball_hide');
 }
 

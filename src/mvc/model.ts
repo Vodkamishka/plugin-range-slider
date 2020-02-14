@@ -2,9 +2,9 @@ const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
 const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
 const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
 const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
-const calcLeftRight = (state: { ballWidth: any; }, value: number, min: number, max: number, widthScale: number) => (value - min) * widthScale / (max - min) - state.ballWidth / 2;
-const widthStep = (state: { step: number; widthScale: number; max: number; min: number; }) => state.step * state.widthScale / (state.max - state.min);
-const calcValue = (state: { ballWidth: any; max: any; min: any; widthScale: any; }, leftOrRight: number) => Math.round((+leftOrRight + +state.ballWidth / 2) * (state.max - state.min) / state.widthScale + +state.min);
+const calcLeftRight = ({ballWidth}, value, min, max, widthScale) => (value - min) * widthScale / (max - min) - ballWidth / 2;
+const widthStep = ({step, widthScale, max, min}) => step * widthScale / (max - min);
+const calcValue = ({ballWidth, max, min, widthScale}, leftOrRight) => Math.round((+leftOrRight + +ballWidth / 2) * (max - min) / widthScale + +min);
 
 class Model {
   store: {getState: () => any; dispatch: (action: any) => void; subscribe: (callback: any) => any[]; };
