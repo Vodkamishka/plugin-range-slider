@@ -40,11 +40,25 @@ module.exports = {
         },
       },
       {
-        test: /\.(gif|png|jpeg|svg|jpg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-        },
+        test: /\.(jpg|png|svg|gif)$/,
+        use: [
+          {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: './favicons'
+          },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 70,
+              },
+            },
+          },
+        ],
       },
     ],
   },
@@ -57,7 +71,7 @@ module.exports = {
       template: './src/index.pug',
     }),
     new CopyWebpackPlugin([
-      {from: './src/favicon.ico', to: './favicon.ico' },
+      {from: './src/favicons', to: './favicons' },
     ]),
   ],
 };
