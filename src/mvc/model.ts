@@ -1,10 +1,11 @@
 const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
 const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
-// tslint:disable-next-line:max-line-length
-const changeBallValueSecond = (right: string) => ({ type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
+const changeBallValueSecond = (right: string) => ({
+  type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
 const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
-// tslint:disable-next-line:max-line-length
-const calcLeftRight = ({ ballWidth }, value: number, min: number, max: number, widthScale: number) => (value - min) * widthScale / (max - min) - ballWidth / 2;
+const calcLeftRight = ({ ballWidth }, value: number, min: number, max: number,
+                       widthScale: number) =>
+                       (value - min) * widthScale / (max - min) - ballWidth / 2;
 const widthStep = (state) => {
   const { step, widthScale, max, min } = state;
   return step * widthScale / (max - min);
@@ -30,8 +31,8 @@ class Model {
       callbacks.forEach(callback => callback());
     };
 
-    // tslint:disable-next-line:max-line-length
-    const subscribe = (arrayCallbacks: any) => arrayCallbacks.forEach((callback: any) => callbacks.push(callback));
+    const subscribe = (arrayCallbacks: any) =>
+    arrayCallbacks.forEach((callback: any) => callbacks.push(callback));
 
     return { getState, dispatch, subscribe };
   }
@@ -42,10 +43,11 @@ class Model {
         return {
           ...state,
           ...action.amount,
-          // tslint:disable-next-line:max-line-length
-          left: action.amount.oneRunner ? -action.amount.ballWidth / 2 : calcLeftRight(action.amount, action.amount.value1, action.amount.min, action.amount.max, action.amount.widthScale),
-          // tslint:disable-next-line:max-line-length
-          right: calcLeftRight(action.amount, action.amount.value2, action.amount.min, action.amount.max, action.amount.widthScale),
+          left: action.amount.oneRunner ? -action.amount.ballWidth / 2 :
+          calcLeftRight(action.amount, action.amount.value1, action.amount.min,
+                        action.amount.max, action.amount.widthScale),
+          right: calcLeftRight(action.amount, action.amount.value2, action.amount.min,
+                               action.amount.max, action.amount.widthScale),
         };
       case 'CHANGE_BALL_VALUE_FIRST':
         if (action.amount <= 0 - state.ballWidth / 2) {
@@ -63,8 +65,9 @@ class Model {
         if (action.amount >= state.widthScale - state.ballWidth / 2) {
           action.amount = state.widthScale - state.ballWidth / 2;
         }
-        // tslint:disable-next-line:block-spacing
-        if (action.amount <= state.left) {action.amount = state.left; }
+        if (action.amount <= state.left) {
+          action.amount = state.left;
+        }
         return {
           ...state,
           right: action.amount,
@@ -72,8 +75,8 @@ class Model {
         };
 
       case 'CHANGE_STATE':
-        // tslint:disable-next-line:prefer-const
-        let { value1, value2, min, max, step, disableValues, vertical, oneRunner } = action.amount;
+        let { value1, value2, step, min, max } = action.amount;
+        const {  disableValues, vertical, oneRunner } = action.amount;
 
         step = Number(step) <= 0 ? state.step : step;
         step = Number(step) >= Number(max) ? state.step : step;
@@ -89,8 +92,8 @@ class Model {
         let right = state.right;
 
         if (Number(value1) >= value2 - step || Number(value1) < Number(min)) value1 = state.value1;
-        // tslint:disable-next-line:max-line-length
-        if (Number(value2) <= Number(value1) + Number(step) || Number(value2) > Number(max)) value2 = state.value2;
+        if (Number(value2) <= Number(value1) + Number(step) ||
+        Number(value2) > Number(max)) value2 = state.value2;
 
         if (Number(min) >= Number(max) + Number(step)) min = state.min;
         value1 = (Number(min) >= Number(value1)) ? min : value1;
@@ -106,9 +109,8 @@ class Model {
           value1 = max - step;
         }
 
-        // tslint:disable-next-line:max-line-length
-        if (min !== state.min || max !== state.max || vertical !== state.vertical || value1 !== state.value1 ||
-                value2 !== state.value2) {
+        if (min !== state.min || max !== state.max || vertical !== state.vertical ||
+          value1 !== state.value1 || value2 !== state.value2) {
           left = calcLeftRight(state, value1, min, max, widthScale);
           right = calcLeftRight(state, value2, min, max, widthScale);
         }
@@ -122,14 +124,11 @@ class Model {
           vertical,
           oneRunner,
           step,
-          value1: oneRunner ? min : value1,
-          // tslint:disable-next-line:object-shorthand-properties-first
           value2,
-          left: oneRunner ? -state.ballWidth / 2 : left,
-          // tslint:disable-next-line:object-shorthand-properties-first
           right,
-          // tslint:disable-next-line:object-shorthand-properties-first
           widthScale,
+          value1: oneRunner ? min : value1,
+          left: oneRunner ? -state.ballWidth / 2 : left,
 
         };
       default:
@@ -138,8 +137,8 @@ class Model {
   }
 
   sendDataFromControllerToModel = (options: any) => this.store.dispatch(loadFirstData(options));
-  // tslint:disable-next-line:max-line-length
-  subscribe = (renderView: any, renderPanel: any) => this.store.subscribe([() => renderView(this.store.getState()), () => renderPanel(this.store.getState())]);
+  subscribe = (renderView: any, renderPanel: any) => this.store.subscribe([() =>
+    renderView(this.store.getState()), () => renderPanel(this.store.getState())])
   dispatchBallValueFirst = (left: string) => this.store.dispatch(changeBallValueFirst(left));
   dispatchBallValueSecond = (right: string) => this.store.dispatch(changeBallValueSecond(right));
   dispatchState = (options: any) => this.store.dispatch(changeState(options));
@@ -147,5 +146,6 @@ class Model {
 }
 
 export default Model;
-// tslint:disable-next-line:max-line-length
-export { loadFirstData, changeBallValueFirst, changeBallValueSecond, changeState, calcLeftRight, widthStep, calcValue };
+
+export { loadFirstData, changeBallValueFirst, changeBallValueSecond,
+  changeState, calcLeftRight, widthStep, calcValue };

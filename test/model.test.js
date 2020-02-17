@@ -1,7 +1,6 @@
 import Model, {loadFirstData, calcLeftRight, widthStep, calcValue, changeBallValueFirst,
     changeBallValueSecond,  changeState}  from '../src/mvc/model.ts';
-
-const model = new Model();
+import {model} from './model.test';
 
 const { createStore, reducer } = model;
 const store = createStore(reducer);
@@ -103,44 +102,51 @@ describe('Тестирование Model', function () {
     });
 
 })
+
+beforeEach(() => {
+
+    spyOn(model, 'sendDataFromControllerToModel');
+    spyOn(model, 'subscribe');
+    spyOn(model, 'dispatchBallValueFirst');
+    spyOn(model, 'dispatchBallValueSecond');
+    spyOn(model, 'dispatchState');
+    spyOn(model, 'getState');
+    
+  });
     
 describe('Тестирование функций Model', function () {
 
     it('Тестирование функции sendDataFromControllerToModel', () => {
-        spyOn(model, 'sendDataFromControllerToModel')
         model.sendDataFromControllerToModel(state)
         expect(model.sendDataFromControllerToModel).toHaveBeenCalledWith(state)
     });
 
     it('Тестирование функции subscribe', () => {
-        spyOn(model, 'subscribe')
         const f1 = () => 2, f2 = () => 3
         model.subscribe(f1, f2)
         expect(model.subscribe).toHaveBeenCalledWith(f1, f2)
     });
 
     it('Тестирование функции dispatchBallValueFirst', () => {
-        spyOn(model, 'dispatchBallValueFirst')
         model.dispatchBallValueFirst('40')
         expect(model.dispatchBallValueFirst).toHaveBeenCalledWith('40')
     });
 
     it('Тестирование функции dispatchBallValueSecond', () => {
-        spyOn(model, 'dispatchBallValueSecond')
         model.dispatchBallValueSecond('87')
         expect(model.dispatchBallValueSecond).toHaveBeenCalledWith('87')
     });
 
     it('Тестирование функции dispatchState', () => {
-        spyOn(model, 'dispatchState')
         model.dispatchState(shortState)
         expect(model.dispatchState).toHaveBeenCalledWith(shortState)
     });
 
     it('Тестирование функции getState', () => {
-        spyOn(model, 'getState')
         model.getState()
         expect(model.getState).toHaveBeenCalledWith()
     });
 
 });    
+
+export default model;

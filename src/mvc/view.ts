@@ -49,8 +49,8 @@ class View {
   }
   mousedown = (dispatchBall, props) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
-    // tslint:disable-next-line:max-line-length
-    const stepLength = vertical ? step * widthScale / ((max - min) * 3) : step * widthScale / (max - min);
+    const stepLength = vertical ? step * widthScale /
+    ((max - min) * 3) : step * widthScale / (max - min);
 
     const mousemove = (e: any) => {
       let left = vertical ? e.pageY - this.$sliderCoords.top : e.pageX - this.$sliderCoords.left;
@@ -67,10 +67,10 @@ class View {
   clicker = (e: any, props: any, dispatch: any) => {
     const click = () => {
       const { vertical, widthScale, ballWidth } = props;
-      // tslint:disable-next-line:max-line-length
-      const left = vertical ? e.pageY - this.$sliderCoords.top - - ballWidth / 2 : e.pageX - this.$sliderCoords.left - ballWidth / 2;
-      // tslint:disable-next-line:max-line-length
-      left < widthScale / 2 ? dispatch.dispatchBallValueFirst(left) : dispatch.dispatchBallValueSecond(left);
+      const left = vertical ? e.pageY - this.$sliderCoords.top - ballWidth / 2 :
+      e.pageX - this.$sliderCoords.left - ballWidth / 2;
+      left < widthScale / 2 ? dispatch.dispatchBallValueFirst(left) :
+      dispatch.dispatchBallValueSecond(left);
     };
     const mouseup = () => {
       $(document).off('click', click);
@@ -83,8 +83,7 @@ class View {
     if (this.$wrapper) {
       const domNames = ['scale', 'between', 'begin', 'end',  ['ball1', 'ball_first'], ['ball2', 'ball_second'],
       ['ball1', 'ball_first'], ['num1', 'num_first'], ['num2', 'num_second']];
-      // tslint:disable-next-line:ter-arrow-parens
-      domNames.forEach(el => {
+      domNames.forEach((el: string | string[]) => {
         typeof el === 'string' ?  this[`$${el}`] = this.$wrapper.find(`.slider__${el}`) : this[`$${el[0]}`] = this.$wrapper.find(`.slider__${el[1]}`);
       });
     }
@@ -100,13 +99,16 @@ class View {
   render = (data) => {
     const { value1, value2, min, max, disableValues, vertical, oneRunner, left, right } = data;
     const renderHtml = [['begin', min], ['end', max], ['num1', value1], ['num2', value2]];
-    // tslint:disable-next-line:max-line-length
-    const renderCss = [['between', vertical ? 'height' : 'width', right - left], ['between', vertical ? 'width' : 'height', '0.75rem'],
-          // tslint:disable-next-line:max-line-length
-          ['between', 'left', vertical ? '0' : +left + +this.$ball1.width() / 2], ['between', 'top', vertical ? +left + +this.$ball1.width() / 2 : '0'],
-          ['ball1', 'left', vertical ? '0' : left], ['ball1', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'],
-          ['ball1', 'top', vertical ? left : '50%'], ['ball2', 'left', vertical ? '0' : right],
-          ['ball2', 'transform', vertical ? 'translateX(-30%) translateY(0%)' : 'translateX(0%) translateY(-50%)'], ['ball2', 'top', vertical ? right : '50%']];
+    const renderCss = [['between', vertical ? 'height' : 'width', right - left],
+    ['between', vertical ? 'width' : 'height', '0.75rem'],
+    ['between', 'left', vertical ? '0' : +left + +this.$ball1.width() / 2],
+    ['between', 'top', vertical ? +left + +this.$ball1.width() / 2 : '0'],
+    ['ball1', 'left', vertical ? '0' : left],
+      ['ball1', 'transform', vertical ? 'translateX(-30%) translateY(0%)' :
+    'translateX(0%) translateY(-50%)'], ['ball1', 'top', vertical ? left : '50%'],
+    ['ball2', 'left', vertical ? '0' : right],
+      ['ball2', 'transform', vertical ? 'translateX(-30%) translateY(0%)' :
+    'translateX(0%) translateY(-50%)'], ['ball2', 'top', vertical ? right : '50%']];
     renderHtml.forEach(el => this[`$${el[0]}`].html(el[1]));
     renderCss.forEach(el => this[`$${el[0]}`].css(el[1], el[2]));
     this.disableValuesOverBalls(disableValues);
@@ -116,12 +118,12 @@ class View {
 
   sendDatafromViewToController = () => this.data;
 
-  // tslint:disable-next-line:max-line-length
-  addEventListeners = (dispatchBallValueFirst: any, dispatchBallValueSecond: any, getState: any) => {
+  addEventListeners = (dispatchBallValueFirst: any, dispatchBallValueSecond: any,
+                       getState: any) => {
     this.$ball1.mousedown(() => this.mousedown(dispatchBallValueFirst, getState()));
     this.$ball2.mousedown(() => this.mousedown(dispatchBallValueSecond, getState()));
-    // tslint:disable-next-line:max-line-length
-    this.$scale.on('click', (e: any) => this.clicker(e, getState(), { dispatchBallValueFirst, dispatchBallValueSecond }));
+    this.$scale.on('click', (e: any) => this.clicker(e, getState(), { dispatchBallValueFirst,
+      dispatchBallValueSecond }));
   }
   disableValuesOverBalls = (disableValues: boolean) => {
     disableValues ? this.$num1.addClass('slider__num_hide') : this.$num1.removeClass('slider__num_hide');
@@ -134,8 +136,10 @@ class View {
     vertical ? this.$num1.addClass('slider__num_vertical') : this.$num1.removeClass('slider__num_vertical');
     vertical ? this.$num2.addClass('slider__num_vertical') : this.$num2.removeClass('slider__num_vertical');
   }
-  // tslint:disable-next-line:max-line-length
-  enableOneBall = (oneRunner: any) => oneRunner ? this.$ball1.addClass('slider__ball_hide') : this.$ball1.removeClass('slider__ball_hide');
+  enableOneBall = (oneRunner: any) => oneRunner ? this.$ball1.addClass('slider__ball_hide') :
+  this.$ball1.removeClass('slider__ball_hide')
 }
 
-export default View;
+const view = View;
+
+export default view;

@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require("webpack");
 
 module.exports = {
   entry: './src/index.js',
@@ -73,5 +74,9 @@ module.exports = {
     new CopyWebpackPlugin([
       {from: './src/favicons', to: './favicons' },
     ]),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    })
   ],
 };

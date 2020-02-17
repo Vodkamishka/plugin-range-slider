@@ -3,5 +3,8 @@
     "extends": [
         "tslint:recommended",
         "tslint-config-airbnb"
-    ]
+    ],
+    "rules": {
+        "import-name": false
+    }
 }
