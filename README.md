@@ -40,6 +40,6 @@ npm run build
 
 ## UML диаграмма 
 
-![alt text](uml/UML.jpg)
+![alt text](src/uml/UML.jpg)
 
 
