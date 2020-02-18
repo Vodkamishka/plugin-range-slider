@@ -53,4 +53,6 @@ class Panel {
   }
 }
 
-export default Panel;
+const panel = Panel
+
+export default panel;

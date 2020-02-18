@@ -1,4 +1,4 @@
-/*import {view} from './script.test';
+import {view} from './script.test';
 
 const options = {
   value1: '5000', 
@@ -11,12 +11,10 @@ const options = {
   render: Function, 
   addEventListeners: Function, 
   widthScale: 776, 
-  ballWidth: 776 
-  
+  ballWidth: 26 
 }
 
-
-const { $begin, $end, $num1, $num2, $between, $ball1, $ball2, data, $sliderCoords, $scale, $range } = view;
+const { $begin, $end, $num1, $num2, $between, $ball1, $ball2, $sliderCoords, $scale } = view;
 
 beforeEach(() => {
  spyOn(view, 'createSlider');
@@ -36,7 +34,7 @@ describe('Тестирование View', function () {
     expect(view).toBeDefined(); 
   });
 
-/*
+
   it('Функция init должна запустить три метода createSlider, findDom, loadOptionsToThisData', () => {
     view.init()
     expect(view.createSlider).toHaveBeenCalled();
@@ -44,7 +42,7 @@ describe('Тестирование View', function () {
     expect(view.loadOptionsToThisData).toHaveBeenCalled();
   });
 })
-/*
+
 describe('Тестирование методов View', function () {
 
   it('Тестирование функции getCoords', () => {
@@ -53,7 +51,6 @@ describe('Тестирование методов View', function () {
 
   it('Тестирование функции loadOptionsToThisData', () => {
     view.loadOptionsToThisData();
-    expect(data).toBe(options);
     expect($sliderCoords).toEqual({top: 8, left: 8});
   })
  
@@ -67,12 +64,12 @@ describe('Тестирование методов View', function () {
     expect($num1.html()).toBe(value1);
     expect($num2.html()).toBe(value2);
     expect($between.css('height')).toBe('12px');
-    //expect($between.css('left')).toBe('auto');
+    expect($between.css('left')).toBe('155.2px');
     expect($between.css('top')).toBe('0px');
-    //expect($ball1.css('left')).toBe('auto');
+    expect($ball1.css('left')).toBe('-232.8px');
     expect($ball1.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
     expect($ball1.css('top')).toBe('50%');
-    //expect($ball2.css('left')).toBe('auto');
+    expect($ball2.css('left')).toBe('77.6px');
     expect($ball2.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
     expect($ball2.css('top')).toBe('50%');
     
@@ -91,4 +88,3 @@ describe('Тестирование методов View', function () {
 
 })
 
-*/

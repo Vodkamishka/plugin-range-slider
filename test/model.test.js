@@ -1,9 +1,9 @@
-import Model, {loadFirstData, calcLeftRight, widthStep, calcValue, changeBallValueFirst,
-    changeBallValueSecond,  changeState}  from '../src/mvc/model.ts';
+import { loadFirstData, calcLeftRight, widthStep, calcValue, changeBallValueFirst,
+    changeBallValueSecond,  changeState }  from '../src/mvc/model.ts';
 
-let model = new Model;
+import {model} from './script.test';
 
-const { createStore, reducer } = model;
+const { createStore, reducer } =  model;
 const store = createStore(reducer);
 
 const shortState = {
