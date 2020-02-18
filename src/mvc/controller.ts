@@ -18,4 +18,6 @@ class Controller {
                                                       this.model.getState)
 }
 
-export default Controller;
+const controller = Controller;
+
+export default controller;

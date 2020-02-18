@@ -1,4 +1,20 @@
-import {view} from './script.test';
+/*import {view} from './script.test';
+
+const options = {
+  value1: '5000', 
+  value2: '15000', 
+  min: '0', max: '25000', 
+  step: '50', 
+  disableValues: false, 
+  vertical: false, 
+  oneRunner: false, 
+  render: Function, 
+  addEventListeners: Function, 
+  widthScale: 776, 
+  ballWidth: 776 
+  
+}
+
 
 const { $begin, $end, $num1, $num2, $between, $ball1, $ball2, data, $sliderCoords, $scale, $range } = view;
 
@@ -20,11 +36,7 @@ describe('Тестирование View', function () {
     expect(view).toBeDefined(); 
   });
 
-  it('В конструкторе класса переменным присваиваются передаваемые аргументы', () => {
-    expect(view.$wrapper).toBe($wrapper);
-    expect(view.options).toBe(options);
-  });
-
+/*
   it('Функция init должна запустить три метода createSlider, findDom, loadOptionsToThisData', () => {
     view.init()
     expect(view.createSlider).toHaveBeenCalled();
@@ -32,7 +44,7 @@ describe('Тестирование View', function () {
     expect(view.loadOptionsToThisData).toHaveBeenCalled();
   });
 })
-
+/*
 describe('Тестирование методов View', function () {
 
   it('Тестирование функции getCoords', () => {
@@ -79,3 +91,4 @@ describe('Тестирование методов View', function () {
 
 })
 
+*/

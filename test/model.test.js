@@ -1,6 +1,7 @@
 import Model, {loadFirstData, calcLeftRight, widthStep, calcValue, changeBallValueFirst,
     changeBallValueSecond,  changeState}  from '../src/mvc/model.ts';
-import {model} from './model.test';
+
+let model = new Model;
 
 const { createStore, reducer } = model;
 const store = createStore(reducer);
@@ -149,4 +150,3 @@ describe('Тестирование функций Model', function () {
 
 });    
 
-export default model;

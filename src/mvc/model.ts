@@ -145,7 +145,7 @@ class Model {
   getState = () => this.store.getState();
 }
 
-export default Model;
+const model = Model
 
-export { loadFirstData, changeBallValueFirst, changeBallValueSecond,
+export { model, loadFirstData, changeBallValueFirst, changeBallValueSecond,
   changeState, calcLeftRight, widthStep, calcValue };

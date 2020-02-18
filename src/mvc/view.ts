@@ -140,6 +140,6 @@ class View {
   this.$ball1.removeClass('slider__ball_hide')
 }
 
-const view = View;
+const view = View
 
 export default view;
