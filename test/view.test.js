@@ -11,7 +11,6 @@ const options = {
   render: Function, 
   addEventListeners: Function, 
   widthScale: 776, 
-  ballWidth: 26 
 }
 
 const { $begin, $end, $num1, $num2, $between, $ball1, $ball2, $sliderCoords, $scale } = view;
@@ -64,12 +63,9 @@ describe('Тестирование методов View', function () {
     expect($num1.html()).toBe(value1);
     expect($num2.html()).toBe(value2);
     expect($between.css('height')).toBe('12px');
-    expect($between.css('left')).toBe('155.2px');
     expect($between.css('top')).toBe('0px');
-    expect($ball1.css('left')).toBe('-232.8px');
     expect($ball1.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
     expect($ball1.css('top')).toBe('50%');
-    expect($ball2.css('left')).toBe('77.6px');
     expect($ball2.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
     expect($ball2.css('top')).toBe('50%');
     

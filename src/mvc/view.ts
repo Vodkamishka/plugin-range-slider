@@ -31,18 +31,18 @@ class View {
     };
   }
   createSlider() {
-    this.$range = this.$wrapper.find('.slider');
+    this.$range = this.$wrapper.find('.js-slider');
     const slider = $(`
-      <div class="slider__scale">
-        <div class="slider__between"></div>
-        <div class="slider__begin"></div>
-        <div class="slider__end"></div>
+      <div class="slider__scale js-slider__scale">
+        <div class="slider__between js-slider__between"></div>
+        <div class="slider__begin js-slider__begin"></div>
+        <div class="slider__end js-slider__end"></div>
       </div>
-      <div class="slider__ball_first">
-        <div class="slider__num_first"></div>
+      <div class="slider__ball_first js-slider__ball_first">
+        <div class="slider__num_first js-slider__num_first"></div>
       </div>
-      <div class="slider__ball_second">
-        <div class="slider__num_second"></div>
+      <div class="slider__ball_second js-slider__ball_second">
+        <div class="slider__num_second js-slider__num_second"></div>
       </div>
     `);
     this.$range.append(slider);
@@ -84,7 +84,7 @@ class View {
       const domNames = ['scale', 'between', 'begin', 'end',  ['ball1', 'ball_first'], ['ball2', 'ball_second'],
       ['ball1', 'ball_first'], ['num1', 'num_first'], ['num2', 'num_second']];
       domNames.forEach((el: string | string[]) => {
-        typeof el === 'string' ?  this[`$${el}`] = this.$wrapper.find(`.slider__${el}`) : this[`$${el[0]}`] = this.$wrapper.find(`.slider__${el[1]}`);
+        typeof el === 'string' ?  this[`$${el}`] = this.$wrapper.find(`.js-slider__${el}`) : this[`$${el[0]}`] = this.$wrapper.find(`.js-slider__${el[1]}`);
       });
     }
   }

@@ -6,7 +6,7 @@ import controller from '../src/mvc/controller';
 const wrapper = $(`
     <div class = "wrapper" data-options ='{"value1":"5000","value2":"15000","min":"0","max":"25000","step":"50","disableValues":false,"vertical":false,"oneRunner":false}'>
       <div class = "wrapper__slider">
-        <div class = "slider">
+        <div class = "slider js-slider">
         </div>
       </div>
     </div>
@@ -28,7 +28,3 @@ const classView = classController.view;
 const classModel = classController.model;
 
 export {classController as controller,  classView as view, classModel as model}
-
-
-
-
