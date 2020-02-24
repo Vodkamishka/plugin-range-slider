@@ -66,9 +66,12 @@ class View {
   }
   clicker = (e: any, props: any, dispatch: any) => {
     const click = () => {
-      const { vertical, widthScale, ballWidth } = props;
-      const left = vertical ? e.pageY - this.$sliderCoords.top - ballWidth / 2 :
-      e.pageX - this.$sliderCoords.left - ballWidth / 2;
+      const { vertical, step, widthScale, max, min, ballWidth } = props;
+      const stepLength = vertical ? step * widthScale /
+      ((max - min) * 3) : step * widthScale / (max - min);
+      let left = vertical ? e.pageY - this.$sliderCoords.top :
+      e.pageX - this.$sliderCoords.left;
+      left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
       left < widthScale / 2 ? dispatch.dispatchBallValueFirst(left) :
       dispatch.dispatchBallValueSecond(left);
     };
