@@ -49,9 +49,7 @@ class View {
   }
   mousedown = (dispatchBall, props) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
-    const stepLength = vertical ? step * widthScale /
-    ((max - min) * 3) : step * widthScale / (max - min);
-
+    const stepLength = step * widthScale / (max - min);
     const mousemove = (e: any) => {
       let left = vertical ? e.pageY - this.$sliderCoords.top : e.pageX - this.$sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
@@ -67,8 +65,7 @@ class View {
   clicker = (e: any, props: any, dispatch: any) => {
     const click = () => {
       const { vertical, step, widthScale, max, min, ballWidth } = props;
-      const stepLength = vertical ? step * widthScale /
-      ((max - min) * 3) : step * widthScale / (max - min);
+      const stepLength = step * widthScale / (max - min);
       let left = vertical ? e.pageY - this.$sliderCoords.top :
       e.pageX - this.$sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
