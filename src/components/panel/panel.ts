@@ -1,4 +1,4 @@
-interface Data {
+interface Options {
   value1: string,
   value2: string,
   min: string,
@@ -17,7 +17,7 @@ interface Data {
 
 class Panel {
   $wrapper: JQuerySupport;
-  data: Data;
+  data: Options;
   $value1: JQuery<HTMLElement>;
   constructor(element: JQuerySupport) {
    
@@ -70,4 +70,4 @@ class Panel {
   }
 }
 
-export {Panel, Data};
+export {Panel, Options};

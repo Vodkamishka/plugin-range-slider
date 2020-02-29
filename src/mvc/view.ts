@@ -1,4 +1,4 @@
-import {Data} from '../components/panel/panel';
+import {Options} from '../components/panel/panel';
 
 interface SliderCoords {
   left: number;
@@ -12,14 +12,14 @@ class View {
   $num2: JQuery<HTMLElement>;
   $end: JQuery<HTMLElement>;
   $begin: JQuery<HTMLElement>;
-  data: Data;
+  data: Options;
   $ball1: JQuery<HTMLElement>;
   $ball2: JQuery<HTMLElement>;
   $scale: JQuery<HTMLElement>;
   sliderCoords: SliderCoords;
-  options: Data;
+  options: Options;
   $wrapper: JQuery<HTMLElement>;
-  constructor($wrapper: JQuery<HTMLElement>, options: Data) {
+  constructor($wrapper: JQuery<HTMLElement>, options: Options) {
     this.$wrapper = $wrapper;
     this.options = options;
     this.init();
