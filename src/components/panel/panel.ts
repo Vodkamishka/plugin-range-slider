@@ -1,16 +1,33 @@
+interface Data {
+  value1: string,
+  value2: string,
+  min: string,
+  max: string,
+  step: string,
+  disableValues: boolean,
+  vertical: boolean,
+  oneRunner: boolean,
+  render: (data) => void,
+  addEventListeners: (dispatchState) => void,
+  widthScale: number,
+  ballWidth: number,
+  left?: number,
+  right?: number
+}
+
 class Panel {
-  $wrapper: any;
-  data: any;
-  slider: any;
-  $value1: any;
-  constructor(element: any) {
+  $wrapper: JQuerySupport;
+  data: Data;
+  $value1: JQuery<HTMLElement>;
+  constructor(element: JQuerySupport) {
+   
     this.$wrapper = element;
     this.init();
   }
   init = () => {
     this.findDom();
     this.getDataFromAttr();
-    this.slider = this.$wrapper.slider(this.data);
+    this.$wrapper.slider(this.data);
   }
   getDataFromAttr = () => {
     if (this.$wrapper) this.data = JSON.parse(this.$wrapper.attr('data-options'));
@@ -26,7 +43,7 @@ class Panel {
       });
     }
   }
-  addEventListeners = (dispatchState: any) => {
+  addEventListeners = (dispatchState) => {
     const { min, max, step, disableValues, vertical, oneRunner, widthScale, ballWidth } = this.data;
     const props = { min, max, step, disableValues, vertical, oneRunner, widthScale, ballWidth };
     const propsArray = ['min', 'max', 'value1', 'value2', 'step'];
@@ -44,7 +61,7 @@ class Panel {
       });
     });
   }
-  render = (data: any) => {
+  render = (data) => {
     const { value1, value2, min, max, step, oneRunner } = data;
     const renderVal = [['min', min], ['max', max], ['value1', value1],
     ['value2', value2], ['step', step]];
@@ -53,6 +70,4 @@ class Panel {
   }
 }
 
-const panel = Panel
-
-export default panel;
+export {Panel, Data};

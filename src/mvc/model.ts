@@ -1,8 +1,8 @@
 const loadFirstData = (data:any) => ({ type: 'LOAD_FIRST_DATA', amount: data });
-const changeBallValueFirst = (left: string) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
+const changeBallValueFirst = (left: string)=> ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
 const changeBallValueSecond = (right: string) => ({
   type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
-const changeState = (props: any) => ({ type: 'CHANGE_STATE', amount: props });
+const changeState = (props) => ({ type: 'CHANGE_STATE', amount: props });
 const calcLeftRight = ({ ballWidth }, value: number, min: number, max: number,
                        widthScale: number) =>
                        (value - min) * widthScale / (max - min) - ballWidth / 2;
@@ -15,29 +15,35 @@ const calcValue = (state, leftOrRight) => {
   return Math.round((+leftOrRight + +ballWidth / 2) * (max - min) / widthScale + +min);
 };
 
+interface Store {
+  getState: () => {},
+  dispatch: (action) => void,
+  subscribe: (arrayCallbacks) => void
+}
+
 class Model {
-  store: any;
+  store: Store;
   constructor() {
     this.store = this.createStore(this.reducer);
   }
-  createStore = (reducer: any) => {
-    let state: any;
-    const callbacks: any[] = [];
+  createStore = (reducer) => {
+    let state = {};
+    const callbacks = [];
 
     const getState = () => state;
 
-    const dispatch = (action: any) => {
+    const dispatch = (action) => {
       state = reducer(action, state);
       callbacks.forEach(callback => callback());
     };
 
-    const subscribe = (arrayCallbacks: any) =>
-    arrayCallbacks.forEach((callback: any) => callbacks.push(callback));
+    const subscribe = (arrayCallbacks) =>
+    arrayCallbacks.forEach((callback) => callbacks.push(callback));
 
     return { getState, dispatch, subscribe };
   }
 
-  reducer = (action: {type: string; amount: any; }, state: any) => {
+  reducer = (action, state) => {
     switch (action.type){
       case 'LOAD_FIRST_DATA':
         return {
@@ -78,8 +84,8 @@ class Model {
         let { value1, value2, step, min, max } = action.amount;
         const {  disableValues, vertical, oneRunner } = action.amount;
 
-        step = Number(step) <= 0 ? state.step : step;
-        step = Number(step) >= Number(max) ? state.step : step;
+        step = +(step) <= 0 ? state.step : step;
+        step = +(step) >= +(max) ? state.step : step;
 
         value1 = value1 || state.value1;
         value2 = value2 || state.value2;
@@ -91,20 +97,20 @@ class Model {
         let left = state.left;
         let right = state.right;
 
-        if (Number(value1) >= value2 - step || Number(value1) < Number(min)) value1 = state.value1;
-        if (Number(value2) <= Number(value1) + Number(step) ||
-        Number(value2) > Number(max)) value2 = state.value2;
+        if (+value1 >= value2 - step || +value1 < +min) value1 = state.value1;
+        if (+value2 <= +value1 + +step ||
+        +value2 > +max) value2 = state.value2;
 
-        if (Number(min) >= Number(max) + Number(step)) min = state.min;
-        value1 = (Number(min) >= Number(value1)) ? min : value1;
-        if (Number(min) > Number(value2)) {
+        if (+min >= +max + +step) min = state.min;
+        value1 = (+min >= +value1) ? min : value1;
+        if (+min > +value2) {
           value1 = min;
-          value2 = Number(min) + Number(step);
+          value2 = +min + +step;
         }
 
-        if (Number(max) <= Number(min) + Number(step)) max = state.max;
-        value2 = (Number(max) <= Number(value2)) ? max : value2;
-        if (Number(max) <= Number(value1)) {
+        if (+max <= +min + +step) max = state.max;
+        value2 = (+max <= +value2) ? max : value2;
+        if (+max <= +value1) {
           value2 = max;
           value1 = max - step;
         }
@@ -136,16 +142,14 @@ class Model {
     }
   }
 
-  sendDataFromControllerToModel = (options: any) => this.store.dispatch(loadFirstData(options));
-  subscribe = (renderView: any, renderPanel: any) => this.store.subscribe([() =>
+  sendDataFromControllerToModel = (options) => this.store.dispatch(loadFirstData(options));
+  subscribe = (renderView, renderPanel) => this.store.subscribe([() =>
     renderView(this.store.getState()), () => renderPanel(this.store.getState())])
-  dispatchBallValueFirst = (left: string) => this.store.dispatch(changeBallValueFirst(left));
+  dispatchBallValueFirst = (left: string)=> this.store.dispatch(changeBallValueFirst(left));
   dispatchBallValueSecond = (right: string) => this.store.dispatch(changeBallValueSecond(right));
-  dispatchState = (options: any) => this.store.dispatch(changeState(options));
+  dispatchState = (options) => this.store.dispatch(changeState(options));
   getState = () => this.store.getState();
 }
 
-const model = Model
-
-export { model, loadFirstData, changeBallValueFirst, changeBallValueSecond,
+export { Model, loadFirstData, changeBallValueFirst, changeBallValueSecond,
   changeState, calcLeftRight, widthStep, calcValue };

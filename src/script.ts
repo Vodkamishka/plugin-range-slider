@@ -1,17 +1,18 @@
-import view from './mvc/view';
-import {model} from './mvc/model';
-import controller from './mvc/controller';
-import panel from './components/panel/panel';
+import View from './mvc/view';
+import {Model} from './mvc/model';
+import Controller from './mvc/controller';
+import {Panel, Data} from './components/panel/panel';
 
-(($: any) => {
-  $.fn.slider = function (options: any) {
-    const classView = new view(this, options);
-    const classModel = new model();
-    return new controller(classView, classModel);
+(($: JQuerySupport) => {
+  $.fn.slider = function (options: Data) {
+    const view = new View(this, options);
+    const model = new Model();
+    return new Controller(view, model);
   };
 
 })(jQuery);
 
 $('.wrapper').each((index, element) => {
-  const classPanel = new panel($(element));
+  const classPanel = new Panel($(element));
 });
+

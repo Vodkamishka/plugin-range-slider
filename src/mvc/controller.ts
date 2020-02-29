@@ -1,7 +1,10 @@
+import View from './view';
+import {Model} from './model';
+
 class Controller {
-  view: any;
-  model: any;
-  constructor (view:any, model: any) {
+  view: View;
+  model: Model;
+  constructor (view: View, model: Model) {
     this.view = view;
     this.model = model;
     this.init();
@@ -18,6 +21,4 @@ class Controller {
                                                       this.model.getState)
 }
 
-const controller = Controller;
-
-export default controller;
+export default Controller;

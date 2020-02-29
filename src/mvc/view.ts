@@ -1,19 +1,25 @@
+import {Data} from '../components/panel/panel';
+
+interface SliderCoords {
+  left: number;
+  top: number;
+}
+
 class View {
-  $between: any;
-  $range: any;
-  $num1: any;
-  $num2: any;
-  $end: any;
-  $begin: any;
-  data: any;
-  $ball1: any;
-  $ball2: any;
-  $scale: any;
-  $sliderCoords: any;
-  props: any;
-  options: any;
-  $wrapper: any;
-  constructor($wrapper: any, options: any) {
+  $between: JQuery<HTMLElement>;
+  $range: JQuery<HTMLElement>;
+  $num1: JQuery<HTMLElement>;
+  $num2: JQuery<HTMLElement>;
+  $end: JQuery<HTMLElement>;
+  $begin: JQuery<HTMLElement>;
+  data: Data;
+  $ball1: JQuery<HTMLElement>;
+  $ball2: JQuery<HTMLElement>;
+  $scale: JQuery<HTMLElement>;
+  sliderCoords: SliderCoords;
+  options: Data;
+  $wrapper: JQuery<HTMLElement>;
+  constructor($wrapper: JQuery<HTMLElement>, options: Data) {
     this.$wrapper = $wrapper;
     this.options = options;
     this.init();
@@ -23,7 +29,7 @@ class View {
     this.findDom();
     this.loadOptionsToThisData();
   }
-  getCoords = (elem: { getBoundingClientRect: () => any; }[]) => {
+  getCoords = (elem: JQuery<HTMLElement>) => {
     const box = elem[0].getBoundingClientRect();
     return {
       top: box.top + pageYOffset,
@@ -50,8 +56,8 @@ class View {
   mousedown = (dispatchBall, props) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
     const stepLength = step * widthScale / (max - min);
-    const mousemove = (e: any) => {
-      let left = vertical ? e.pageY - this.$sliderCoords.top : e.pageX - this.$sliderCoords.left;
+    const mousemove = (e) => {
+      let left = vertical ? e.pageY - this.sliderCoords.top : e.pageX - this.sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
       dispatchBall(left);
     };
@@ -62,12 +68,12 @@ class View {
     $(document).on('mousemove', mousemove);
     $(document).on('mouseup', mouseup);
   }
-  clicker = (e: any, props: any, dispatch: any) => {
+  clicker = (e, props, dispatch) => {
     const click = () => {
       const { vertical, step, widthScale, max, min, ballWidth } = props;
       const stepLength = step * widthScale / (max - min);
-      let left = vertical ? e.pageY - this.$sliderCoords.top :
-      e.pageX - this.$sliderCoords.left;
+      let left = vertical ? e.pageY - this.sliderCoords.top :
+      e.pageX - this.sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
       left < widthScale / 2 ? dispatch.dispatchBallValueFirst(left) :
       dispatch.dispatchBallValueSecond(left);
@@ -93,7 +99,7 @@ class View {
       this.data = this.options;
       this.data.widthScale = this.$scale.width();
       this.data.ballWidth = this.$ball1.width();
-      this.$sliderCoords = this.getCoords(this.$scale);
+      this.sliderCoords = this.getCoords(this.$scale);
     }
   }
   render = (data) => {
@@ -118,28 +124,26 @@ class View {
 
   sendDatafromViewToController = () => this.data;
 
-  addEventListeners = (dispatchBallValueFirst: any, dispatchBallValueSecond: any,
-                       getState: any) => {
+  addEventListeners = (dispatchBallValueFirst, dispatchBallValueSecond,
+                       getState) => {
     this.$ball1.mousedown(() => this.mousedown(dispatchBallValueFirst, getState()));
     this.$ball2.mousedown(() => this.mousedown(dispatchBallValueSecond, getState()));
-    this.$scale.on('click', (e: any) => this.clicker(e, getState(), { dispatchBallValueFirst,
+    this.$scale.on('click', (e) => this.clicker(e, getState(), { dispatchBallValueFirst,
       dispatchBallValueSecond }));
   }
   disableValuesOverBalls = (disableValues: boolean) => {
     disableValues ? this.$num1.addClass('slider__num_hide') : this.$num1.removeClass('slider__num_hide');
     disableValues ? this.$num2.addClass('slider__num_hide') : this.$num2.removeClass('slider__num_hide');
   }
-  sliderVertical = (vertical) => {
+  sliderVertical = (vertical: boolean) => {
     const verticalArray = ['scale', 'between', 'begin', 'end'];
     verticalArray.forEach(el => vertical ? this[`$${el}`].addClass(`slider__${el}_vertical`) : this[`$${el}`].removeClass(`slider__${el}_vertical`));
     vertical ? this.$range.addClass('slider_vertical') : this.$range.removeClass('slider_vertical');
     vertical ? this.$num1.addClass('slider__num_vertical') : this.$num1.removeClass('slider__num_vertical');
     vertical ? this.$num2.addClass('slider__num_vertical') : this.$num2.removeClass('slider__num_vertical');
   }
-  enableOneBall = (oneRunner: any) => oneRunner ? this.$ball1.addClass('slider__ball_hide') :
+  enableOneBall = (oneRunner: boolean) => oneRunner ? this.$ball1.addClass('slider__ball_hide') :
   this.$ball1.removeClass('slider__ball_hide')
 }
 
-const view = View
-
-export default view;
+export default View;
