@@ -1,16 +1,16 @@
 interface Options {
-  value1: string,
-  value2: string,
-  min: string,
-  max: string,
-  step: string,
-  disableValues: boolean,
-  vertical: boolean,
-  oneRunner: boolean,
-  render: (data) => void,
-  addEventListeners: (dispatchState) => void,
-  widthScale: number,
-  ballWidth: number,
+  value1?: number,
+  value2?: number,
+  min?: number,
+  max?: number,
+  step?: number,
+  disableValues?: boolean,
+  vertical?: boolean,
+  oneRunner?: boolean,
+  render?: (data) => void,
+  addEventListeners?: (dispatchState) => void,
+  widthScale?: number,
+  ballWidth?: number,
   left?: number,
   right?: number
 }
@@ -43,7 +43,7 @@ class Panel {
       });
     }
   }
-  addEventListeners = (dispatchState) => {
+  addEventListeners = (dispatchState: (props: Options) => void) => {
     const { min, max, step, disableValues, vertical, oneRunner, widthScale, ballWidth } = this.data;
     const props = { min, max, step, disableValues, vertical, oneRunner, widthScale, ballWidth };
     const propsArray = ['min', 'max', 'value1', 'value2', 'step'];
@@ -61,7 +61,7 @@ class Panel {
       });
     });
   }
-  render = (data) => {
+  render = (data: Options) => {
     const { value1, value2, min, max, step, oneRunner } = data;
     const renderVal = [['min', min], ['max', max], ['value1', value1],
     ['value2', value2], ['step', step]];

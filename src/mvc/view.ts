@@ -53,10 +53,10 @@ class View {
     `);
     this.$range.append(slider);
   }
-  mousedown = (dispatchBall, props) => {
+  mousedown = (dispatchBall: (left: number) => void, props: Options) => {
     const { vertical, step, widthScale, max, min, ballWidth } = props;
-    const stepLength = step * widthScale / (max - min);
-    const mousemove = (e) => {
+    const stepLength = Number(step) * widthScale / (Number(max) - Number(min));
+    const mousemove = (e: { pageY: number; pageX: number; }) => {
       let left = vertical ? e.pageY - this.sliderCoords.top : e.pageX - this.sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
       dispatchBall(left);
@@ -68,10 +68,10 @@ class View {
     $(document).on('mousemove', mousemove);
     $(document).on('mouseup', mouseup);
   }
-  clicker = (e, props, dispatch) => {
+  clicker = (e: { pageY: number; pageX: number; }, props: Options, dispatch: { dispatchBallValueFirst: (left: number) => void; dispatchBallValueSecond: (left: number) => void; }) => {
     const click = () => {
       const { vertical, step, widthScale, max, min, ballWidth } = props;
-      const stepLength = step * widthScale / (max - min);
+      const stepLength = Number(step) * widthScale / (Number(max) - Number(min));
       let left = vertical ? e.pageY - this.sliderCoords.top :
       e.pageX - this.sliderCoords.left;
       left = stepLength * Math.round(left / stepLength) - ballWidth / 2;
@@ -102,7 +102,7 @@ class View {
       this.sliderCoords = this.getCoords(this.$scale);
     }
   }
-  render = (data) => {
+  render = (data: Options) => {
     const { value1, value2, min, max, disableValues, vertical, oneRunner, left, right } = data;
     const renderHtml = [['begin', min], ['end', max], ['num1', value1], ['num2', value2]];
     const renderCss = [['between', vertical ? 'height' : 'width', right - left],
@@ -124,8 +124,8 @@ class View {
 
   sendDatafromViewToController = () => this.data;
 
-  addEventListeners = (dispatchBallValueFirst, dispatchBallValueSecond,
-                       getState) => {
+  addEventListeners = (dispatchBallValueFirst: (left: string | number) => void, dispatchBallValueSecond: (left: string | number) => void,
+                       getState: () => Options ) => {
     this.$ball1.mousedown(() => this.mousedown(dispatchBallValueFirst, getState()));
     this.$ball2.mousedown(() => this.mousedown(dispatchBallValueSecond, getState()));
     this.$scale.on('click', (e) => this.clicker(e, getState(), { dispatchBallValueFirst,
