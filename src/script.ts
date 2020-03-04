@@ -1,10 +1,10 @@
-import View from './mvc/view';
-import {Model} from './mvc/model';
-import Controller from './mvc/controller';
-import {Panel, Options} from './components/panel/panel';
+import { View } from './slider/mvc/view';
+import { Model } from './slider/mvc/model';
+import { Controller } from './slider/mvc/controller';
+import { Panel, IOptions } from './components/panel/panel';
 
 (($: JQuerySupport) => {
-  $.fn.slider = function (options: Options) {
+  $.fn.slider = function (options: IOptions) {
     const view = new View(this, options);
     const model = new Model();
     return new Controller(view, model);
@@ -15,4 +15,3 @@ import {Panel, Options} from './components/panel/panel';
 $('.wrapper').each((index, element) => {
   const panel = new Panel($(element));
 });
-

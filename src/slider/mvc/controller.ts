@@ -1,5 +1,5 @@
-import View from './view';
-import {Model} from './model';
+import { View } from './view';
+import { Model } from './model';
 
 class Controller {
   view: View;
@@ -21,4 +21,4 @@ class Controller {
                                                       this.model.getState)
 }
 
-export default Controller;
+export { Controller };

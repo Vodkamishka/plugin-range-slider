@@ -1,7 +1,7 @@
 import { loadFirstData, calcLeftRight, widthStep, calcValue, changeBallValueFirst,
-    changeBallValueSecond,  changeState }  from '../src/mvc/model.ts';
+    changeBallValueSecond,  changeState }  from '../src/slider/mvc/model.ts';
 
-import {model} from './script.test';
+import { model } from './script.test';
 
 const { createStore, reducer } =  model;
 const store = createStore(reducer);
@@ -13,8 +13,8 @@ const shortState = {
   vertical: false,
   oneRunner: false,
   step: 50,
-  value1: 5000,
-  value2: 15000,
+  valueFirst: 5000,
+  valueSecond: 15000,
   widthScale: 600,
 };
 const state = {
@@ -29,8 +29,8 @@ const initialState = {
   vertical: false,
   oneRunner: false,
   step: 100,
-  value1: 2000,
-  value2: 3000,
+  valueFirst: 2000,
+  valueSecond: 3000,
   widthScale: 200,
   ballWidth: 40,
 };
@@ -50,7 +50,7 @@ describe('Тестирование вспомогательных функций
     });
 
     it('Тестирование функции changeState', () => {
-        expect(changeState({value1: 34, value2: 89})).toEqual({ type: 'CHANGE_STATE', amount: {value1: 34, value2: 89} })
+        expect(changeState({valueFirst: 34, valueSecond: 89})).toEqual({ type: 'CHANGE_STATE', amount: {valueFirst: 34, valueSecond: 89} })
     });
 
     it('Тестирование функции calcLeftRight', () => {
@@ -74,11 +74,11 @@ describe('Тестирование функции reducer', function () {
     });
 
     it('Тестирование кейса CHANGE_BALL_VALUE_FIRST', () => {
-        expect(reducer({type: 'CHANGE_BALL_VALUE_FIRST', amount: 43}, state)).toEqual({...state, left: 43, value1: 2900})
+        expect(reducer({type: 'CHANGE_BALL_VALUE_FIRST', amount: 43}, state)).toEqual({...state, left: 43, valueFirst: 2900})
     });
 
     it('Тестирование кейса CHANGE_BALL_VALUE_SECOND', () => {
-        expect(reducer({type: 'CHANGE_BALL_VALUE_SECOND', amount: 80}, state)).toEqual({...state, right: 80, value2: 4750})
+        expect(reducer({type: 'CHANGE_BALL_VALUE_SECOND', amount: 80}, state)).toEqual({...state, right: 80, valueSecond: 4750})
     });
 
     it('Тестирование кейса CHANGE_STATE', () => {

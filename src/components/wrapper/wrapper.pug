@@ -1,8 +1,8 @@
 include ../panel/panel
-include ../slider/slider
+include ../../slider/slider
 
 mixin wrapper (id = '', options)
-    - options = options || {value1: 5000, value2: 15000, min: 0, max: 25000, step: 50, disableValues: false, vertical: false, oneRunner: false}
+    - options = options || {valueFirst: 5000, valueSecond: 15000, min: 0, max: 25000, step: 50, disableValues: false, vertical: false, oneRunner: false}
     .wrapper(id= id data-options=options)
         .wrapper__slider
             +slider

@@ -3,5 +3,5 @@
     "extends": [
         "tslint:recommended",
         "tslint-config-airbnb"
-    ],
+    ]
 }

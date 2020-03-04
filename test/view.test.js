@@ -1,8 +1,8 @@
-import {view} from './script.test';
+import { view } from './script.test';
 
 const options = {
-  value1: '5000', 
-  value2: '15000', 
+  valueFirst: '5000', 
+  valueSecond: '15000', 
   min: '0', max: '25000', 
   step: '50', 
   disableValues: false, 
@@ -13,7 +13,7 @@ const options = {
   widthScale: 776, 
 }
 
-const { $begin, $end, $num1, $num2, $between, $ball1, $ball2, $sliderCoords, $scale } = view;
+const { $begin, $end, $numFirst, $numSecond, $between, $ballFirst, $ballSecond, $scale } = view;
 
 beforeEach(() => {
  spyOn(view, 'createSlider');
@@ -22,8 +22,8 @@ beforeEach(() => {
  spyOn(view, 'disableValuesOverBalls');
  spyOn(view, 'sliderVertical');
  spyOn(view, 'enableOneBall');
- spyOn($ball1, 'mousedown');
- spyOn($ball2, 'mousedown');
+ spyOn($ballFirst, 'mousedown');
+ spyOn($ballSecond, 'mousedown');
  spyOn($scale, 'on');
 });
 
@@ -48,26 +48,21 @@ describe('Тестирование методов View', function () {
     expect(view.getCoords($scale)).toEqual({top: 8, left: 8});
   })
 
-  it('Тестирование функции loadOptionsToThisData', () => {
-    view.loadOptionsToThisData();
-    expect($sliderCoords).toEqual({top: 8, left: 8});
-  })
- 
   it('Тестирование функции render', () => {
     
     view.render(options);
-    const { value1, value2, min, max, disableValues, vertical, oneRunner } = options;
+    const { valueFirst, valueSecond, min, max, disableValues, vertical, oneRunner } = options;
 
     expect($begin.html()).toBe(min);
     expect($end.html()).toBe(max);
-    expect($num1.html()).toBe(value1);
-    expect($num2.html()).toBe(value2);
+    expect($numFirst.html()).toBe(valueFirst);
+    expect($numSecond.html()).toBe(valueSecond);
     expect($between.css('height')).toBe('12px');
     expect($between.css('top')).toBe('0px');
-    expect($ball1.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
-    expect($ball1.css('top')).toBe('50%');
-    expect($ball2.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
-    expect($ball2.css('top')).toBe('50%');
+    expect($ballFirst.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
+    expect($ballFirst.css('top')).toBe('50%');
+    expect($ballSecond.css('transform')).toBe('matrix(1, 0, 0, 1, 0, -9)');
+    expect($ballSecond.css('top')).toBe('50%');
     
     expect(view.disableValuesOverBalls).toHaveBeenCalledWith(disableValues);
     expect(view.sliderVertical).toHaveBeenCalledWith(vertical);
@@ -77,8 +72,8 @@ describe('Тестирование методов View', function () {
 
   it('Тестирование функции addEventListeners', () => {
     view.addEventListeners()
-    expect($ball1.mousedown).toHaveBeenCalled();
-    expect($ball2.mousedown).toHaveBeenCalled();
+    expect($ballFirst.mousedown).toHaveBeenCalled();
+    expect($ballSecond.mousedown).toHaveBeenCalled();
     expect($scale.on).toHaveBeenCalled();
   })
 

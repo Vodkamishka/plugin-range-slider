@@ -1,4 +1,4 @@
-import {view, model, controller} from './script.test';
+import { controller, view, model } from './script.test';
 
 describe('Тестирование Controller', function () {
 

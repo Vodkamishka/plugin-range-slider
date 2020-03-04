@@ -1,60 +1,60 @@
-import {Options} from '../components/panel/panel';
+import { IOptions } from '../../components/panel/panel';
 
-const loadFirstData = (data: Options) => ({ type: 'LOAD_FIRST_DATA', amount: data });
-const changeBallValueFirst = (left: number)=> ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
+const loadFirstData = (data: IOptions) => ({ type: 'LOAD_FIRST_DATA', amount: data });
+const changeBallValueFirst = (left: number) => ({ type: 'CHANGE_BALL_VALUE_FIRST', amount: left });
 const changeBallValueSecond = (right: number) => ({
   type: 'CHANGE_BALL_VALUE_SECOND', amount: right });
-const changeState = (props: Options) => ({ type: 'CHANGE_STATE', amount: props });
-const calcLeftRight = ({ ballWidth }: Options, value: number, min: number, max: number,
+const changeState = (props: IOptions) => ({ type: 'CHANGE_STATE', amount: props });
+const calcLeftRight = ({ ballWidth }: IOptions, value: number, min: number, max: number,
                        widthScale: number) =>
                        (value - min) * widthScale / (max - min) - ballWidth / 2;
-const widthStep = (state: Options) => {
+const widthStep = (state: IOptions) => {
   const { step, widthScale, max, min } = state;
   return step * widthScale / (max - min);
 };
-const calcValue = (state: Options, leftOrRight: number) => {
+const calcValue = (state: IOptions, leftOrRight: number) => {
   const { ballWidth, max, min, widthScale } = state;
   return Math.round((leftOrRight + ballWidth / 2) * (max - min) / widthScale + min);
 };
 
-interface Store {
-  getState: () => null | Options,
-  dispatch: (action: {type: string, amount: number | Options}) => void,
-  subscribe: (arrayCallbacks: [() => void, () => void]) => void
+interface IStore {
+  getState: () => null | IOptions;
+  dispatch: (action: {type: string, amount: number | IOptions}) => void;
+  subscribe: (arrayCallbacks: [() => void, () => void]) => void;
 }
 
-interface LoadFirstData {
-  type: 'LOAD_FIRST_DATA',
-  amount: Options
+interface ILoadFirstData {
+  type: 'LOAD_FIRST_DATA';
+  amount: IOptions;
 }
 
-interface ChangeBallValueFirst {
-  type: 'CHANGE_BALL_VALUE_FIRST',
-  amount: number
+interface IChangeBallValueFirst {
+  type: 'CHANGE_BALL_VALUE_FIRST';
+  amount: number;
 }
 
-interface ChangeBallValueSecond {
-  type: 'CHANGE_BALL_VALUE_SECOND',
-  amount: number
+interface IChangeBallValueSecond {
+  type: 'CHANGE_BALL_VALUE_SECOND';
+  amount: number;
 }
 
-interface ChangeState {
-  type: 'CHANGE_STATE',
-  amount: Options
+interface IChangeState {
+  type: 'CHANGE_STATE';
+  amount: IOptions;
 }
 
-type Action = LoadFirstData | ChangeBallValueFirst | ChangeBallValueSecond | ChangeState;
+type Action = ILoadFirstData | IChangeBallValueFirst | IChangeBallValueSecond | IChangeState;
 
 class Model {
-  store: Store;
+  store: IStore;
   constructor() {
     this.store = this.createStore(this.reducer);
   }
-  createStore = (reducer): Store => {
+  createStore = (reducer): IStore => {
     let state;
     const callbacks = [];
 
-    const getState = (): null | Options => state;
+    const getState = (): null | IOptions => state;
 
     const dispatch = (action: Action) => {
       state = reducer(action, state);
@@ -62,21 +62,21 @@ class Model {
     };
 
     const subscribe = (arrayCallbacks: [() => void, () => void]) =>
-    arrayCallbacks.forEach((callback) => callbacks.push(callback));
+    arrayCallbacks.forEach((callback: () => void) => callbacks.push(callback));
 
     return { getState, dispatch, subscribe };
   }
 
-  reducer = (action: Action, state: Options) => {
+  reducer = (action: Action, state: IOptions) => {
     switch (action.type){
       case 'LOAD_FIRST_DATA':
         return {
           ...state,
           ...action.amount,
           left: action.amount.oneRunner ? -action.amount.ballWidth / 2 :
-          calcLeftRight(action.amount, action.amount.value1, action.amount.min,
+          calcLeftRight(action.amount, action.amount.valueFirst, action.amount.min,
                         action.amount.max, action.amount.widthScale),
-          right: calcLeftRight(action.amount, action.amount.value2, action.amount.min,
+          right: calcLeftRight(action.amount, action.amount.valueSecond, action.amount.min,
                                action.amount.max, action.amount.widthScale),
         };
       case 'CHANGE_BALL_VALUE_FIRST':
@@ -89,7 +89,7 @@ class Model {
         return {
           ...state,
           left: action.amount,
-          value1: calcValue(state, action.amount),
+          valueFirst: calcValue(state, action.amount),
         };
       case 'CHANGE_BALL_VALUE_SECOND':
         if (action.amount >= state.widthScale - state.ballWidth / 2) {
@@ -101,18 +101,18 @@ class Model {
         return {
           ...state,
           right: action.amount,
-          value2: calcValue(state, action.amount),
+          valueSecond: calcValue(state, action.amount),
         };
 
       case 'CHANGE_STATE':
-        let { value1, value2, step, min, max } = action.amount;
+        let { valueFirst, valueSecond, step, min, max } = action.amount;
         const {  disableValues, vertical, oneRunner } = action.amount;
 
         step = step <= 0 ? state.step : step;
         step = step >= max ? state.step : step;
 
-        value1 = value1 || state.value1;
-        value2 = value2 || state.value2;
+        valueFirst = valueFirst || state.valueFirst;
+        valueSecond = valueSecond || state.valueSecond;
 
         let widthScale = state.widthScale;
         if (vertical !== state.vertical && vertical === true) widthScale = widthScale / 3;
@@ -121,28 +121,28 @@ class Model {
         let left = state.left;
         let right = state.right;
 
-        if (value1 >= value2 - step || value1 < min) value1 = state.value1;
-        if (value2 <= value1 + step ||
-        value2 > max) value2 = state.value2;
+        if (valueFirst >= valueSecond - step || valueFirst < min) valueFirst = state.valueFirst;
+        if (valueSecond <= valueFirst + step ||
+        valueSecond > max) valueSecond = state.valueSecond;
 
         if (min >= max + step) min = state.min;
-        value1 = (min >= value1) ? min : value1;
-        if (+min > value2) {
-          value1 = min;
-          value2 = min + step;
+        valueFirst = (min >= valueFirst) ? min : valueFirst;
+        if (+min > valueSecond) {
+          valueFirst = min;
+          valueSecond = min + step;
         }
 
         if (max <= min + step) max = state.max;
-        value2 = (max <= value2) ? max : value2;
-        if (max <= value1) {
-          value2 = max;
-          value1 = max - step;
+        valueSecond = (max <= valueSecond) ? max : valueSecond;
+        if (max <= valueFirst) {
+          valueSecond = max;
+          valueFirst = max - step;
         }
 
         if (min !== state.min || max !== state.max || vertical !== state.vertical ||
-          value1 !== state.value1 || value2 !== state.value2) {
-          left = calcLeftRight(state, value1, min, max, widthScale);
-          right = calcLeftRight(state, value2, min, max, widthScale);
+          valueFirst !== state.valueFirst || valueSecond !== state.valueSecond) {
+          left = calcLeftRight(state, valueFirst, min, max, widthScale);
+          right = calcLeftRight(state, valueSecond, min, max, widthScale);
         }
 
         return {
@@ -154,10 +154,10 @@ class Model {
           vertical,
           oneRunner,
           step,
-          value2,
+          valueSecond,
           right,
           widthScale,
-          value1: oneRunner ? min : value1,
+          valueFirst: oneRunner ? min : valueFirst,
           left: oneRunner ? -state.ballWidth / 2 : left,
 
         };
@@ -166,12 +166,13 @@ class Model {
     }
   }
 
-  sendDataFromControllerToModel = (options: Options) => this.store.dispatch(loadFirstData(options));
+  sendDataFromControllerToModel = (options: IOptions) =>
+  this.store.dispatch(loadFirstData(options))
   subscribe = (renderView, renderPanel) => this.store.subscribe([() =>
     renderView(this.store.getState()), () => renderPanel(this.store.getState())])
-  dispatchBallValueFirst = (left: number)=> this.store.dispatch(changeBallValueFirst(left));
+  dispatchBallValueFirst = (left: number) => this.store.dispatch(changeBallValueFirst(left));
   dispatchBallValueSecond = (right: number) => this.store.dispatch(changeBallValueSecond(right));
-  dispatchState = (options: Options) => this.store.dispatch(changeState(options));
+  dispatchState = (options: IOptions) => this.store.dispatch(changeState(options));
   getState = () => this.store.getState();
 }
 
